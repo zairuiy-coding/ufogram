@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import {useNavigate } from 'react-router-dom';
 
 function Login() {
     // if account does not exist, retry or jump to registration page
@@ -12,9 +13,11 @@ function Login() {
 
     };
 
-    const handleSignup = () => {
+    const navigate = useNavigate();
 
-    }
+    const handleSignup = () => {
+        navigate('/signup');
+    };
 
     return (
         <div>
@@ -27,7 +30,7 @@ function Login() {
                 <input type="password" name="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
                 <br />
                 <button title="Log in" onClick={handleLogin} />Login
-                <button title="Sign up" onClick={handleSignup} />Signup
+                <button title="Sign up" onClick={handleSignup}/>Signup
             </div>
         </div>
     );
