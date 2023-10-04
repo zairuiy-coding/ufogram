@@ -13,10 +13,13 @@ function handleSignup() {
 export default function Login() {
     return (
         <div>
-            <input type="text" name="Username" />
-            <input type="text" name="Password" />
-            <button title="Log in" onClick = { handleLogin }/>
-            <button title="Sign up" onClick = { handleSignup }/>
+            <h1>UFOgram</h1>
+            <div>
+                <input type="text" name="Username" />
+                <input type="text" name="Password" />
+                <button title="Log in" onClick = { handleLogin }/>
+                <button title="Sign up" onClick = { handleSignup }/>
+            </div>
         </div>
     );
 }
