@@ -10,7 +10,7 @@ function handleSignup() {
     // ...
 }
 
-function Login() {
+export default function Login() {
     return (
         <div>
             <input type="text" name="Username" />
@@ -20,5 +20,3 @@ function Login() {
         </div>
     );
 }
-
-export default Login;
