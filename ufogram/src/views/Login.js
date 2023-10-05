@@ -10,7 +10,9 @@ function Login() {
     let [password, setPassword] = useState('');
 
     const handleLogin = () => {
+        // check status from Axios call
 
+        navigate('/main');
     };
 
     const navigate = useNavigate();

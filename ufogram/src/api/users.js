@@ -10,10 +10,7 @@ export default async function register(newUsername, newPassword) {
         return;
     }
     try {
-        const response = await axios.post('http://localhost:3000/Users', {
-        username: newUsername,
-        password: newPassword
-    });
+        const response = await axios.post('http://localhost:3000/Users', );
     return response.status;
     } catch(e) {
         // error
