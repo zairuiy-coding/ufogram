@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import register from '../api/users';
+import register from '../api/user';
 
 function Signup() {
     // if account does not exist, retry or jump to registration page
