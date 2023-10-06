@@ -13,12 +13,10 @@ function Login() {
     let [username, setUsername] = useState('');
     let [password, setPassword] = useState('');
     
-
-
     const handleLogin = async () => {
         try {
             // Make an API call to your backend for authentication
-            const response = await fetch('/api/users', {
+            const response = await fetch('/api/login/{username}', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
