@@ -4,18 +4,39 @@ import {useNavigate } from 'react-router-dom';
 function Login() {
     // if account does not exist, retry or jump to registration page
     // if password incorrect, retry, block if wrong for 3 times
-    // if password correct, jump to Main_view
+
+    const navigate = useNavigate();
+
+    const [isLoggedIn, setLoggedIn] = useState(false);
+    const [error, setError] = useState(''); // State to store authentication error message
 
     let [username, setUsername] = useState('');
     let [password, setPassword] = useState('');
+    
 
-    const handleLogin = () => {
-        // check status from Axios call
 
-        navigate('/main');
+    const handleLogin = async () => {
+        try {
+            // Make an API call to your backend for authentication
+            const response = await fetch('/api/users', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ username, password }),
+            });
+
+            if (response.ok) {
+                setLoggedIn(true);
+                navigate('/main');
+            } else {
+                // Authentication failed, set error message
+                setError('Invalid authentication. Please try again.');
+            }
+        } catch (error) {
+            console.error('Error during login:', error);
+        }
     };
-
-    const navigate = useNavigate();
 
     const handleSignup = () => {
         navigate('/signup');
@@ -44,7 +65,7 @@ function Login() {
             </div>
         </div>
     );
-}
+};
 
 export default Login;
 
