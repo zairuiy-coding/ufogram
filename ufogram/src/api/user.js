@@ -11,6 +11,7 @@ export default async function register(newUsername, newPassword) {
     // if (newUsername === None || newPassword === None) {
     //     // bad input, throw error
     //     return;
+    //
     // }
     try {
         const response = await axios.post('http://localhost:3000/User', {
