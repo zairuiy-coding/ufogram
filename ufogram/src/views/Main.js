@@ -17,7 +17,14 @@ export default function Main() {
 
     return (
         <div>
-            <h1>UFOgram Welcome!</h1>
+            <header>
+                <h1>UFOgram Welcome!</h1>
+                <button type="button" title="My Profile" onClick={handleMyProfile}>My Profile</ button>
+                <button type="button" title="Create New Post" onClick={handleCreateNewPost}>Create New Post</ button>
+            </header>
+            <main>
+                <Activity />
+            </main>
         </div>
     )
 }
