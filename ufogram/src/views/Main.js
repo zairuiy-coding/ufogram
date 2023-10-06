@@ -16,15 +16,17 @@ export default function Main() {
 
 
     return (
-        <div>
-            <header>
+        <div style={{display: "flex", justifyContent: "space-evenly"}}>
+            <div style={{display: "flex", justifyContent: "center", position: "fixed", width: "100%", background: "#8769b6"}}>
                 <h1>UFOgram Welcome!</h1>
-                <button type="button" title="My Profile" onClick={handleMyProfile}>My Profile</ button>
-                <button type="button" title="Create New Post" onClick={handleCreateNewPost}>Create New Post</ button>
-            </header>
-            <main>
+                <div>
+                    <button type="button" title="My Profile" onClick={handleMyProfile}>My Profile</ button>
+                    <button type="button" title="Create New Post" onClick={handleCreateNewPost}>Create New Post</ button>
+                </div>
+            </div>
+            <div style={{display: "flex", width: "100%", justifyContent: "center", marginTop: "80px"}}>
                 <Activity />
-            </main>
+            </div >
         </div>
     )
 }
