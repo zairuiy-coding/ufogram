@@ -4,8 +4,20 @@ import { useNavigate } from 'react-router-dom';
 export default function Main() {
     const navigate = useNavigate();
 
+    const [followed, setFollowed] = useState(false);
+
     const handleMain = () => {
         navigate('/main');
+    };
+
+    const handleFollow = (followEvent) => {
+        if (followed) {
+            followEvent.target.innerHTML = "Follow";
+            setFollowed(false);
+        } else {
+            followEvent.target.innerHTML = "Unfollow";
+            setFollowed(true);
+        }
     };
 
     return (
@@ -30,6 +42,8 @@ export default function Main() {
                         <h2>My Name</h2>
                         <img src="https://picsum.photos/200/304" />
                         <t>My info</t>
+                        {/* Here for now, not for self. */}
+                        <button type="button" title="Follow/Unfollow" onClick={handleFollow}>Follow</button>
                     </div>
                     <div style={{display: "flex", justifyContent: "space-between", flexDirection: "row"}}>
                         <label for="following">Following</label>
