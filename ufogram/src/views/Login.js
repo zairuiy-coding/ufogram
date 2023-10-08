@@ -49,17 +49,17 @@ function Login() {
     }
 
     return (
-        <div>
-            <h1>UFOgram</h1>
-            <div>
+        <div style={{display: "flex", justifyContent: "space-evenly"}}>
+            <div style={{display: "flex", justifyContent: "center", position: "fixed", width: "100%", background: "#8769b6"}}>
+                <h1>UFOgram</h1>
+            </div>
+            <div style={{display: "flex", width: "12%", marginTop: "100px", flexDirection: "column"}}>
                 <label htmlFor='Username'>Username: </label>
                 <input type="text" name="Username" value={username} onChange={handleUsernameChange}/>
-                <p></p>
                 <label htmlFor='Password'>Password: </label>
                 <input type="password" name="Password" value={password} onChange={handlePasswordChange}/>
-                <p></p>
                 <button type="button" title="Log in" onClick={handleLogin}>Login</ button>
-                <button type="button" title="Sign up" onClick={handleSignup}>Signup</ button>
+                <button type="button" title="Sign up" onClick={handleSignup} style={{color: "#808080"}}>Signup</ button>
             </div>
         </div>
     );
