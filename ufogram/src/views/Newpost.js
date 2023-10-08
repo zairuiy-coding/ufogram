@@ -1,14 +1,10 @@
 import React, { useState } from 'react';
-import {useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 export default function Newpost() {
     const navigate = useNavigate();
     const [Image, setImage] = useState(null);
     const [caption, setCaption] = useState('');
-
-    const handleMyProfile = () => {
-        navigate('/myprofile');
-    };
 
     const handleMain = () => {
         navigate('/main');
@@ -25,9 +21,8 @@ export default function Newpost() {
     return (
         <div style={{display: "flex", justifyContent: "space-evenly"}}>
             <div style={{display: "flex", justifyContent: "center", position: "fixed", width: "100%", background: "#8769b6"}}>
-                <h1>UFOgram Welcome!</h1>
+                <h1>New Post</h1>
                 <div>
-                    <button type="button" title="My Profile" onClick={handleMyProfile}>My Profile</ button>
                     <button type="button" title="Create New Post" onClick={handleMain}>Main</ button>
                 </div>
             </div>

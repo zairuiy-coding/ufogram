@@ -18,7 +18,7 @@ export default function Main() {
     return (
         <div style={{display: "flex", justifyContent: "space-evenly"}}>
             <div style={{display: "flex", justifyContent: "center", position: "fixed", width: "100%", background: "#8769b6"}}>
-                <h1>UFOgram Welcome!</h1>
+                <h1>UFOgram</h1>
                 <div>
                     <button type="button" title="My Profile" onClick={handleMyProfile}>My Profile</ button>
                     <button type="button" title="Create New Post" onClick={handleCreateNewPost}>Create New Post</ button>
