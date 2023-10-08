@@ -6,22 +6,38 @@ export default function Newpost() {
     const [Image, setImage] = useState(null);
     const [caption, setCaption] = useState('');
 
-    const handleNewPost = () => {
-        // // do something to add post to posts
+    const handleMyProfile = () => {
+        navigate('/myprofile');
+    };
+
+    const handleMain = () => {
         navigate('/main');
     };
-    const handleImage = () => {
-        // // do something to add image to post
+
+    const handleImage = (imageEvent) => {
+        setImage(imageEvent.target.value);
     };
-    const handleCaption = () => {
-        // // do something to add caption to post
+
+    const handleCaption = (captionEvent) => {
+        setCaption(captionEvent.target.value);
     };
+
     return (
-        <div>
-            <label htmlFor='image'>Image: </label>
-            <input type="file" name="image" accept="image/*" onChange={handleImage}/>
-            <label htmlFor='caption'>Caption: </label>
-            <input type="text" name="caption" value={caption} onChange={handleCaption}/>
+        <div style={{display: "flex", justifyContent: "space-evenly"}}>
+            <div style={{display: "flex", justifyContent: "center", position: "fixed", width: "100%", background: "#8769b6"}}>
+                <h1>UFOgram Welcome!</h1>
+                <div>
+                    <button type="button" title="My Profile" onClick={handleMyProfile}>My Profile</ button>
+                    <button type="button" title="Create New Post" onClick={handleMain}>Main</ button>
+                </div>
+            </div>
+            <div style={{display: "flex", width: "100%", justifyContent: "center", marginTop: "100px", background: "#b6f486"}}>
+                <label htmlFor='image'>Image: </label>
+                <input type="file" name="image" accept="image/*" onChange={handleImage}/>
+                <label htmlFor='caption'>Caption: </label>
+                <input type="text" name="caption" value={caption} onChange={handleCaption}/>
+                <button type="button" title="discard" onClick={handleMain}>Discard</ button>
+            </div>
         </div>
     );
 }

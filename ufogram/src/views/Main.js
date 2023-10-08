@@ -11,7 +11,7 @@ export default function Main() {
     };
 
     const handleCreateNewPost = () => {
-
+        navigate('/newpost');
     };
 
 
