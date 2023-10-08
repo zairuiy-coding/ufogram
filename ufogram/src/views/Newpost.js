@@ -3,7 +3,9 @@ import { useNavigate } from 'react-router-dom';
 
 export default function Newpost() {
     const navigate = useNavigate();
-    const [Image, setImage] = useState(null);
+    const [image, setImage] = useState(null);
+    const [video, setVideo] = useState(null);
+    const [file, setFile] = useState(null);
     const [caption, setCaption] = useState('');
 
     const handleMain = () => {
@@ -12,6 +14,12 @@ export default function Newpost() {
 
     const handleImage = (imageEvent) => {
         setImage(imageEvent.target.value);
+        setFile(imageEvent.target.value);
+    };
+
+    const handleVideo = (videoEvent) => {
+        setVideo(videoEvent.target.value);
+        setFile(videoEvent.target.value);
     };
 
     const handleCaption = (captionEvent) => {
@@ -29,8 +37,10 @@ export default function Newpost() {
             <div style={{display: "flex", width: "100%", justifyContent: "center", marginTop: "100px", background: "#b6f486"}}>
                 <label htmlFor='image'>Image: </label>
                 <input type="file" name="image" accept="image/*" onChange={handleImage}/>
+                <label htmlFor='image'>Video: </label>
+                <input type="file" name="video" accept="video/*" onChange={handleVideo}/>
                 <label htmlFor='caption'>Caption: </label>
-                <input type="text" name="caption" value={caption} onChange={handleCaption}/>
+                <input type="text" name="caption" value={ caption } onChange={handleCaption}/>
                 <button type="button" title="discard" onClick={handleMain}>Discard</ button>
             </div>
         </div>
