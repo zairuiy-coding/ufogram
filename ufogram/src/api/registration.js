@@ -1,3 +1,5 @@
+import axios from "axios";
+
 // user registration
 /**
  * A function to register a user.
@@ -5,7 +7,7 @@
  * @param {*} password the password of the user
  */
 export default async function register(newUsername, newPassword) {
-    if (newUsername === None || newPassword === None) {
+    if (newUsername === '' || newPassword === '' || newUsername === null || newPassword === null) {
         // bad input, throw error
         return;
     }
