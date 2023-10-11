@@ -1,11 +1,9 @@
-// user registration
+// get user
 
 import axios from 'axios';
 
 /**
- * A function to register a user.
- * @param {*} username the name of the user
- * @param {*} password the password of the user
+ * A function to get user.
  */
 export default async function getUsers() {
 
