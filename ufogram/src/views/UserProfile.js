@@ -9,6 +9,8 @@ export default function Main() {
 
     const [followed, setFollowed] = useState(false);
 
+    const isMyself = location.state.self;
+
     const handleMain = () => {
         navigate('/main',  { state: { userId: location.state.userId, username: location.state.username, users: location.state.users } });
     };
@@ -46,7 +48,7 @@ export default function Main() {
                         <img src="https://picsum.photos/200/304" />
                         <t>My info</t>
                         {/* Here for now, not for self. */}
-                        { location.state.self !== true &&
+                        { isMyself !== true &&
                             <button type="button" title="Follow/Unfollow" onClick={handleFollow}>Follow</button>
                         }
                     </div>

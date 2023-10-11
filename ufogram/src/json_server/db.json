@@ -3,7 +3,9 @@
     {
       "id": 1,
       "username": "zairuiy",
-      "password": "1234567"
+      "password": "1234567",
+      "followers":[],
+      "following": []
     },
     {
       "id": 2,

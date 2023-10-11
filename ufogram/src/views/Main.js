@@ -9,10 +9,10 @@ export default function Main() {
 
     const location = useLocation();
 
-    const [username, setUsername] = useState('');
+    const [usernameToSearch, setUsernameToSearch] = useState('');
 
     const handleMyProfile = () => {
-        navigate('/myprofile', { state: { userId: location.state.userId, username: location.state.username, self: true, sName:  location.state.username, users: location.state.users } });
+        navigate('/userprofile', { state: { userId: location.state.userId, username: location.state.username, self: true, sName:  location.state.username, users: location.state.users } });
     };
 
     const handleCreateNewPost = () => {
@@ -20,13 +20,13 @@ export default function Main() {
     };
 
     const handleSearchUserName = (usernameEvent) => {
-        setUsername(usernameEvent.target.value);
+        setUsernameToSearch(usernameEvent.target.value);
     }
 
     const handleSearchUser = () => {
         for (let i = 0; i < location.state.users.length; i++) {
-            if (location.state.users[i].username === username) {
-                navigate('/myprofile', { state: { userId: location.state.userId, username: location.state.username, self: location.state.username ===  username, sName: username, users: location.state.users } });
+            if (location.state.users[i].username === usernameToSearch) {
+                navigate('/userprofile', { state: { userId: location.state.userId, username: location.state.username, self: location.state.username ===  usernameToSearch, sName: usernameToSearch, users: location.state.users } });
                 return;
             }
         }
