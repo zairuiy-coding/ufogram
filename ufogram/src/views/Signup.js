@@ -27,7 +27,6 @@ function Signup() {
             const status = await register(username, password);
             console.log('Status', status);
             if (status === 201) {
-                document.getElementById('signup').innerHTML = `Welcome, ${username}`;
                 navigate('/login');
             }
         } catch (err) {

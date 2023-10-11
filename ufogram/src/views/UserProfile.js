@@ -1,32 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {useLocation} from 'react-router-dom';
 import getUser from '../api/getUser';
-
-async function GetFollowing() {
-    const location = useLocation();
-    try {
-        const response = await getUser(location.state.userId);
-        if (response.status === 200) {
-            console.log(response.data);
-            const following = response.data.following;
-            console.log(following);
-            return (
-                <select name="following" id="following">
-                {following.map(user => (
-                    <option value={ user.username }>{ user.username }</option>
-                  ))
-                }
-                </select>
-            )
-        } else {
-            // Authentication failed, set error message
-            console.log('Invaliduser ID. Please try again.');
-        }
-    } catch (error) {
-        console.error('getUser error', error);
-    }
-}
 
 export default function Main() {
     const navigate = useNavigate();
@@ -36,14 +11,6 @@ export default function Main() {
     const [followed, setFollowed] = useState(false);
 
     const isMyself = location.state.self;
-
-    let followingComponent;
-
-    try {
-        followingComponent = GetFollowing();
-    } catch (err) {
-        console.log("get floowing error");
-    }
 
     const handleMain = () => {
         navigate('/main',  { state: { userId: location.state.userId, username: location.state.username, users: location.state.users } });
@@ -58,6 +25,29 @@ export default function Main() {
             setFollowed(true);
         }
     };
+
+    const GetFollowing = () => {
+        const [following, setFollowing] = useState([]);
+
+        useEffect(() => {
+            async function fetchFollowing() {
+                try {
+                    const response = await getUser(location.state.userId);
+                    if (response.status === 200) {
+                        console.log(response.data.following);
+                        setFollowing(response.data.following);
+                    } else {
+                        // Authentication failed, set error message
+                        console.log('Invaliduser ID. Please try again.');
+                    }
+                } catch (error) {
+                    console.error('getUser error', error);
+                }
+            }
+            fetchFollowing();
+        }, []);
+        return following;
+    }
 
     return (
         <div style={{display: "flex", justifyContent: "space-evenly"}}>
@@ -88,12 +78,13 @@ export default function Main() {
                     </div>
                     <div style={{display: "flex", justifyContent: "space-between", flexDirection: "row"}}>
                         <label for="following">Following</label>
-                        {/* <select name="following" id="following"> */}
-                            {/* <option value="lionel">Lionel</option>
-                            <option value="yuan">Yuan</option>
-                            <option value="zairui">Zairui</option> */}
-                            { followingComponent }
-                        {/* </select> */}
+                        <select name="following" id="following">
+                        {GetFollowing().map(user => (
+                        <option value={ user.username }>{ user.username }</option>
+                        ))
+                        }
+                        
+            </select>
                     </div>
                 </div>  
             </div>

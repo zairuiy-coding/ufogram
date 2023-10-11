@@ -27,7 +27,14 @@
           "password": "1234567",
           "followers": [],
           "following": []
-        }
+        }, 
+        {
+            "username": "user3",
+            "password": "1234567",
+            "id": 3,
+            "followers": [],
+            "following": []
+          }
       ]
     },
     {
@@ -71,6 +78,13 @@
       "following": [],
       "followers": [],
       "id": 8
+    },
+    {
+      "username": "lionelhu6",
+      "password": "1234567",
+      "following": [],
+      "followers": [],
+      "id": 9
     }
   ]
 }
