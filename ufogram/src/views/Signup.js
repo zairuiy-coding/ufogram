@@ -16,7 +16,7 @@ function Signup() {
         const response = await getUsers();
         for (let i = 0; i < response.data.length; i++) {
                     
-            if (response.data[i].username === username && response.data[i].password === password) {
+            if (response.data[i].username === username) {
                 return;
             }
         }

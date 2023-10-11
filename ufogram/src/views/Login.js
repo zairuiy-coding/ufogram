@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import getUsers from '../api/user';
 import axios from 'axios';
 export default function Login() {
@@ -8,7 +8,7 @@ export default function Login() {
 
     const navigate = useNavigate();
 
-    const [LoggedIn, setLoggedIn] = useState(false);
+    const [loggedIn, setLoggedIn] = useState(false);
     const [error, setError] = useState(''); // State to store authentication error message
 
     let [username, setUsername] = useState('');
@@ -34,14 +34,15 @@ export default function Login() {
 
                 for (let i = 0; i < response.data.length; i++) {
                    
-                    if (response.data[i].username === username) {
+                    if (response.data[i].username === username && response.data[i].password === password) {
                         setLoggedIn(true);
+                        setUserId(response.data[i].id);
                         break;
                     }
                 }
-                if (LoggedIn) {
+                if (loggedIn) {
                     // setLoggedIn(true);
-                    navigate('/main');
+                    navigate('/main', { state: { userId: userId, username: username, users: response.data } });
                 } 
             } else {
                 // Authentication failed, set error message
@@ -71,9 +72,9 @@ export default function Login() {
             </div>
             <div style={{display: "flex", width: "12%", marginTop: "100px", flexDirection: "column"}}>
                 <label htmlFor='Username'>Username: </label>
-                <input type="text" name="Username" value={username} onChange={handleUsernameChange}/>
+                <input type="text" name="Username" onChange={handleUsernameChange}/>
                 <label htmlFor='Password'>Password: </label>
-                <input type="password" name="Password" value={password} onChange={handlePasswordChange}/>
+                <input type="password" name="Password" onChange={handlePasswordChange}/>
                 <button type="button" title="Log in" onClick={handleLogin}>Login</ button>
                 <button type="button" title="Sign up" onClick={handleSignup} style={{color: "#808080"}}>Signup</ button>
             </div>

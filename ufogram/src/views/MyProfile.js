@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import {useLocation} from 'react-router-dom';
 
 export default function Main() {
     const navigate = useNavigate();
 
+    const location = useLocation();
+
     const [followed, setFollowed] = useState(false);
 
     const handleMain = () => {
-        navigate('/main');
+        navigate('/main',  { state: { userId: location.state.userId, username: location.state.username, users: location.state.users } });
     };
 
     const handleFollow = (followEvent) => {
@@ -39,11 +42,13 @@ export default function Main() {
                         </select>
                     </div>
                     <div style={{display: "flex", flexDirection: "column"}}>
-                        <h2>My Name</h2>
+                        <h2>{ location.state.sName }</h2>
                         <img src="https://picsum.photos/200/304" />
                         <t>My info</t>
                         {/* Here for now, not for self. */}
-                        <button type="button" title="Follow/Unfollow" onClick={handleFollow}>Follow</button>
+                        { location.state.self !== true &&
+                            <button type="button" title="Follow/Unfollow" onClick={handleFollow}>Follow</button>
+                        }
                     </div>
                     <div style={{display: "flex", justifyContent: "space-between", flexDirection: "row"}}>
                         <label for="following">Following</label>

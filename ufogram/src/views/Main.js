@@ -1,24 +1,46 @@
 import React, { useState } from 'react';
 import Activity from './Activity';
-import {useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { useLocation} from 'react-router-dom';
 
 export default function Main() {
 
     const navigate = useNavigate();
 
+    const location = useLocation();
+
+    const [username, setUsername] = useState('');
+
     const handleMyProfile = () => {
-        navigate('/myprofile');
+        navigate('/myprofile', { state: { userId: location.state.userId, username: location.state.username, self: true, sName:  location.state.username, users: location.state.users } });
     };
 
     const handleCreateNewPost = () => {
-        navigate('/newpost');
+        navigate('/newpost', { state: { userId: location.state.userId, username: location.state.username, users: location.state.users } });
     };
+
+    const handleSearchUserName = (usernameEvent) => {
+        setUsername(usernameEvent.target.value);
+    }
+
+    const handleSearchUser = () => {
+        for (let i = 0; i < location.state.users.length; i++) {
+            if (location.state.users[i].username === username) {
+                navigate('/myprofile', { state: { userId: location.state.userId, username: location.state.username, self: location.state.username ===  username, sName: username, users: location.state.users } });
+                return;
+            }
+        }
+    }
 
 
     return (
         <div style={{display: "flex", justifyContent: "space-evenly"}}>
             <div style={{display: "flex", justifyContent: "center", position: "fixed", width: "100%", background: "#8769b6"}}>
-                <h1>UFOgram</h1>
+                <h1>UFOgram { location.state.username }</h1>
+                <div style={{ display: "flex", flexDirection: "row" }}>
+                <input type="text" name="SearchUser" onChange={ handleSearchUserName }/>
+                <button type="button" title="searchUser" onClick={ handleSearchUser }>Search</ button>
+                </div>
                 <div>
                     <button type="button" title="My Profile" onClick={handleMyProfile}>My Profile</ button>
                     <button type="button" title="Create New Post" onClick={handleCreateNewPost}>Create New Post</ button>
