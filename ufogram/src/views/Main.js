@@ -12,7 +12,7 @@ export default function Main() {
     const [usernameToSearch, setUsernameToSearch] = useState('');
 
     const handleMyProfile = () => {
-        navigate('/userprofile', { state: { userId: location.state.userId, username: location.state.username, self: true, sName:  location.state.username, users: location.state.users } });
+        navigate('/userprofile', { state: { userId: location.state.userId, username: location.state.username, self: true, sName:  location.state.username, sId: location.state.userId, users: location.state.users } });
     };
 
     const handleCreateNewPost = () => {
@@ -26,7 +26,8 @@ export default function Main() {
     const handleSearchUser = () => {
         for (let i = 0; i < location.state.users.length; i++) {
             if (location.state.users[i].username === usernameToSearch) {
-                navigate('/userprofile', { state: { userId: location.state.userId, username: location.state.username, self: location.state.username ===  usernameToSearch, sName: usernameToSearch, users: location.state.users } });
+                console.log(location.state.users[i].userId);
+                navigate('/userprofile', { state: { userId: location.state.userId, username: location.state.username, self: location.state.username ===  usernameToSearch, sName: usernameToSearch, sId: location.state.users[i].id, users: location.state.users } });
                 return;
             }
         }

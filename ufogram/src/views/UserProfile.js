@@ -32,7 +32,8 @@ export default function Main() {
         useEffect(() => {
             async function fetchFollowing() {
                 try {
-                    const response = await getUser(location.state.userId);
+                    console.log(location.state.sId);
+                    const response = await getUser(location.state.sId);
                     if (response.status === 200) {
                         console.log(response.data.following);
                         setFollowing(response.data.following);
@@ -55,7 +56,8 @@ export default function Main() {
         useEffect(() => {
             async function fetchFollowers() {
                 try {
-                    const response = await getUser(location.state.userId);
+                    console.log(location.state.sId);
+                    const response = await getUser(location.state.sId);
                     if (response.status === 200) {
                         console.log(response.data.followers);
                         setFollowers(response.data.followers);

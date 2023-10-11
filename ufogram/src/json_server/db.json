@@ -4,8 +4,34 @@
       "id": 1,
       "username": "zairuiy",
       "password": "1234567",
-      "followers": [],
-      "following": []
+      "followers": [{
+        "username": "lionelhu4",
+        "password": "1234567",
+        "following": [],
+        "followers": [],
+        "id": 7
+      },
+      {
+        "username": "lionelhu5",
+        "password": "1234567",
+        "following": [],
+        "followers": [],
+        "id": 8
+      }],
+      "following": [{
+        "username": "lionelhu4",
+        "password": "1234567",
+        "following": [],
+        "followers": [],
+        "id": 7
+      },
+      {
+        "username": "lionelhu5",
+        "password": "1234567",
+        "following": [],
+        "followers": [],
+        "id": 8
+      }]
     },
     {
       "id": 2,
