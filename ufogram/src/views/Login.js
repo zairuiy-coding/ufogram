@@ -8,12 +8,12 @@ export default function Login() {
 
     const navigate = useNavigate();
 
-    const [loggedIn, setLoggedIn] = useState(false);
+    // const [loggedIn, setLoggedIn] = useState(false);
     const [error, setError] = useState(''); // State to store authentication error message
 
-    let [username, setUsername] = useState('');
-    let [password, setPassword] = useState('');
-    let [userId, setUserId] = useState(0);
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    // const [userId, setUserId] = useState(0);
     
     const handleLogin = async () => {
         try {
@@ -30,18 +30,25 @@ export default function Login() {
 
             const response = await getUsers();
 
+            let userId = 0;
+
             if (response.status === 200) {
+
+                let userFound = false;
 
                 for (let i = 0; i < response.data.length; i++) {
                    
                     if (response.data[i].username === username && response.data[i].password === password) {
-                        setLoggedIn(true);
-                        setUserId(response.data[i].id);
+                        console.log(response.data[i].id);
+                        userFound = true;
+                        userId = response.data[i].id;
+                        // setUserId(response.data[i].id);
                         break;
                     }
                 }
-                if (loggedIn) {
+                if (userFound) {
                     // setLoggedIn(true);
+                    console.log(userId);
                     navigate('/main', { state: { userId: userId, username: username, users: response.data } });
                 } 
             } else {
