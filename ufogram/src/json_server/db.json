@@ -18,7 +18,14 @@
           "password": "1234567",
           "followers": [],
           "following": []
-        }
+        }, 
+        {
+            "username": "user3",
+            "password": "1234567",
+            "id": 3,
+            "followers": [],
+            "following": []
+          }
       ],
       "following": [
         {

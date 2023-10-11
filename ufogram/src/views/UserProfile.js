@@ -49,6 +49,29 @@ export default function Main() {
         return following;
     }
 
+    const GetFollowers = () => {
+        const [followers, setFollowers] = useState([]);
+
+        useEffect(() => {
+            async function fetchFollowers() {
+                try {
+                    const response = await getUser(location.state.userId);
+                    if (response.status === 200) {
+                        console.log(response.data.followers);
+                        setFollowers(response.data.followers);
+                    } else {
+                        // Authentication failed, set error message
+                        console.log('Invaliduser ID. Please try again.');
+                    }
+                } catch (error) {
+                    console.error('getUser error', error);
+                }
+            }
+            fetchFollowers();
+        }, []);
+        return followers;
+    }
+
     return (
         <div style={{display: "flex", justifyContent: "space-evenly"}}>
             <div style={{display: "flex", justifyContent: "center", position: "fixed", width: "100%", background: "#8769b6"}}>
@@ -62,16 +85,16 @@ export default function Main() {
                     <div style={{display: "flex", justifyContent: "space-between", flexDirection: "row"}}>
                         <label for="followers">Followers</label>
                         <select name="followers" id="followers">
-                            <option value="lionel">Lionel</option>
-                            <option value="yuan">Yuan</option>
-                            <option value="zairui">Zairui</option>
+                        {GetFollowers().map(user => (
+                        <option value={ user.username }>{ user.username }</option>
+                        ))
+                        }
                         </select>
                     </div>
                     <div style={{display: "flex", flexDirection: "column"}}>
                         <h2>{ location.state.sName }</h2>
                         <img src="https://picsum.photos/200/304" />
                         <t>My info</t>
-                        {/* Here for now, not for self. */}
                         { isMyself !== true &&
                             <button type="button" title="Follow/Unfollow" onClick={handleFollow}>Follow</button>
                         }
@@ -83,8 +106,7 @@ export default function Main() {
                         <option value={ user.username }>{ user.username }</option>
                         ))
                         }
-                        
-            </select>
+                        </select>
                     </div>
                 </div>  
             </div>
