@@ -8,10 +8,13 @@ function Signup() {
     // if password incorrect, retry, block if wrong for 3 times
     // if password correct, jump to Main_view
 
+    const navigate = useNavigate();
+
     let [username, setUsername] = useState('');
     let [password, setPassword] = useState('');
 
     const handleSignup = async () => {
+        
         console.log('User info', username, password);
         const response = await getUsers();
         for (let i = 0; i < response.data.length; i++) {
@@ -23,14 +26,15 @@ function Signup() {
         try {
             const status = await register(username, password);
             console.log('Status', status);
-            document.getElementById('signup').innerHTML = `Welcome, ${username}`;
+            if (status === 201) {
+                document.getElementById('signup').innerHTML = `Welcome, ${username}`;
+                navigate('/login');
+            }
         } catch (err) {
 
         }
         
     }
-
-    const navigate = useNavigate();
 
     const handleLogin = () => {
         navigate('/login');

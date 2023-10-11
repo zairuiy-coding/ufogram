@@ -11,20 +11,24 @@
       "id": 2,
       "username": "lionelhu",
       "password": "1234567",
-      "followers": [{
-        "id": 1,
-        "username": "zairuiy",
-        "password": "1234567",
-        "followers": [],
-        "following": []
-      }],
-      "following": [{
-        "id": 1,
-        "username": "zairuiy",
-        "password": "1234567",
-        "followers": [],
-        "following": []
-      }]
+      "followers": [
+        {
+          "id": 1,
+          "username": "zairuiy",
+          "password": "1234567",
+          "followers": [],
+          "following": []
+        }
+      ],
+      "following": [
+        {
+          "id": 1,
+          "username": "zairuiy",
+          "password": "1234567",
+          "followers": [],
+          "following": []
+        }
+      ]
     },
     {
       "username": "user3",
@@ -32,6 +36,41 @@
       "id": 3,
       "followers": [],
       "following": []
+    },
+    {
+      "username": "yuan",
+      "password": "1234567",
+      "following": [],
+      "followers": [],
+      "id": 4
+    },
+    {
+      "username": "lionelhu2",
+      "password": "1234567",
+      "following": [],
+      "followers": [],
+      "id": 5
+    },
+    {
+      "username": "lionelhu3",
+      "password": "1234567",
+      "following": [],
+      "followers": [],
+      "id": 6
+    },
+    {
+      "username": "lionelhu4",
+      "password": "1234567",
+      "following": [],
+      "followers": [],
+      "id": 7
+    },
+    {
+      "username": "lionelhu5",
+      "password": "1234567",
+      "following": [],
+      "followers": [],
+      "id": 8
     }
   ]
 }

@@ -12,7 +12,12 @@ export default async function register(newUsername, newPassword) {
         return;
     }
     try {
-        const response = await axios.post('http://localhost:3000/Users', );
+        const response = await axios.post('http://localhost:3000/Users', {
+            "username": newUsername,
+            "password": newPassword,
+            "following": [], 
+            "followers": []
+        });
     return response.status;
     } catch(e) {
         // error

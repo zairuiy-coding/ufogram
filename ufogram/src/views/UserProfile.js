@@ -8,7 +8,9 @@ async function GetFollowing() {
     try {
         const response = await getUser(location.state.userId);
         if (response.status === 200) {
+            console.log(response.data);
             const following = response.data.following;
+            console.log(following);
             return (
                 <select name="following" id="following">
                 {following.map(user => (
