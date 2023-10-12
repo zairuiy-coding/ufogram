@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Activity from './Activity';
 import { useNavigate } from 'react-router-dom';
 import { useLocation} from 'react-router-dom';
+import getUser from '../api/getUser';
 
 export default function Main() {
 
@@ -12,7 +13,7 @@ export default function Main() {
     const [usernameToSearch, setUsernameToSearch] = useState('');
 
     const handleMyProfile = () => {
-        navigate('/userprofile', { state: { userId: location.state.userId, username: location.state.username, self: true, sName:  location.state.username, users: location.state.users } });
+        navigate('/userprofile', { state: { userId: location.state.userId, username: location.state.username, self: true, sName:  location.state.username, sId: location.state.userId, users: location.state.users, followed: true } });
     };
 
     const handleCreateNewPost = () => {
@@ -23,10 +24,18 @@ export default function Main() {
         setUsernameToSearch(usernameEvent.target.value);
     }
 
-    const handleSearchUser = () => {
+    const handleSearchUser = async () => {
         for (let i = 0; i < location.state.users.length; i++) {
             if (location.state.users[i].username === usernameToSearch) {
-                navigate('/userprofile', { state: { userId: location.state.userId, username: location.state.username, self: location.state.username ===  usernameToSearch, sName: usernameToSearch, users: location.state.users } });
+                console.log(location.state.users[i].id);
+                const searchResponse = await getUser(location.state.users[i].id);
+                for (let j = 0; j < searchResponse.data.followers.length; j++) {
+                    if (searchResponse.data.followers[j].id === location.state.userId) {
+                        navigate('/userprofile', { state: { userId: location.state.userId, username: location.state.username, self: location.state.username ===  usernameToSearch, sName: usernameToSearch, sId: location.state.users[i].id, users: location.state.users, followed: true } });
+                        return;
+                    }
+                }
+                navigate('/userprofile', { state: { userId: location.state.userId, username: location.state.username, self: location.state.username ===  usernameToSearch, sName: usernameToSearch, sId: location.state.users[i].id, users: location.state.users, followed: false } });
                 return;
             }
         }

@@ -1,61 +1,135 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {useLocation} from 'react-router-dom';
 import getUser from '../api/getUser';
-
-async function GetFollowing() {
-    const location = useLocation();
-    try {
-        const response = await getUser(location.state.userId);
-        if (response.status === 200) {
-            const following = response.data.following;
-            return (
-                <select name="following" id="following">
-                {following.map(user => (
-                    <option value={ user.username }>{ user.username }</option>
-                  ))
-                }
-                </select>
-            )
-        } else {
-            // Authentication failed, set error message
-            console.log('Invaliduser ID. Please try again.');
-        }
-    } catch (error) {
-        console.error('getUser error', error);
-    }
-}
+import updateUser from "../api/updateUser";
 
 export default function Main() {
     const navigate = useNavigate();
 
     const location = useLocation();
 
-    const [followed, setFollowed] = useState(false);
+    // const [followed, setFollowed] = useState(location.state.followed);
+    let followed = location.state.followed;
 
     const isMyself = location.state.self;
-
-    let followingComponent;
-
-    try {
-        followingComponent = GetFollowing();
-    } catch (err) {
-        console.log("get floowing error");
-    }
 
     const handleMain = () => {
         navigate('/main',  { state: { userId: location.state.userId, username: location.state.username, users: location.state.users } });
     };
 
-    const handleFollow = (followEvent) => {
+    const handleFollow = async (followEvent) => {
+        console.log("Followed at the start: " + followed);
+        const selfResponse = await getUser(location.state.userId);
+        const searchResponse = await getUser(location.state.sId);
+        let currFollowing = selfResponse.data.following.slice();
+        let currFollowers = searchResponse.data.followers.slice();
         if (followed) {
+            let newFollowing = currFollowing.filter(function(user) {
+                return user.id !== location.state.sId;
+            });
+            let newFollowers = currFollowers.filter(function(user) {
+                return user.id !== location.state.userId;
+            });
+            console.log("newFollowing: \n", newFollowing);
+            console.log("newFollowers: \n", newFollowers);
+            await updateUser(location.state.userId, {
+                "username": selfResponse.data.username,
+                "password": selfResponse.data.password,
+                "following": newFollowing,
+                "followers": selfResponse.data.followers
+            });
+            await updateUser(location.state.sId, {
+                "username": searchResponse.data.username,
+                "password": searchResponse.data.password,
+                "following": searchResponse.data.following,
+                "followers": newFollowers
+            });
+
             followEvent.target.innerHTML = "Follow";
-            setFollowed(false);
+            // setFollowed(false);
+            followed = false;
+            console.log("Shoudl be false: " + followed);
         } else {
+            let newFollowing = currFollowing.slice();
+            let newFollowers = currFollowers.slice();
+            newFollowing.push({
+                "id": location.state.sId,
+                "username": searchResponse.data.username
+            });
+            newFollowers.push({
+                "id": location.state.userId,
+                "username": selfResponse.data.username
+            });
+            console.log("newFollowing: \n", newFollowing);
+            console.log("newFollowers: \n", newFollowers);
+            await updateUser(location.state.userId, {
+                "username": selfResponse.data.username,
+                "password": selfResponse.data.password,
+                "following": newFollowing,
+                "followers": selfResponse.data.followers
+            });
+            await updateUser(location.state.sId, {
+                "username": searchResponse.data.username,
+                "password": searchResponse.data.password,
+                "following": searchResponse.data.following,
+                "followers": newFollowers
+            });
+            
             followEvent.target.innerHTML = "Unfollow";
-            setFollowed(true);
+            // setFollowed(true);
+            followed = true;
+            console.log("Shoudl be true: " + followed);
         }
     };
+
+    const GetFollowing = () => {
+        const [following, setFollowing] = useState([]);
+
+        useEffect(() => {
+            async function fetchFollowing() {
+                try {
+                    console.log(location.state.sId);
+                    const response = await getUser(location.state.sId);
+                    if (response.status === 200) {
+                        console.log(response.data.following);
+                        setFollowing(response.data.following);
+                    } else {
+                        // Authentication failed, set error message
+                        console.log('Invaliduser ID. Please try again.');
+                    }
+                } catch (error) {
+                    console.error('getUser error', error);
+                }
+            }
+            fetchFollowing();
+        }, []);
+        return following;
+    }
+
+    const GetFollowers = () => {
+        const [followers, setFollowers] = useState([]);
+
+        useEffect(() => {
+            async function fetchFollowers() {
+                try {
+                    console.log(location.state.sId);
+                    const response = await getUser(location.state.sId);
+                    if (response.status === 200) {
+                        console.log(response.data.followers);
+                        setFollowers(response.data.followers);
+                    } else {
+                        // Authentication failed, set error message
+                        console.log('Invaliduser ID. Please try again.');
+                    }
+                } catch (error) {
+                    console.error('getUser error', error);
+                }
+            }
+            fetchFollowers();
+        }, []);
+        return followers;
+    }
 
     return (
         <div style={{display: "flex", justifyContent: "space-evenly"}}>
@@ -70,28 +144,31 @@ export default function Main() {
                     <div style={{display: "flex", justifyContent: "space-between", flexDirection: "row"}}>
                         <label for="followers">Followers</label>
                         <select name="followers" id="followers">
-                            <option value="lionel">Lionel</option>
-                            <option value="yuan">Yuan</option>
-                            <option value="zairui">Zairui</option>
+                        {GetFollowers().map(user => (
+                        <option value={ user.username }>{ user.username }</option>
+                        ))
+                        }
                         </select>
                     </div>
                     <div style={{display: "flex", flexDirection: "column"}}>
                         <h2>{ location.state.sName }</h2>
                         <img src="https://picsum.photos/200/304" />
                         <t>My info</t>
-                        {/* Here for now, not for self. */}
-                        { isMyself !== true &&
+                        { isMyself !== true && followed === true &&
+                            <button type="button" title="Follow/Unfollow" onClick={handleFollow}>Unfollow</button>
+                        }
+                        { isMyself !== true && followed === false &&
                             <button type="button" title="Follow/Unfollow" onClick={handleFollow}>Follow</button>
                         }
                     </div>
                     <div style={{display: "flex", justifyContent: "space-between", flexDirection: "row"}}>
                         <label for="following">Following</label>
-                        {/* <select name="following" id="following"> */}
-                            {/* <option value="lionel">Lionel</option>
-                            <option value="yuan">Yuan</option>
-                            <option value="zairui">Zairui</option> */}
-                            { followingComponent }
-                        {/* </select> */}
+                        <select name="following" id="following">
+                        {GetFollowing().map(user => (
+                        <option value={ user.username }>{ user.username }</option>
+                        ))
+                        }
+                        </select>
                     </div>
                 </div>  
             </div>
