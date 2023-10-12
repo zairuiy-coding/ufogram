@@ -2,13 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {useLocation} from 'react-router-dom';
 import getUser from '../api/getUser';
+import updateUser from "../api/updateUser";
 
 export default function Main() {
     const navigate = useNavigate();
 
     const location = useLocation();
 
-    const [followed, setFollowed] = useState(false);
+    // const [followed, setFollowed] = useState(location.state.followed);
+    let followed = location.state.followed;
 
     const isMyself = location.state.self;
 
@@ -16,13 +18,68 @@ export default function Main() {
         navigate('/main',  { state: { userId: location.state.userId, username: location.state.username, users: location.state.users } });
     };
 
-    const handleFollow = (followEvent) => {
+    const handleFollow = async (followEvent) => {
+        console.log("Followed at the start: " + followed);
+        const selfResponse = await getUser(location.state.userId);
+        const searchResponse = await getUser(location.state.sId);
+        let currFollowing = selfResponse.data.following.slice();
+        let currFollowers = searchResponse.data.followers.slice();
         if (followed) {
+            let newFollowing = currFollowing.filter(function(user) {
+                return user.id !== location.state.sId;
+            });
+            let newFollowers = currFollowers.filter(function(user) {
+                return user.id !== location.state.userId;
+            });
+            console.log("newFollowing: \n", newFollowing);
+            console.log("newFollowers: \n", newFollowers);
+            await updateUser(location.state.userId, {
+                "username": selfResponse.data.username,
+                "password": selfResponse.data.password,
+                "following": newFollowing,
+                "followers": selfResponse.data.followers
+            });
+            await updateUser(location.state.sId, {
+                "username": searchResponse.data.username,
+                "password": searchResponse.data.password,
+                "following": searchResponse.data.following,
+                "followers": newFollowers
+            });
+
             followEvent.target.innerHTML = "Follow";
-            setFollowed(false);
+            // setFollowed(false);
+            followed = false;
+            console.log("Shoudl be false: " + followed);
         } else {
+            let newFollowing = currFollowing.slice();
+            let newFollowers = currFollowers.slice();
+            newFollowing.push({
+                "id": location.state.sId,
+                "username": searchResponse.data.username
+            });
+            newFollowers.push({
+                "id": location.state.userId,
+                "username": selfResponse.data.username
+            });
+            console.log("newFollowing: \n", newFollowing);
+            console.log("newFollowers: \n", newFollowers);
+            await updateUser(location.state.userId, {
+                "username": selfResponse.data.username,
+                "password": selfResponse.data.password,
+                "following": newFollowing,
+                "followers": selfResponse.data.followers
+            });
+            await updateUser(location.state.sId, {
+                "username": searchResponse.data.username,
+                "password": searchResponse.data.password,
+                "following": searchResponse.data.following,
+                "followers": newFollowers
+            });
+            
             followEvent.target.innerHTML = "Unfollow";
-            setFollowed(true);
+            // setFollowed(true);
+            followed = true;
+            console.log("Shoudl be true: " + followed);
         }
     };
 
@@ -97,7 +154,10 @@ export default function Main() {
                         <h2>{ location.state.sName }</h2>
                         <img src="https://picsum.photos/200/304" />
                         <t>My info</t>
-                        { isMyself !== true &&
+                        { isMyself !== true && followed === true &&
+                            <button type="button" title="Follow/Unfollow" onClick={handleFollow}>Unfollow</button>
+                        }
+                        { isMyself !== true && followed === false &&
                             <button type="button" title="Follow/Unfollow" onClick={handleFollow}>Follow</button>
                         }
                     </div>
