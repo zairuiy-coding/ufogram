@@ -129,5 +129,47 @@
       "followers": [],
       "id": 9
     }
+  ],
+  "Posts": [
+    {
+      "caption": "Hello World!",
+      "fileURL": "https://picsum.photos/200/301",
+      "likes": 0,
+      "author": {
+        "id": 1,
+        "username": "zairuiy"
+      },
+      "id": 1
+    },
+    {
+      "caption": "123",
+      "fileURL": "https://picsum.photos/200/303",
+      "likes": 0,
+      "author": {
+        "id": 1,
+        "username": "zairuiy"
+      },
+      "id": 2
+    },
+    {
+      "caption": "test1",
+      "fileURL": "https://picsum.photos/200/304",
+      "likes": 0,
+      "author": {
+        "id": 1,
+        "username": "zairuiy"
+      },
+      "id": 3
+    },
+    {
+      "caption": "test2",
+      "fileURL": "https://picsum.photos/200/305",
+      "likes": 0,
+      "author": {
+        "id": 1,
+        "username": "zairuiy"
+      },
+      "id": 4
+    }
   ]
 }
