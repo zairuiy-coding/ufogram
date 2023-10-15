@@ -81,7 +81,8 @@ export default function Newpost() {
              // check if the image/video link to upload is valid
              try {
                 const isValid = await isValidImageOrVideo(file);
-                if (!isValid) {
+                console.log(file);
+                if (!isValid && !file.includes("youtube")) {
                   console.log('Not a valid image or video URL');
                   return;
                 }
@@ -144,6 +145,8 @@ export default function Newpost() {
             <div style={{display: "flex", width: "100%", justifyContent: "center", marginTop: "100px", background: "#b6f486"}}>
                 <label htmlFor='image/file'>Image/Video: </label>
                 <input type="fileLink" name="fileLink" onChange={handleFile}/>
+                {/* <label htmlFor='image/file'>Youtube: </label>
+                <input type="fileLink" name="fileLink" onChange={handleFile}/> */}
                 <label htmlFor='caption'>Caption: </label>
                 <input type="text" name="caption" onChange={handleCaption}/>
                 <button type="button" title="discard" onClick={handleMain}>Discard</ button>

@@ -170,6 +170,26 @@
         "username": "zairuiy"
       },
       "id": 4
+    },
+    {
+      "caption": "Haha",
+      "fileURL": "https://picsum.photos/200/303",
+      "likes": 0,
+      "author": {
+        "id": 2,
+        "username": "lionelhu"
+      },
+      "id": 5
+    },
+    {
+      "caption": "Youtube haha",
+      "fileURL": "https://www.youtube.com/embed/i8n1gSw_o_8",
+      "likes": 0,
+      "author": {
+        "id": 2,
+        "username": "lionelhu"
+      },
+      "id": 6
     }
   ]
 }

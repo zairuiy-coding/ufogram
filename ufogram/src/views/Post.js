@@ -21,7 +21,12 @@ function PostRender(props) {
     return (
         <div style={{margin: "10px"}}>
             <div>{ props.username }</div>
-            <img src={ props.imageUrl } alt='image_unloaded' />
+            {
+                props.imageUrl.includes("youtube") && <iframe width="560" height="315" src={ props.imageUrl }></iframe>
+            }
+            {
+                !props.imageUrl.includes("youtube") && <img src={ props.imageUrl } alt='image_unloaded' />
+            }
             <div>{ props.caption }</div>
             <div>
                 <button id="likeButton" onClick = { handleLike }>Like</button>  
