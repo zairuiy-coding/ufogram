@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { navigate } from 'react-router-dom';
 import getUsers from '../api/user';
 
 export default function Login() {
   // if account does not exist, retry or jump to registration page
   // if password incorrect, retry, block if wrong for 3 times
 
-  const navigate = useNavigate();
+  //const navigate = navigate();
 
   // const [loggedIn, setLoggedIn] = useState(false);
   // const [error, setError] = useState(''); // State to store authentication error message

@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { navigate } from 'react-router-dom';
 import register from '../api/registration';
 import getUsers from '../api/user';
 
 function Signup() {
 
-  const navigate = useNavigate();
+  //const navigate = navigate();
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');

@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import Activity from './Activity';
-import { useNavigate } from 'react-router-dom';
+import { navigate } from 'react-router-dom';
 import { useLocation} from 'react-router-dom';
 import getUser from '../api/getUser';
 
 export default function Main() {
 
-    const navigate = useNavigate();
+    //const navigate = navigate();
 
     const location = useLocation();
 
