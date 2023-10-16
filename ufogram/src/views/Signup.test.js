@@ -24,7 +24,7 @@ test('renders username label', () => {
 
 test('renders password label', () => {
   render(<Signup />);
-  const linkElement = screen.getAllByLabelText(/Passowrd/i);
+  const linkElement = screen.getAllByLabelText(/Password/i);
   expect(linkElement).toBeInTheDocument();
 });
 
