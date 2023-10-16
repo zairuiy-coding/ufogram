@@ -21,7 +21,7 @@ exports[`the component matches the snapshot 1`] = `
     }
   >
     <h1>
-      UFOgram Signup
+      UFOgram
     </h1>
   </div>
   <div
@@ -43,7 +43,6 @@ exports[`the component matches the snapshot 1`] = `
       name="Username"
       onChange={[Function]}
       type="text"
-      value=""
     />
     <label
       htmlFor="Password"
@@ -54,14 +53,13 @@ exports[`the component matches the snapshot 1`] = `
       name="Password"
       onChange={[Function]}
       type="password"
-      value=""
     />
     <button
-      id="sign_up"
       onClick={[Function]}
-      title="Sign up"
+      title="Log in"
+      type="button"
     >
-      Signup
+      Login
     </button>
     <button
       onClick={[Function]}
@@ -70,9 +68,10 @@ exports[`the component matches the snapshot 1`] = `
           "color": "#808080",
         }
       }
-      title="Log in"
+      title="Sign up"
+      type="button"
     >
-      Login
+      Signup
     </button>
   </div>
 </div>

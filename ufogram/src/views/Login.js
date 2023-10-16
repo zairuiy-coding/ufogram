@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import getUsers from '../api/user';
 
 export default function Login() {
   // if account does not exist, retry or jump to registration page
   // if password incorrect, retry, block if wrong for 3 times
 
-//   const navigate = useNavigate();
+  const navigate = useNavigate();
 
   // const [loggedIn, setLoggedIn] = useState(false);
   // const [error, setError] = useState(''); // State to store authentication error message
@@ -48,9 +48,9 @@ export default function Login() {
           // setLoggedIn(true);
           console.log(userId);
           render (
-          <Navigate to='main' state={{ userId, username, users: response.data }} />
+        //   <Navigate to='main' state={{ userId, username, users: response.data }} />
           );
-        //   navigate('/main', { state: { userId, username, users: response.data } });
+          navigate('/main', { state: { userId, username, users: response.data } });
         }
       } else {
         // Authentication failed, set error message

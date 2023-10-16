@@ -1,0 +1,88 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`the component matches the snapshot 1`] = `
+<div
+  style={
+    Object {
+      "display": "flex",
+      "justifyContent": "space-evenly",
+    }
+  }
+>
+  <div
+    style={
+      Object {
+        "background": "#8769b6",
+        "display": "flex",
+        "justifyContent": "center",
+        "position": "fixed",
+        "width": "100%",
+      }
+    }
+  >
+    <h1>
+      UFOgram 
+      lionelhu
+    </h1>
+    <div
+      style={
+        Object {
+          "display": "flex",
+          "flexDirection": "row",
+        }
+      }
+    >
+      <input
+        name="SearchUser"
+        onChange={[Function]}
+        type="text"
+      />
+      <button
+        onClick={[Function]}
+        title="searchUser"
+        type="button"
+      >
+        Search
+      </button>
+    </div>
+    <div>
+      <button
+        onClick={[Function]}
+        title="My Profile"
+        type="button"
+      >
+        My Profile
+      </button>
+      <button
+        onClick={[Function]}
+        title="Create New Post"
+        type="button"
+      >
+        Create New Post
+      </button>
+    </div>
+  </div>
+  <div
+    style={
+      Object {
+        "display": "flex",
+        "justifyContent": "center",
+        "marginTop": "80px",
+        "width": "100%",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "background": "#b6f486",
+          "display": "flex",
+          "flexDirection": "column",
+          "justifyContent": "center",
+          "width": "100%",
+        }
+      }
+    />
+  </div>
+</div>
+`;

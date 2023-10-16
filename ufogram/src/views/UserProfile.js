@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Navigate, useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import getUser from '../api/getUser';
 import updateUser from '../api/updateUser';
 
 export default function Main() {
-  //const navigate = navigate();
+  const navigate = useNavigate();
 
   const location = useLocation();
 

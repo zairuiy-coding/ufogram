@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import {useLocation} from 'react-router-dom';
 import createNewPost from '../api/createNewPost';
 
 export default function Newpost() {
-    //const navigate = navigate();
+    const navigate = useNavigate();
     const [file, setFile] = useState('');
     const [caption, setCaption] = useState('');
     const location = useLocation();
