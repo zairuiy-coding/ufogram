@@ -8,74 +8,35 @@ import { render, screen } from '@testing-library/react';
 import renderer from 'react-test-renderer';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
-import Main from './Main';
+import Post from './Post';
 
-jest.mock("react-router-dom", () => ({
-    ...jest.requireActual("react-router-dom"),
-    useLocation: () => ({
-      pathname: "localhost:3001/main",
-      state: { userId: 1, username: 'lionelhu', users: [] }
-    })
-  }));
+test('renders like button', () => {
+    render(
+        <Router>
+            {/* <Routes>
+                <Route path="/signup" element={<Signup />} />
+            </Routes> */}
+            <Post username='lionelhu' imageUrl='https://picsum.photos/200/302' caption='Haha'/>
+        </Router>
+      );
+  const linkElement = screen.getByRole('button', {
+    name: /Like/
+  })
+  expect(linkElement).toBeInTheDocument();
+});
 
-
-test('renders title', () => {
+test('renders username label', () => {
     render(
       <Router>
           {/* <Routes>
-              <Route path="/signup" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
           </Routes> */}
-          <Main />
+          <Post username='lionelhu' imageUrl='https://picsum.photos/200/302' caption='Haha'/>
       </Router>
     );
-    const linkElement = screen.getByText(/UFOgram/);
+    const linkElement = screen.getByText(/Likes:/);
     expect(linkElement).toBeInTheDocument();
   });
-
-test('renders my profile button', () => {
-    render(
-        <Router>
-            {/* <Routes>
-                <Route path="/signup" element={<Login />} />
-            </Routes> */}
-            <Main />
-        </Router>
-      );
-  const linkElement = screen.getByRole('button', {
-    name: /My Profile/
-  })
-  expect(linkElement).toBeInTheDocument();
-});
-
-test('renders new post button', () => {
-    render(
-        <Router>
-            {/* <Routes>
-                <Route path="/signup" element={<Login />} />
-            </Routes> */}
-            <Main />
-        </Router>
-      );
-  const linkElement = screen.getByRole('button', {
-    name: /Create New Post/
-  })
-  expect(linkElement).toBeInTheDocument();
-});
-
-test('renders search button', () => {
-    render(
-        <Router>
-            {/* <Routes>
-                <Route path="/signup" element={<Login />} />
-            </Routes> */}
-            <Main />
-        </Router>
-      );
-  const linkElement = screen.getByRole('button', {
-    name: /Search/
-  })
-  expect(linkElement).toBeInTheDocument();
-});
 
 /**
  * Snapshot Testing
@@ -86,7 +47,7 @@ test('the component matches the snapshot', () => {
     {/* <Routes>
         <Route path="/signup" element={<Signup />} />
     </Routes> */}
-    <Main />
+    <Post username='lionelhu' imageUrl='https://picsum.photos/200/302' caption='Haha'/>
 </Router>);
   const tree = component.toJSON();
   expect(tree).toMatchSnapshot();
@@ -97,7 +58,7 @@ test('the component matches the snapshot', () => {
  */
 
 // test('welcome is displayed after click the registration button', async () => {
-//   render(<Login />);
+//   render(<Signup />);
 //   const buttonElement = screen.getByRole('button');
 //   await userEvent.click(buttonElement);
 //   const welcomeElement = screen.getAllByLabelText(/welcome/i);
@@ -105,7 +66,7 @@ test('the component matches the snapshot', () => {
 // });
 
 // test('Username is displayed after clicking on registration button', async () => {
-//   render(<Login />);
+//   render(<Signup />);
 //   const usernameElement = screen.getByTestId('uname');
 //   await userEvent.type(usernameElement, 'lili');
 //   const buttonElement = screen.getByRole('button');
