@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { navigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import {useLocation} from 'react-router-dom';
 import createNewPost from '../api/createNewPost';
 

@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { navigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import register from '../api/registration';
 import getUsers from '../api/user';
 
 function Signup() {
 
-  //const navigate = navigate();
+  const navigate = useNavigate();
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -54,7 +54,7 @@ function Signup() {
       }}
       >
         <label htmlFor="Username">Username: </label>
-        <input data-testID="uname" type="text" name="Username" value={username} onChange={handleUsernameChange} />
+        <input type="text" name="Username" value={username} onChange={handleUsernameChange} />
         <label htmlFor="Password">Password: </label>
         <input type="password" name="Password" value={password} onChange={handlePasswordChange} />
         <button id="sign_up" title="Sign up" onClick={handleSignup}>Signup</button>

@@ -1,0 +1,80 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`the component matches the snapshot 1`] = `
+<div
+  style={
+    Object {
+      "display": "flex",
+      "justifyContent": "space-evenly",
+    }
+  }
+>
+  <div
+    style={
+      Object {
+        "background": "#8769b6",
+        "display": "flex",
+        "justifyContent": "center",
+        "position": "fixed",
+        "width": "100%",
+      }
+    }
+  >
+    <h1>
+      UFOgram Signup
+    </h1>
+  </div>
+  <div
+    style={
+      Object {
+        "display": "flex",
+        "flexDirection": "column",
+        "marginTop": "100px",
+        "width": "12%",
+      }
+    }
+  >
+    <label
+      htmlFor="Username"
+    >
+      Username: 
+    </label>
+    <input
+      data-testID="uname"
+      name="Username"
+      onChange={[Function]}
+      type="text"
+      value=""
+    />
+    <label
+      htmlFor="Password"
+    >
+      Password: 
+    </label>
+    <input
+      name="Password"
+      onChange={[Function]}
+      type="password"
+      value=""
+    />
+    <button
+      id="sign_up"
+      onClick={[Function]}
+      title="Sign up"
+    >
+      Signup
+    </button>
+    <button
+      onClick={[Function]}
+      style={
+        Object {
+          "color": "#808080",
+        }
+      }
+      title="Log in"
+    >
+      Login
+    </button>
+  </div>
+</div>
+`;

@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { navigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import getUsers from '../api/user';
 
 export default function Login() {
   // if account does not exist, retry or jump to registration page
   // if password incorrect, retry, block if wrong for 3 times
 
-  //const navigate = navigate();
+//   const navigate = useNavigate();
 
   // const [loggedIn, setLoggedIn] = useState(false);
   // const [error, setError] = useState(''); // State to store authentication error message
@@ -15,7 +15,7 @@ export default function Login() {
   const [password, setPassword] = useState('');
   // const [userId, setUserId] = useState(0);
 
-  const handleLogin = async () => {
+  async function handleLogin() {
     try {
       // Make an API call to your backend for authentication
       // const response = await axios.get('http://localhost:3000/Users', {
@@ -43,11 +43,14 @@ export default function Login() {
             // setUserId(response.data[i].id);
             break;
           }
-        }
+        }   
         if (userFound) {
           // setLoggedIn(true);
           console.log(userId);
-          navigate('/main', { state: { userId, username, users: response.data } });
+          render (
+          <Navigate to='main' state={{ userId, username, users: response.data }} />
+          );
+        //   navigate('/main', { state: { userId, username, users: response.data } });
         }
       } else {
         // Authentication failed, set error message

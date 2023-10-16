@@ -1,5 +1,5 @@
 import './App.css';
-import { Routes, Route, BrowserRouter } from 'react-router-dom';
+import { Routes, Route, Router } from 'react-router-dom';
 import Login from './views/Login';
 import Signup from './views/Signup';
 import Main from './views/Main';
@@ -8,8 +8,8 @@ import NewPost from './views/Newpost';
 
 function App() {
   return (
-    <BrowserRouter>
       <div className="App">
+        <Router>
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/login" element={<Login />} />
@@ -18,8 +18,8 @@ function App() {
           <Route path="/userprofile" element={<UserProfile />} />
           <Route path="/newpost" element={<NewPost />} />
         </Routes>
+        </Router>
       </div>
-    </BrowserRouter>
   );
 }
 

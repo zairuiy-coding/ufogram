@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Activity from './Activity';
-import { navigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { useLocation} from 'react-router-dom';
 import getUser from '../api/getUser';
 
