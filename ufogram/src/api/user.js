@@ -20,5 +20,6 @@ export default async function getUsers() {
   } catch (e) {
     // error
     console.log('get users error');
+    return 404;
   }
 }

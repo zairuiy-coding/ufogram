@@ -6,5 +6,6 @@ export default async function updateUser(userId, object) {
     return response;
   } catch (err) {
     console.log('Update user error');
+    return 404;
   }
 }
