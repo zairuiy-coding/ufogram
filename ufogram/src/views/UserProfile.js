@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import getUser from '../api/getUser';
 import updateUser from '../api/updateUser';
 
-export default function Main() {
+export default function UserProfile() {
   const navigate = useNavigate();
 
   const location = useLocation();

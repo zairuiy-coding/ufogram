@@ -25,7 +25,7 @@ test('renders like button', () => {
   expect(linkElement).toBeInTheDocument();
 });
 
-test('renders username label', () => {
+test('renders likes label', () => {
     render(
       <Router>
           {/* <Routes>

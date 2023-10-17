@@ -9,6 +9,65 @@ import renderer from 'react-test-renderer';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
 import Activity from './Activity';
+import getAllPosts from '../api/getAllPosts';
+
+jest.mock('../api/getAllPosts');
+
+const posts = [
+  {
+    caption: 'Hello World!',
+    fileURL: 'https://picsum.photos/200/301',
+    likes: 0,
+    author: {
+      id: 1,
+      username: 'zairuiy',
+    },
+    id: 1,
+  },
+  {
+    caption: '123',
+    fileURL: 'https://picsum.photos/200/303',
+    likes: 0,
+    author: {
+      id: 1,
+      username: 'zairuiy',
+    },
+    id: 2,
+  },
+];
+
+getAllPosts.mockResolvedValue({
+  status: 200,
+  data: posts,
+});
+
+test('renders like button', () => {
+    render(
+        <Router>
+            {/* <Routes>
+                <Route path="/signup" element={<Signup />} />
+            </Routes> */}
+            <Activity />
+        </Router>
+      );
+  const linkElement = screen.getByRole('button', {
+    name: /Like/
+  })
+  expect(linkElement).toBeInTheDocument();
+});
+
+test('renders likes label', () => {
+    render(
+      <Router>
+          {/* <Routes>
+              <Route path="/signup" element={<Signup />} />
+          </Routes> */}
+          <Activity />
+      </Router>
+    );
+    const linkElement = screen.getByText(/Likes:/);
+    expect(linkElement).toBeInTheDocument();
+  });
 
 /**
  *  Testing

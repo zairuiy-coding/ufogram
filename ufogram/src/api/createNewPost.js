@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 
 // create new post
 /**
@@ -7,20 +7,21 @@ import axios from "axios";
  * @param {*} password the password of the user
  */
 export default async function createNewPost(caption, fileURL, author) {
-    // if (newUsername === '' || newPassword === '' || newUsername === null || newPassword === null) {
-    //     // bad input, throw error
-    //     return;
-    // }
+  // if (newUsername === '' || newPassword === '' || newUsername === null || newPassword === null) {
+  //     // bad input, throw error
+  //     return;
+  // }
 
-    try {
-        const response = await axios.post('http://localhost:3000/Posts', {
-            "caption": caption,
-            "fileURL": fileURL,
-            "likes":0,
-            "author": author
-        });
+  try {
+    const response = await axios.post('http://localhost:3000/Posts', {
+      caption,
+      fileURL,
+      likes: 0,
+      author,
+    });
     return response.status;
-    } catch(e) {
-        // error
-    }
+  } catch (e) {
+    // error
+    console.log('create post error');
+  }
 }

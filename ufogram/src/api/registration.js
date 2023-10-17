@@ -21,5 +21,6 @@ export default async function register(newUsername, newPassword) {
     return response.status;
     } catch(e) {
         // error
+        console.log('registration error');
     }
 }
