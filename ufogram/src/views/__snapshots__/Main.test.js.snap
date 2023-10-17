@@ -82,7 +82,11 @@ exports[`the component matches the snapshot 1`] = `
           "width": "100%",
         }
       }
-    />
+    >
+      <t>
+        No posts
+      </t>
+    </div>
   </div>
 </div>
 `;

@@ -23,6 +23,6 @@ export default async function createNewPost(caption, fileURL, author) {
   } catch (e) {
     // error
     console.log('create post error: ', e);
-    return { e };
+    return 404;
   }
 }

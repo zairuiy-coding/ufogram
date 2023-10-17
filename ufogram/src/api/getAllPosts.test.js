@@ -31,11 +31,18 @@ const posts = [
   },
 ];
 
-describe('the api returned the correct data for all posts', () => {
-  mockAxios.onGet().reply(200, posts);
-});
+// describe('the api returned the correct data for all posts', () => {
+//   mockAxios.onGet().reply(200, posts);
+// });
 
 test('the posts are correct', async () => {
+    mockAxios.onGet().reply(200, posts);
   const response = await getAllPosts();
   expect(response.data).toStrictEqual(posts);
+});
+
+test('the posts are incorrect', async () => {
+    mockAxios.onGet().reply(404);
+  const response = await getAllPosts();
+  expect(response).toStrictEqual(404);
 });

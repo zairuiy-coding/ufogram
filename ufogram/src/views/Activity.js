@@ -32,9 +32,11 @@ export default function Activity() {
             <Post username="Yuan" imageUrl="https://picsum.photos/200/301" caption="Hello"/>
             <Post username="Zairui" imageUrl="https://picsum.photos/200/303" caption="Hi"/> */}
 
-            {allPosts.map(post => (
+            {   allPosts.length !== 0 && allPosts.map(post => (
                         <Post username={ post.author.username } imageUrl={post.fileURL} caption={post.caption} />
                     ))
+            }
+            {   allPosts.length === 0 && <t>No posts</t>
             }
         </div>
     )
