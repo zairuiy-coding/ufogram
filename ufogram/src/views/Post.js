@@ -4,17 +4,17 @@ function PostRender(props) {
     let [likes, setLikes] = useState(0);
     let [liked, setLiked] = useState(false);
 
-    const likeButton = document.getElementById("likeButton");
+    // const likeButton = document.getElementById("likeButton");
 
-    const handleLike = (() => {
+    const handleLike = ((clickEvent) => {
         if (liked) {
             setLikes(likes - 1);
             setLiked(false);
-            likeButton.innerHTML = "Like";
+            clickEvent.target.innerHTML = "Like";
         } else {
             setLikes(likes + 1);
             setLiked(true);
-            likeButton.innerHTML = "Unlike";
+            clickEvent.target.innerHTML = "Unlike";
 
         }
     })

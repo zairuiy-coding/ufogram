@@ -5,10 +5,52 @@
 import React, { useState } from 'react';
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
+import { act } from '@testing-library/react';
 import renderer from 'react-test-renderer';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
 import UserProfile from './UserProfile';
+import axios from 'axios';
+import MockAdapter from 'axios-mock-adapter';
+// import getUser from './getUser';
+
+const mockAxios = new MockAdapter(axios);
+
+const zairuiy = {
+    username: 'zairuiy',
+    password: '1234567',
+    following: [
+      {
+        username: 'lionelhu',
+        id: 2,
+      },
+    ],
+    followers: [
+      {
+        username: 'lionelhu',
+        id: 2,
+      },
+    ],
+    id: 1,
+  };
+
+  const lionelhu = {
+    username: 'lionelhu',
+    password: '1234567',
+    following: [
+      {
+        username: 'zairuiy',
+        id: 1,
+      },
+    ],
+    followers: [
+      {
+        username: 'zairuiy',
+        id: 1,
+      },
+    ],
+    id: 2,
+  };
 
 jest.mock("react-router-dom", () => ({
     ...jest.requireActual("react-router-dom"),
@@ -17,6 +59,11 @@ jest.mock("react-router-dom", () => ({
       state: { userId: 2, username: 'lionelhu', self: false, sName: 'zairuiy', sId: 1, users: [], followed: false }
     })
   }));
+
+  mockAxios.onGet('http://localhost:3000/Users/1').reply(200, zairuiy);
+  mockAxios.onGet('http://localhost:3000/Users/2').reply(200, lionelhu);
+  mockAxios.onPut('http://localhost:3000/users/1').reply(200);
+  mockAxios.onPut('http://localhost:3000/users/2').reply(200);
 
 
 test('renders title', () => {
@@ -120,13 +167,34 @@ test('renders following label', () => {
 
 test('the component matches the snapshot', () => {
   const component = renderer.create(<Router>
-    {/* <Routes>
-        <Route path="/signup" element={<Signup />} />
-    </Routes> */}
     <UserProfile />
 </Router>);
   const tree = component.toJSON();
   expect(tree).toMatchSnapshot();
+});
+
+test('follow button testing', async () => {
+    act(() => {
+        render(<Router>
+            <UserProfile />
+        </Router>);
+    })
+  const buttonElement = screen.getByRole('button', {
+    name: /Follow/
+  });
+  act(() => {
+    userEvent.click(buttonElement);
+  })
+  const unfollowElement = screen.getByText(/Unfollow/);
+  expect(unfollowElement).toBeInTheDocument();
+
+  act(() => {
+    userEvent.click(buttonElement);
+  })
+  const followElement = screen.getByRole('button', {
+    name: /Follow/
+  })
+  expect(followElement).toBeInTheDocument();
 });
 
 // test('welcome is displayed after click the registration button', async () => {

@@ -5,6 +5,7 @@
 import React, { useState } from 'react';
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
+import { act } from '@testing-library/react';
 import renderer from 'react-test-renderer';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
@@ -44,9 +45,6 @@ test('renders likes label', () => {
 
 test('the component matches the snapshot', () => {
   const component = renderer.create(<Router>
-    {/* <Routes>
-        <Route path="/signup" element={<Signup />} />
-    </Routes> */}
     <Post username='lionelhu' imageUrl='https://picsum.photos/200/302' caption='Haha'/>
 </Router>);
   const tree = component.toJSON();
@@ -57,13 +55,31 @@ test('the component matches the snapshot', () => {
  *  Testing
  */
 
-// test('welcome is displayed after click the registration button', async () => {
-//   render(<Signup />);
-//   const buttonElement = screen.getByRole('button');
-//   await userEvent.click(buttonElement);
-//   const welcomeElement = screen.getAllByLabelText(/welcome/i);
-//   expect(welcomeElement).toBeInTheDocument();
-// });
+test('like button testing', async () => {
+    act(() => {
+        render(<Router>
+            <Post username='lionelhu' imageUrl='https://picsum.photos/200/302' caption='Haha'/>
+        </Router>);
+    })
+//   render(<Router>
+//     <Post username='lionelhu' imageUrl='https://picsum.photos/200/302' caption='Haha'/>
+// </Router>);
+  const buttonElement = screen.getByRole('button');
+//   console.log(buttonElement);
+  act(() => {
+    userEvent.click(buttonElement);
+  })
+  const unlikeElement = screen.getByText(/Unlike/);
+  expect(unlikeElement).toBeInTheDocument();
+
+  act(() => {
+    userEvent.click(buttonElement);
+  })
+  const likeElement = screen.getByRole('button', {
+    name: /Like/
+  })
+  expect(likeElement).toBeInTheDocument();
+});
 
 // test('Username is displayed after clicking on registration button', async () => {
 //   render(<Signup />);

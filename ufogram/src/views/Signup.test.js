@@ -4,11 +4,14 @@
 
 import React, { useState } from 'react';
 import '@testing-library/jest-dom';
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import renderer from 'react-test-renderer';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
 import Signup from './Signup';
+import { act } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
+
 
 test('renders title', () => {
     render(
@@ -93,6 +96,30 @@ test('the component matches the snapshot', () => {
   const tree = component.toJSON();
   expect(tree).toMatchSnapshot();
 });
+
+test('Renders signup component and navigates to login page after login', () => {
+    act(() => {
+        render(
+            <MemoryRouter initialEntries={['/signup']}> {/* Set the initial route */}
+              <Signup />
+            </MemoryRouter>
+          );
+    })
+    // render(
+    //   <MemoryRouter initialEntries={['/login']}> {/* Set the initial route */}
+    //     <Login />
+    //   </MemoryRouter>
+    // );
+
+    const loginButton = screen.getByText('Login');
+    act(() => {fireEvent.click(loginButton)});
+
+    // check if you have successfully navigated to the expected page
+    const newPageElement = screen.getByText('Login');
+
+    expect(newPageElement).toBeInTheDocument();
+    // expect(navigate).toHaveBeenCalledWith('/signup');
+})
 
 /**
  *  Testing
