@@ -10,8 +10,10 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
 import Activity from './Activity';
 import getAllPosts from '../api/getAllPosts';
+import MockAdapter from 'axios-mock-adapter';
+import axios from 'axios';
 
-jest.mock('../api/getAllPosts');
+const mockAxios = new MockAdapter(axios);
 
 const posts = [
   {
@@ -36,10 +38,9 @@ const posts = [
   },
 ];
 
-getAllPosts.mockResolvedValue({
-  status: 200,
-  data: posts,
-});
+describe('the api returned the correct data for all posts', () => {
+    mockAxios.onGet('/Posts').reply(200, posts);
+  });
 
 test('renders like button', () => {
     render(
