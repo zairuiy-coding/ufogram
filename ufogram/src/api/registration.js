@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 
 // user registration
 /**
@@ -7,20 +7,21 @@ import axios from "axios";
  * @param {*} password the password of the user
  */
 export default async function register(newUsername, newPassword) {
-    if (newUsername === '' || newPassword === '' || newUsername === null || newPassword === null) {
-        // bad input, throw error
-        return;
-    }
-    try {
-        const response = await axios.post('http://localhost:3000/Users', {
-            "username": newUsername,
-            "password": newPassword,
-            "following": [], 
-            "followers": []
-        });
+  if (newUsername === '' || newPassword === '' || newUsername === null || newPassword === null) {
+    // bad input, throw error
+    return;
+  }
+  try {
+    const response = await axios.post('http://localhost:3000/Users', {
+      username: newUsername,
+      password: newPassword,
+      following: [],
+      followers: [],
+    });
     return response.status;
-    } catch(e) {
-        // error
-        console.log('registration error');
-    }
+  } catch (e) {
+    // error
+    console.log('registration error: ', e);
+    return { e };
+  }
 }

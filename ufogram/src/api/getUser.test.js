@@ -13,24 +13,34 @@ const zairuiy = {
   password: '1234567',
   following: [
     {
-      username: 'lionelhu',
-      id: 2,
+      username: 'lionelhu4',
+      id: 7,
+    },
+    {
+      username: 'lionelhu5',
+      id: 8,
     },
   ],
   followers: [
     {
-      username: 'lionelhu',
-      id: 2,
+      username: 'lionelhu4',
+      id: 7,
+    },
+    {
+      username: 'lionelhu5',
+      id: 8,
     },
   ],
   id: 1,
 };
 
-describe('the api returned the correct data for all posts', () => {
-  mockAxios.onGet('Users/1').reply(200, zairuiy);
+describe('the api returned the correct data for the given user', () => {
+
+  //   mockAxios.onGet('/Users/1').reply(200, zairuiy);
+  mockAxios.onGet('http://localhost:3000/Users/1').reply(200, zairuiy);
 });
 
-test('the posts are correct', async () => {
+test('the user is correct', async () => {
   const response = await getUser(1);
   expect(response.data).toStrictEqual(zairuiy);
 });
