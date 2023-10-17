@@ -56,7 +56,10 @@ jest.mock("react-router-dom", () => ({
     ...jest.requireActual("react-router-dom"),
     useLocation: () => ({
       pathname: "localhost:3001/userprofile",
-      state: { userId: 2, username: 'lionelhu', self: false, sName: 'zairuiy', sId: 1, users: [], followed: false }
+      state: { userId: 2, username: 'lionelhu', self: false, sName: 'zairuiy', sId: 1, users: [
+        zairuiy,
+        lionelhu,
+      ], followed: false }
     })
   }));
 
@@ -185,17 +188,41 @@ test('follow button testing', async () => {
   act(() => {
     userEvent.click(buttonElement);
   })
-  const unfollowElement = screen.getByText(/Unfollow/);
+  const unfollowElement = await screen.findByText(/Unfollow/);
   expect(unfollowElement).toBeInTheDocument();
 
   act(() => {
     userEvent.click(buttonElement);
   })
-  const followElement = screen.getByRole('button', {
+  const followElement = await screen.findByRole('button', {
     name: /Follow/
   })
   expect(followElement).toBeInTheDocument();
 });
+
+// test('Select following', async () => {
+//     act(() => {
+//         render(<Router>
+//             <UserProfile />
+//         </Router>);
+//     })
+//     act(() => {
+//         // console.log(screen.getByRole('combobox', {
+//         //     name: /Following/
+//         // }));
+//         userEvent.selectOptions(    
+//             screen.getByRole('combobox', {
+//                 name: /Following/
+//             }),    
+//             'lionelhu'
+//         )
+//     });
+//     expect(await screen.findByRole('combobox', {
+//         name: /Following/
+//     })).toHaveValue('lionelhu');
+//     // const element = await screen.findByText(/lionelhu/);
+//     // expect(element).toBeInTheDocument();
+// });
 
 // test('welcome is displayed after click the registration button', async () => {
 //   render(<Login />);

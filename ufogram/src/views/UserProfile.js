@@ -72,6 +72,7 @@ export default function UserProfile() {
       });
 
       followEvent.target.innerHTML = 'Unfollow';
+      console.log('Inner HTML: ', followEvent.target.innerHTML);
       // setFollowed(true);
       followed = true;
       console.log(`Shoudl be true: ${followed}`);
