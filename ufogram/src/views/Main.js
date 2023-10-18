@@ -10,7 +10,7 @@ export default function Main() {
 
     const location = useLocation();
 
-    const [usernameToSearch, setUsernameToSearch] = useState('');
+    const [usernameToSearch, setUsernameToSearch] = useState('')
 
     const handleMyProfile = () => {
         navigate('/userprofile', { state: { userId: location.state.userId, username: location.state.username, self: true, sName:  location.state.username, sId: location.state.userId, users: location.state.users, followed: true } });

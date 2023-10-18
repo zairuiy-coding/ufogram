@@ -9,7 +9,7 @@ import register from './registration';
 const mockAxios = new MockAdapter(axios);
 
 test('should successfully create a new post', async () => {
-    mockAxios.onPost('http://localhost:3000/Users').reply(201);
+  mockAxios.onPost('http://localhost:3000/Users').reply(201);
   const response = await register('test101', '1234567');
   expect(response).toStrictEqual(201);
 });
@@ -17,7 +17,7 @@ test('should successfully create a new post', async () => {
 // Mock a 404 error response
 
 test('should handle errors and return an error object', async () => {
-    mockAxios.onPost('http://localhost:3000/Users').reply(404);
+  mockAxios.onPost('http://localhost:3000/Users').reply(404);
   try {
     await register('test101', '1234567');
   } catch (error) {
@@ -27,7 +27,7 @@ test('should handle errors and return an error object', async () => {
 });
 
 test('should handle errors and return an error object', async () => {
-    mockAxios.onPost('http://localhost:3000/Users').reply(404);
+  mockAxios.onPost('http://localhost:3000/Users').reply(404);
   try {
     await register('', '');
   } catch (error) {

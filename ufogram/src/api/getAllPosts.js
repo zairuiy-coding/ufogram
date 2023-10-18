@@ -18,7 +18,7 @@ export default async function getAllPosts() {
     });
     return response;
   } catch (e) {
-    console.log('get all posts error');
+    // console.log('get all posts error');
     return 404;
   }
 }

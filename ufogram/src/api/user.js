@@ -19,7 +19,7 @@ export default async function getUsers() {
     return response;
   } catch (e) {
     // error
-    console.log('get users error');
+    // console.log('get users error');
     return 404;
   }
 }

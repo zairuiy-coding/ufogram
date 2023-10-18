@@ -21,7 +21,7 @@ const author = {
 };
 
 test('should successfully create a new post', async () => {
-    mockAxios.onPost('http://localhost:3000/Posts').reply(201);
+  mockAxios.onPost('http://localhost:3000/Posts').reply(201);
   const response = await createNewPost(caption, fileURL, author);
   expect(response).toStrictEqual(201);
 });
@@ -29,7 +29,7 @@ test('should successfully create a new post', async () => {
 // Mock a 404 error response
 
 test('should handle errors and return an error object', async () => {
-    mockAxios.onPost('http://localhost:3000/Posts').reply(404);
+  mockAxios.onPost('http://localhost:3000/Posts').reply(404);
   const response = await createNewPost(caption, fileURL, author);
   expect(response).toStrictEqual(404);
 

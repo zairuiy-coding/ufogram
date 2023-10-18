@@ -36,13 +36,13 @@ const posts = [
 // });
 
 test('the posts are correct', async () => {
-    mockAxios.onGet().reply(200, posts);
+  mockAxios.onGet().reply(200, posts);
   const response = await getAllPosts();
   expect(response.data).toStrictEqual(posts);
 });
 
 test('the posts are incorrect', async () => {
-    mockAxios.onGet().reply(404);
+  mockAxios.onGet().reply(404);
   const response = await getAllPosts();
   expect(response).toStrictEqual(404);
 });

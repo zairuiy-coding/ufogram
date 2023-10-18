@@ -42,6 +42,7 @@
     "@babel/preset-env": "^7.23.2",
     "@babel/preset-react": "^7.22.15",
     "axios-mock-adapter": "^1.22.0",
+    "babel-eslint": "^10.1.0",
     "babel-jest": "^29.7.0",
     "eslint": "^8.51.0",
     "eslint-config-airbnb": "^19.0.4",
@@ -57,5 +58,10 @@
     "moduleNameMapper": {
       "\\.(css)": "./cssStub.js"
     }
-  }
+  },
+  "eslint.workingDirectories": [
+    {
+      "mode": "auto"
+    }
+  ]
 }

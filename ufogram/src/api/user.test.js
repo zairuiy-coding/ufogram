@@ -46,13 +46,13 @@ const users = [
 ];
 
 test('the users are correct', async () => {
-    mockAxios.onGet('http://localhost:3000/Users').reply(200, users);
+  mockAxios.onGet('http://localhost:3000/Users').reply(200, users);
   const response = await getUsers();
   expect(response.data).toStrictEqual(users);
 });
 
 test('the posts are incorrect', async () => {
-    mockAxios.onGet('http://localhost:3000/Users').reply(404);
+  mockAxios.onGet('http://localhost:3000/Users').reply(404);
   const response = await getUsers();
   expect(response).toStrictEqual(404);
 });

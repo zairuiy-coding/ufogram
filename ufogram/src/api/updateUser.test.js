@@ -43,7 +43,7 @@ test('should successfully update a user', async () => {
 // Mock a 404 error response
 
 test('should handle errors and return an error object', async () => {
-    mockAxios.onPut('http://localhost:3000/users/1').reply(404);
+  mockAxios.onPut('http://localhost:3000/users/1').reply(404);
   try {
     await updateUser(1, zairuiy);
   } catch (error) {
