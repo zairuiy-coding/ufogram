@@ -45,9 +45,11 @@ test('renders likes label', () => {
  */
 
 test('the component matches the snapshot', () => {
-  const component = renderer.create(<Router>
-    <Post username="lionelhu" imageUrl="https://picsum.photos/200/302" caption="Haha" />
-  </Router>);
+  const component = renderer.create(
+    <Router>
+      <Post username="lionelhu" imageUrl="https://picsum.photos/200/302" caption="Haha" />
+    </Router>,
+  );
   const tree = component.toJSON();
   expect(tree).toMatchSnapshot();
 });

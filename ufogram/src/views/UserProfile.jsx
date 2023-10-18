@@ -18,7 +18,7 @@ export default function UserProfile() {
   };
 
   const handleFollow = async (followEvent) => {
-    console.log(`Followed at the start: ${followed}`);
+    // console.log(`Followed at the start: ${followed}`);
     const selfResponse = await getUser(location.state.userId);
     const searchResponse = await getUser(location.state.sId);
     const currFollowing = selfResponse.data.following.slice();
@@ -27,8 +27,8 @@ export default function UserProfile() {
     if (followed) {
       const newFollowing = currFollowing.filter((user) => user.id !== location.state.sId);
       const newFollowers = currFollowers.filter((user) => user.id !== location.state.userId);
-      console.log('newFollowing: \n', newFollowing);
-      console.log('newFollowers: \n', newFollowers);
+      // console.log('newFollowing: \n', newFollowing);
+      // console.log('newFollowers: \n', newFollowers);
       await updateUser(location.state.userId, {
         username: selfResponse.data.username,
         password: selfResponse.data.password,
@@ -44,7 +44,7 @@ export default function UserProfile() {
       copy.target.innerHTML = 'Follow';
       // setFollowed(false);
       followed = false;
-      console.log(`Shoudl be false: ${followed}`);
+      // console.log(`Shoudl be false: ${followed}`);
     } else {
       const newFollowing = currFollowing.slice();
       const newFollowers = currFollowers.slice();
@@ -56,8 +56,8 @@ export default function UserProfile() {
         id: location.state.userId,
         username: selfResponse.data.username,
       });
-      console.log('newFollowing: \n', newFollowing);
-      console.log('newFollowers: \n', newFollowers);
+      // console.log('newFollowing: \n', newFollowing);
+      // console.log('newFollowers: \n', newFollowers);
       await updateUser(location.state.userId, {
         username: selfResponse.data.username,
         password: selfResponse.data.password,
@@ -72,10 +72,10 @@ export default function UserProfile() {
       });
 
       copy.target.innerHTML = 'Unfollow';
-      console.log('Inner HTML: ', followEvent.target.innerHTML);
+      // console.log('Inner HTML: ', followEvent.target.innerHTML);
       // setFollowed(true);
       followed = true;
-      console.log(`Shoudl be true: ${followed}`);
+      // console.log(`Shoudl be true: ${followed}`);
     }
   };
 
@@ -85,17 +85,17 @@ export default function UserProfile() {
     useEffect(() => {
       async function fetchFollowing() {
         try {
-          console.log(location.state.sId);
+          // console.log(location.state.sId);
           const response = await getUser(location.state.sId);
           if (response.status === 200) {
-            console.log(response.data.following);
+            // console.log(response.data.following);
             setFollowing(response.data.following);
           } else {
             // Authentication failed, set error message
-            console.log('Invaliduser ID. Please try again.');
+            // console.log('Invaliduser ID. Please try again.');
           }
         } catch (error) {
-          console.error('getUser error', error);
+          // console.error('getUser error', error);
         }
       }
       fetchFollowing();
@@ -109,17 +109,17 @@ export default function UserProfile() {
     useEffect(() => {
       async function fetchFollowers() {
         try {
-          console.log(location.state.sId);
+          // console.log(location.state.sId);
           const response = await getUser(location.state.sId);
           if (response.status === 200) {
-            console.log(response.data.followers);
+            // console.log(response.data.followers);
             setFollowers(response.data.followers);
           } else {
             // Authentication failed, set error message
-            console.log('Invaliduser ID. Please try again.');
+            // console.log('Invaliduser ID. Please try again.');
           }
         } catch (error) {
-          console.error('getUser error', error);
+          // console.error('getUser error', error);
         }
       }
       fetchFollowers();

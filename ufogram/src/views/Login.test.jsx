@@ -145,12 +145,14 @@ test('renders login button', () => {
  */
 
 test('the component matches the snapshot', () => {
-  const component = renderer.create(<Router>
-    {/* <Routes>
+  const component = renderer.create(
+    <Router>
+      {/* <Routes>
         <Route path="/signup" element={<Signup />} />
     </Routes> */}
-    <Login />
-                                    </Router>);
+      <Login />
+    </Router>,
+  );
   const tree = component.toJSON();
   expect(tree).toMatchSnapshot();
 });

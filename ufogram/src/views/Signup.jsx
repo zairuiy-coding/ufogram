@@ -10,7 +10,7 @@ function Signup() {
   const [password, setPassword] = useState('');
 
   const handleSignup = async () => {
-    console.log('User info', username, password);
+    // console.log('User info', username, password);
     const response = await getUsers();
     for (let i = 0; i < response.data.length; i += 1) {
       if (response.data[i].username === username) {
@@ -19,12 +19,12 @@ function Signup() {
     }
     try {
       const status = await register(username, password);
-      console.log('Status', status);
+      // console.log('Status', status);
       if (status === 201) {
         navigate('/login');
       }
     } catch (err) {
-      console.log('Register error');
+      // console.log('Register error');
     }
   };
 

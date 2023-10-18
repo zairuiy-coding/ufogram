@@ -5,11 +5,8 @@
 import React, { useState } from 'react';
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
-import renderer from 'react-test-renderer';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import userEvent from '@testing-library/user-event';
 import Activity from './Activity';
-import getAllPosts from '../api/getAllPosts';
 
 // const posts = [
 //   {

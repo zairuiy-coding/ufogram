@@ -15,7 +15,6 @@ import userEvent from '@testing-library/user-event';
 import { act } from 'react-dom/test-utils';
 import MockAdapter from 'axios-mock-adapter';
 import axios from 'axios';
-import PropTypes from 'prop-types';
 import Main from './Main';
 
 const mockAxios = new MockAdapter(axios);
