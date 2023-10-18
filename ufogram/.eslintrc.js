@@ -2,12 +2,10 @@ module.exports = {
   env: {
     browser: true,
     es2021: true,
+    node: true,
     jest: true,
   },
-  extends: [
-    'airbnb-base',
-    'plugin:prettier/recommended',
-  ],
+  extends: 'airbnb',
   overrides: [
     {
       env: {
@@ -24,11 +22,15 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 'latest',
     sourceType: 'module',
-    parser: 'babel-eslint',
+    ecmaFeatures: { // <-- Added ecmaFeatures to understand JSX
+      jsx: true,
+    },
   },
-  plugins: [
-    'react',
-  ],
   rules: {
+  },
+  settings: { // <-- Added settings to auto-detect React version
+    react: {
+      version: 'detect',
+    },
   },
 };

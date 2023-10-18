@@ -43,14 +43,14 @@ export default function Login() {
             // setUserId(response.data[i].id);
             break;
           }
-        }   
+        }
         if (userFound) {
           // setLoggedIn(true);
           console.log(userId);
           console.log(username);
           console.log(response.data);
           navigate('/main', { state: { userId, username, users: response.data } });
-          console.log("naviate successfully");
+          console.log('naviate successfully');
         }
       } else {
         // Authentication failed, set error message
@@ -60,7 +60,7 @@ export default function Login() {
     //   setError('Error during login:', error);
       console.log('Login error');
     }
-  };
+  }
 
   const handleSignup = () => {
     navigate('/signup');
@@ -86,10 +86,15 @@ export default function Login() {
         display: 'flex', width: '12%', marginTop: '100px', flexDirection: 'column',
       }}
       >
-        <label htmlFor="Username">Username: </label>
-        <input type="text" name="Username" id='usernameBox' onChange={handleUsernameChange} />
-        <label htmlFor="Password">Password: </label>
-        <input type="password" name="Password" data-testid='passwordBox' onChange={handlePasswordChange} />
+        <label htmlFor="usernameBox">
+          Username:
+          <input type="text" name="Username" id="usernameBox" onChange={handleUsernameChange} />
+        </label>
+        <label htmlFor="passwordBox">
+          Password:
+          <input type="password" name="Password" data-testid="passwordBox" onChange={handlePasswordChange} />
+        </label>
+
         <button type="button" title="Log in" onClick={handleLogin}>Login</button>
         <button type="button" title="Sign up" onClick={handleSignup} style={{ color: '#808080' }}>Signup</button>
       </div>

@@ -11,6 +11,10 @@
         {
           "username": "lionelhu5",
           "id": 8
+        },
+        {
+          "id": 2,
+          "username": "lionelhu"
         }
       ],
       "followers": [
@@ -21,6 +25,10 @@
         {
           "username": "lionelhu5",
           "id": 8
+        },
+        {
+          "username": "lionelhu",
+          "id": 2
         }
       ],
       "id": 1
@@ -36,12 +44,20 @@
         {
           "id": 8,
           "username": "lionelhu5"
+        },
+        {
+          "id": 1,
+          "username": "zairuiy"
         }
       ],
       "followers": [
         {
           "username": "user3",
           "id": 3
+        },
+        {
+          "id": 1,
+          "username": "zairuiy"
         }
       ],
       "id": 2

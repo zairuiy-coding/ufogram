@@ -4,7 +4,6 @@ import register from '../api/registration';
 import getUsers from '../api/user';
 
 function Signup() {
-
   const navigate = useNavigate();
 
   const [username, setUsername] = useState('');
@@ -53,12 +52,16 @@ function Signup() {
         display: 'flex', width: '12%', marginTop: '100px', flexDirection: 'column',
       }}
       >
-        <label htmlFor="Username">Username: </label>
-        <input type="text" name="Username" value={username} onChange={handleUsernameChange} />
-        <label htmlFor="Password">Password: </label>
-        <input type="password" name="Password"  data-testid='passwordBox' value={password} onChange={handlePasswordChange} />
-        <button id="sign_up" title="Sign up" onClick={handleSignup}>Signup</button>
-        <button title="Log in" onClick={handleLogin} style={{ color: '#808080' }}>Login</button>
+        <label htmlFor="Username">
+          Username:
+          <input type="text" name="Username" value={username} onChange={handleUsernameChange} />
+        </label>
+        <label htmlFor="Password">
+          Password:
+          <input type="password" name="Password" data-testid="passwordBox" value={password} onChange={handlePasswordChange} />
+        </label>
+        <button type="button" id="sign_up" title="Sign up" onClick={handleSignup}>Signup</button>
+        <button type="button" title="Log in" onClick={handleLogin} style={{ color: '#808080' }}>Login</button>
       </div>
     </div>
   );

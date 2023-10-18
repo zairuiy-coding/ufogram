@@ -147,16 +147,18 @@ export default function UserProfile() {
         }}
         >
           <div style={{ display: 'flex', justifyContent: 'space-between', flexDirection: 'row' }}>
-            <label htmlFor="followers">Followers</label>
-            <select name="followers" id="followers">
-              {GetFollowers().map((user) => (
-                <option value={user.username}>{ user.username }</option>
-              ))}
-            </select>
+            <label htmlFor="followers">
+              Followers
+              <select name="followers" id="followers">
+                {GetFollowers().map((user) => (
+                  <option value={user.username}>{ user.username }</option>
+                ))}
+              </select>
+            </label>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             <h2>{ location.state.sName }</h2>
-            <img src="https://picsum.photos/200/304" />
+            <img alt="test profile pic" src="https://picsum.photos/200/304" />
             <t>My info</t>
             { isMyself !== true && followed === true
                             && <button type="button" title="Follow/Unfollow" onClick={handleFollow}>Unfollow</button>}
@@ -164,12 +166,14 @@ export default function UserProfile() {
                             && <button type="button" title="Follow/Unfollow" onClick={handleFollow}>Follow</button>}
           </div>
           <div style={{ display: 'flex', justifyContent: 'space-between', flexDirection: 'row' }}>
-            <label htmlFor="following">Following</label>
-            <select name="following" id="following">
-              {GetFollowing().map((user) => (
-                <option value={user.username}>{ user.username }</option>
-              ))}
-            </select>
+            <label htmlFor="following">
+              Following
+              <select name="following" id="following">
+                {GetFollowing().map((user) => (
+                  <option value={user.username}>{ user.username }</option>
+                ))}
+              </select>
+            </label>
           </div>
         </div>
       </div>
