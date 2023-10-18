@@ -4,14 +4,69 @@
 
 import React, { useState } from 'react';
 import '@testing-library/jest-dom';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import renderer from 'react-test-renderer';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
 import Signup from './Signup';
 import { act } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
+import * as router from 'react-router-dom';
+import axios from 'axios';
+import MockAdapter from 'axios-mock-adapter';
 
+beforeEach(() => {
+    expect(router)
+    });
+
+    const mockAxios = new MockAdapter(axios);
+
+  const users = [
+    {
+      username: 'zairuiy',
+      password: '1234567',
+      following: [
+        {
+          username: 'lionelhu',
+          id: 2,
+        },
+      ],
+      followers: [
+        {
+          username: 'lionelhu',
+          id: 2,
+        },
+      ],
+      id: 1,
+    },
+    {
+      username: 'lionelhu',
+      password: '1234567',
+      following: [
+        {
+          username: 'zairuiy',
+          id: 1,
+        },
+      ],
+      followers: [
+        {
+          username: 'zairuiy',
+          id: 1,
+        },
+      ],
+      id: 2,
+    },
+  ];
+
+  mockAxios.onGet('http://localhost:3000/Users').reply(200, users);
+
+    const mockedNavigate = jest.fn();
+
+    jest.mock('react-router-dom', () => ({
+        ...jest.requireActual('react-router-dom'),
+        // useNavigate: () => ({ navigate: mockedNavigate})
+        useNavigate: () => mockedNavigate,
+    }));
 
 test('renders title', () => {
     render(
@@ -97,7 +152,7 @@ test('the component matches the snapshot', () => {
   expect(tree).toMatchSnapshot();
 });
 
-test('Renders signup component and navigates to login page after login', () => {
+test('Test the login button', async () => {
     act(() => {
         render(
             <MemoryRouter initialEntries={['/signup']}> {/* Set the initial route */}
@@ -115,10 +170,13 @@ test('Renders signup component and navigates to login page after login', () => {
     act(() => {fireEvent.click(loginButton)});
 
     // check if you have successfully navigated to the expected page
-    const newPageElement = screen.getByText('Login');
+    // const newPageElement = screen.getByText('Login');
 
-    expect(newPageElement).toBeInTheDocument();
+    // expect(newPageElement).toBeInTheDocument();
     // expect(navigate).toHaveBeenCalledWith('/signup');
+    await waitFor(() => {
+        expect(mockedNavigate).toHaveBeenCalledWith('/login');
+    });
 })
 
 /**

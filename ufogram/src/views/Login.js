@@ -47,10 +47,10 @@ export default function Login() {
         if (userFound) {
           // setLoggedIn(true);
           console.log(userId);
-          render (
-        //   <Navigate to='main' state={{ userId, username, users: response.data }} />
-          );
+          console.log(username);
+          console.log(response.data);
           navigate('/main', { state: { userId, username, users: response.data } });
+          console.log("naviate successfully");
         }
       } else {
         // Authentication failed, set error message
@@ -87,9 +87,9 @@ export default function Login() {
       }}
       >
         <label htmlFor="Username">Username: </label>
-        <input type="text" name="Username" onChange={handleUsernameChange} />
+        <input type="text" name="Username" id='usernameBox' onChange={handleUsernameChange} />
         <label htmlFor="Password">Password: </label>
-        <input type="password" name="Password" onChange={handlePasswordChange} />
+        <input type="password" name="Password" data-testid='passwordBox' onChange={handlePasswordChange} />
         <button type="button" title="Log in" onClick={handleLogin}>Login</button>
         <button type="button" title="Sign up" onClick={handleSignup} style={{ color: '#808080' }}>Signup</button>
       </div>

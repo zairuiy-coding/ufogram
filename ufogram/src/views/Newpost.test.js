@@ -4,18 +4,62 @@
 
 import React, { useState } from 'react';
 import '@testing-library/jest-dom';
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import renderer from 'react-test-renderer';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, MemoryRouter } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
 import Newpost from './Newpost';
+import MockAdapter from 'axios-mock-adapter';
+import axios from 'axios';
+import { act } from 'react-dom/test-utils';
+
+
+const users = [
+    {
+      username: 'zairuiy',
+      password: '1234567',
+      following: [
+        {
+          username: 'lionelhu',
+          id: 2,
+        },
+      ],
+      followers: [
+        {
+          username: 'lionelhu',
+          id: 2,
+        },
+      ],
+      id: 1,
+    },
+    {
+      username: 'lionelhu',
+      password: '1234567',
+      following: [
+        {
+          username: 'zairuiy',
+          id: 1,
+        },
+      ],
+      followers: [
+        {
+          username: 'zairuiy',
+          id: 1,
+        },
+      ],
+      id: 2,
+    },
+  ];
+
+  const mockedNavigate = jest.fn();
 
 jest.mock("react-router-dom", () => ({
     ...jest.requireActual("react-router-dom"),
     useLocation: () => ({
       pathname: "localhost:3001/newpost",
-      state: { userId: 1, username: 'lionelhu', users: [] }
-    })
+      state: { userId: 2, username: 'lionelhu', users: users }
+    }),
+    useNavigate: () => mockedNavigate,
   }));
 
 
@@ -116,6 +160,52 @@ test('the component matches the snapshot', () => {
 </Router>);
   const tree = component.toJSON();
   expect(tree).toMatchSnapshot();
+});
+
+test('Tests main button', async () => {
+    act(() => {
+        render(
+            <MemoryRouter initialEntries={['/newpost']}> {/* Set the initial route */}
+              <Newpost />
+            </MemoryRouter>
+          );
+    })
+
+    const loginButton = screen.getByText('Main');
+    act(() => {fireEvent.click(loginButton)});
+
+    // check if you have successfully navigated to the expected page
+    // const newPageElement = screen.getByText('Signup');
+
+    // expect(newPageElement).toBeInTheDocument();
+    await waitFor(() => {
+        expect(mockedNavigate).toHaveBeenCalledWith('/main', { state: { userId: 2, username: 'lionelhu', users: users } });
+    });
+    // expect(mockedNavigate).toHaveBeenCalledWith('/main');
+    // await waitFor(() => expect(window.location.href).toContain('/main'));
+});
+
+test('Tests discard button', async () => {
+    act(() => {
+        render(
+            <MemoryRouter initialEntries={['/newpost']}> {/* Set the initial route */}
+              <Newpost />
+            </MemoryRouter>
+          );
+    })
+
+    const loginButton = screen.getByText('Discard');
+    act(() => {fireEvent.click(loginButton)});
+
+    // check if you have successfully navigated to the expected page
+    // const newPageElement = screen.getByText('Signup');
+
+    // expect(newPageElement).toBeInTheDocument();
+    await waitFor(() => {
+        expect(mockedNavigate).toHaveBeenCalledWith('/main', { state: { userId: 2, username: 'lionelhu', users: users } });
+    });
+    // expect(mockedNavigate).toHaveBeenCalledWith('/main');
+    // await waitFor(() => expect(window.location.href).toContain('/main'));
 });
 
 /**

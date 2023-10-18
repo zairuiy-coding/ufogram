@@ -17,6 +17,7 @@ export default function Main() {
     };
 
     const handleCreateNewPost = () => {
+        console.log('Create New Post Handler Called');
         navigate('/newpost', { state: { userId: location.state.userId, username: location.state.username, users: location.state.users } });
     };
 

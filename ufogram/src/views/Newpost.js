@@ -21,34 +21,6 @@ export default function Newpost() {
 
         // 2. link authentication (if there is a link)
         if (file){
-            // async function isValidImageOrVideo(url) {
-            //     try {
-            //       console.log("001");
-            //       const response = await fetch(url, { method: 'HEAD' });
-            //       console.log("002");
-              
-            //       if (response.ok) {
-            //         const contentType = response.headers.get('Content-Type');
-                    
-            //         // Check if the Content-Type header indicates it's an image or video
-            //         return contentType.startsWith('image/') || contentType.startsWith('video/');
-            //       }
-                  
-            //       return false;
-            //     } catch (error) {
-            //       // Handle network errors or other issues
-            //       return false;
-            //     }
-            //   }
-
-            // async function isValidImageOrVideo(url) {
-            //     const img = new Image();
-            //     img.src = url;
-            //     return new Promise((resolve) => {
-            //       img.onload = () => resolve(true);
-            //       img.onerror = () => resolve(false);
-            //     });
-            //   }
 
             async function isValidImageOrVideo(url) {
                 return new Promise((resolve) => {
@@ -145,8 +117,6 @@ export default function Newpost() {
             <div style={{display: "flex", width: "100%", justifyContent: "center", marginTop: "100px", background: "#b6f486"}}>
                 <label htmlFor='image/file'>Image/Video: </label>
                 <input type="fileLink" name="fileLink" onChange={handleFile}/>
-                {/* <label htmlFor='image/file'>Youtube: </label>
-                <input type="fileLink" name="fileLink" onChange={handleFile}/> */}
                 <label htmlFor='caption'>Caption: </label>
                 <input type="text" name="caption" onChange={handleCaption}/>
                 <button type="button" title="discard" onClick={handleMain}>Discard</ button>
