@@ -116,9 +116,9 @@ export default function Newpost() {
             </div>
             <div style={{display: "flex", width: "100%", justifyContent: "center", marginTop: "100px", background: "#b6f486"}}>
                 <label htmlFor='image/file'>Image/Video: </label>
-                <input type="fileLink" name="fileLink" onChange={handleFile}/>
+                <input type="fileLink" name="fileLink" data-testid='linkBox'onChange={handleFile}/>
                 <label htmlFor='caption'>Caption: </label>
-                <input type="text" name="caption" onChange={handleCaption}/>
+                <input type="text" name="caption" data-testid='captionBox' onChange={handleCaption}/>
                 <button type="button" title="discard" onClick={handleMain}>Discard</ button>
                 <button type="button" title="post" onClick={handlePost}>Post</ button>
             </div>

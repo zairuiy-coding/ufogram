@@ -56,7 +56,7 @@ function Signup() {
         <label htmlFor="Username">Username: </label>
         <input type="text" name="Username" value={username} onChange={handleUsernameChange} />
         <label htmlFor="Password">Password: </label>
-        <input type="password" name="Password" value={password} onChange={handlePasswordChange} />
+        <input type="password" name="Password"  data-testid='passwordBox' value={password} onChange={handlePasswordChange} />
         <button id="sign_up" title="Sign up" onClick={handleSignup}>Signup</button>
         <button title="Log in" onClick={handleLogin} style={{ color: '#808080' }}>Login</button>
       </div>

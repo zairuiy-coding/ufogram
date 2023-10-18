@@ -59,6 +59,7 @@ beforeEach(() => {
   ];
 
   mockAxios.onGet('http://localhost:3000/Users').reply(200, users);
+  mockAxios.onPost('http://localhost:3000/Users').reply(201, users);
 
     const mockedNavigate = jest.fn();
 
@@ -177,7 +178,49 @@ test('Test the login button', async () => {
     await waitFor(() => {
         expect(mockedNavigate).toHaveBeenCalledWith('/login');
     });
-})
+});
+
+test('Tests signup button', async () => {
+    act(() => {
+        render(
+            <MemoryRouter initialEntries={['/signup']}> {/* Set the initial route */}
+              <Signup />
+            </MemoryRouter>
+          );
+    })
+    // render(
+    //   <MemoryRouter initialEntries={['/login']}> {/* Set the initial route */}
+    //     <Login />
+    //   </MemoryRouter>
+    // );
+
+    const usernameBox = screen.getByRole('textbox')
+    // const usernameBox = screen.getByDisplayValue('usernameBox');
+  
+    act(() => {
+        userEvent.type(usernameBox, 'test11');
+    })
+
+    // const passwordBox = screen.getByRole('textbox')
+    const passwordBox = screen.getByTestId('passwordBox');
+  
+    act(() => {
+        userEvent.type(passwordBox, '1234567');
+    })
+
+    const signupButton = screen.getByText('Signup');
+    act(() => {fireEvent.click(signupButton)});
+
+    // check if you have successfully navigated to the expected page
+    // const newPageElement = screen.getByText('Signup');
+
+    // expect(newPageElement).toBeInTheDocument();
+    await waitFor(() => {
+        expect(mockedNavigate).toHaveBeenCalledWith('/login');
+    });
+    // expect(mockedNavigate).toHaveBeenCalledWith('/main');
+    // await waitFor(() => expect(window.location.href).toContain('/main'));
+});
 
 /**
  *  Testing

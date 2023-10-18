@@ -50,6 +50,7 @@ exports[`the component matches the snapshot 1`] = `
       Image/Video: 
     </label>
     <input
+      data-testid="linkBox"
       name="fileLink"
       onChange={[Function]}
       type="fileLink"
@@ -60,6 +61,7 @@ exports[`the component matches the snapshot 1`] = `
       Caption: 
     </label>
     <input
+      data-testid="captionBox"
       name="caption"
       onChange={[Function]}
       type="text"

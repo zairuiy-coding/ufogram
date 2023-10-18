@@ -51,6 +51,7 @@ exports[`the component matches the snapshot 1`] = `
       Password: 
     </label>
     <input
+      data-testid="passwordBox"
       name="Password"
       onChange={[Function]}
       type="password"

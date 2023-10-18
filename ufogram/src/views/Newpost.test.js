@@ -13,7 +13,7 @@ import MockAdapter from 'axios-mock-adapter';
 import axios from 'axios';
 import { act } from 'react-dom/test-utils';
 
-
+const mockAxios = new MockAdapter(axios);
 const users = [
     {
       username: 'zairuiy',
@@ -50,6 +50,8 @@ const users = [
       id: 2,
     },
   ];
+
+  mockAxios.onPost('http://localhost:3000/Posts').reply(201);
 
   const mockedNavigate = jest.fn();
 
@@ -196,6 +198,43 @@ test('Tests discard button', async () => {
 
     const loginButton = screen.getByText('Discard');
     act(() => {fireEvent.click(loginButton)});
+
+    // check if you have successfully navigated to the expected page
+    // const newPageElement = screen.getByText('Signup');
+
+    // expect(newPageElement).toBeInTheDocument();
+    await waitFor(() => {
+        expect(mockedNavigate).toHaveBeenCalledWith('/main', { state: { userId: 2, username: 'lionelhu', users: users } });
+    });
+    // expect(mockedNavigate).toHaveBeenCalledWith('/main');
+    // await waitFor(() => expect(window.location.href).toContain('/main'));
+});
+
+test('Tests post button', async () => {
+    act(() => {
+        render(
+            <MemoryRouter initialEntries={['/newpost']}> {/* Set the initial route */}
+              <Newpost />
+            </MemoryRouter>
+          );
+    })
+
+    const fileLinkBox = screen.getByTestId('linkBox');
+// const usernameBox = screen.getByDisplayValue('usernameBox');
+
+act(() => {
+    userEvent.type(fileLinkBox, 'https://picsum.photos/200/303');
+})
+
+// const passwordBox = screen.getByRole('textbox')
+const captionBox = screen.getByTestId('captionBox');
+
+act(() => {
+    userEvent.type(captionBox, 'post10');
+})
+
+    const postButton = screen.getByText('Post');
+    act(() => {fireEvent.click(postButton)});
 
     // check if you have successfully navigated to the expected page
     // const newPageElement = screen.getByText('Signup');
