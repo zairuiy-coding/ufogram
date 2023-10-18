@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 
-function PostRender(props) {
+function PostRender({ username, imageUrl, caption }) {
   const [likes, setLikes] = useState(0);
   const [liked, setLiked] = useState(false);
 
@@ -10,25 +11,27 @@ function PostRender(props) {
     if (liked) {
       setLikes(likes - 1);
       setLiked(false);
-      clickEvent.target.innerHTML = 'Like';
+    //   clickEvent.target.innerHTML = 'Like';
     } else {
       setLikes(likes + 1);
       setLiked(true);
-      clickEvent.target.innerHTML = 'Unlike';
+    //   clickEvent.target.innerHTML = 'Unlike';
     }
+    const button = clickEvent.target;
+    button.innerHTML = liked ? 'Unlike' : 'Like';
   });
   return (
     <div style={{ margin: '10px' }}>
-      <div>{ props.username }</div>
+      <div>{ username }</div>
       {
-                props.imageUrl.includes('youtube') && <iframe width="560" height="315" src={props.imageUrl} />
+                imageUrl.includes('youtube') && <iframe title="YouTube Video" width="560" height="315" src={imageUrl} />
             }
       {
-                !props.imageUrl.includes('youtube') && <img src={props.imageUrl} alt="image_unloaded" />
+                !imageUrl.includes('youtube') && <img src={imageUrl} alt="image_unloaded" />
             }
-      <div>{ props.caption }</div>
+      <div>{ caption }</div>
       <div>
-        <button id="likeButton" onClick={handleLike}>Like</button>
+        <button type="button" id="likeButton" onClick={handleLike}>Like</button>
       </div>
       <div>
         Likes:
@@ -38,5 +41,12 @@ function PostRender(props) {
     </div>
   );
 }
+
+// Prop validation using ESLint's prop object
+PostRender.propTypes = {
+  username: PropTypes.string.isRequired,
+  imageUrl: PropTypes.string.isRequired,
+  caption: PropTypes.string.isRequired,
+};
 
 export default PostRender;

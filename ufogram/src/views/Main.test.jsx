@@ -14,6 +14,7 @@ import { fireEvent } from '@testing-library/react';
 import { waitFor } from '@testing-library/react';
 import MockAdapter from 'axios-mock-adapter';
 import axios from 'axios';
+import PropTypes from 'prop-types';
 
 const mockAxios = new MockAdapter(axios);
 

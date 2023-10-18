@@ -17,45 +17,43 @@ export default function Newpost() {
     }
 
     // 2. link authentication (if there is a link)
+    async function isValidImageOrVideo(url) {
+      return new Promise((resolve) => {
+        const mediaElement = document.createElement('video');
+        mediaElement.src = url;
+
+        mediaElement.onloadeddata = () => {
+          resolve(true); // It's a valid video
+          mediaElement.remove(); // Remove the element from the DOM
+        };
+
+        mediaElement.onerror = () => {
+          // If it fails to load as a video, check if it's an image
+          const imgElement = new Image();
+          imgElement.src = url;
+
+          imgElement.onload = () => {
+            resolve(true); // It's a valid image
+            imgElement.remove(); // Remove the element from the DOM
+          };
+
+          imgElement.onerror = () => {
+            resolve(false); // It's neither an image nor a video
+            imgElement.remove(); // Remove the element from the DOM
+          };
+        };
+      });
+    }
+
     if (file) {
-      async function isValidImageOrVideo(url) {
-        return new Promise((resolve) => {
-          const mediaElement = document.createElement('video');
-          mediaElement.src = url;
-
-          mediaElement.onloadeddata = () => {
-            resolve(true); // It's a valid video
-            mediaElement.remove(); // Remove the element from the DOM
-          };
-
-          mediaElement.onerror = () => {
-            // If it fails to load as a video, check if it's an image
-            const imgElement = new Image();
-            imgElement.src = url;
-
-            imgElement.onload = () => {
-              resolve(true); // It's a valid image
-              imgElement.remove(); // Remove the element from the DOM
-            };
-
-            imgElement.onerror = () => {
-              resolve(false); // It's neither an image nor a video
-              imgElement.remove(); // Remove the element from the DOM
-            };
-          };
-        });
-      }
-
-      // check if the image/video link to upload is valid
       try {
         const isValid = await isValidImageOrVideo(file);
-        console.log(file);
         if (!isValid && !file.includes('youtube')) {
-          console.log('Not a valid image or video URL');
+        //   console.log('Not a valid image or video URL');
           return;
         }
       } catch (error) {
-        console.error('Error:', error);
+        // console.error('Error:', error);
       }
     }
 
@@ -67,7 +65,7 @@ export default function Newpost() {
 
     try {
       const status = await createNewPost(caption, file, author);
-      console.log('Status', status);
+      //   console.log('Status', status);
 
       if (status === 201) {
         navigate('/main', {
@@ -78,10 +76,10 @@ export default function Newpost() {
           },
         });
       } else {
-        return 'Error!';
+        // return 'Error!';
       }
     } catch (error) {
-      throw error;
+    //   throw error;
     }
   };
 

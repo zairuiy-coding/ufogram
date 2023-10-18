@@ -25,7 +25,7 @@ export default function Main() {
   };
 
   const handleCreateNewPost = () => {
-    console.log('Create New Post Handler Called');
+    // console.log('Create New Post Handler Called');
     navigate('/newpost', { state: { userId: location.state.userId, username: location.state.username, users: location.state.users } });
   };
 
@@ -34,39 +34,29 @@ export default function Main() {
   };
 
   const handleSearchUser = async () => {
-    for (let i = 0; i < location.state.users.length; i += 1) {
-      if (location.state.users[i].username === usernameToSearch) {
-        console.log(location.state.users[i].id);
-        const searchResponse = await getUser(location.state.users[i].id);
-        for (let j = 0; j < searchResponse.data.followers.length; j += 1) {
-          if (searchResponse.data.followers[j].id === location.state.userId) {
-            navigate('/userprofile', {
-              state: {
-                userId: location.state.userId,
-                username: location.state.username,
-                self: location.state.username === usernameToSearch,
-                sName: usernameToSearch,
-                sId: location.state.users[i].id,
-                users: location.state.users,
-                followed: true,
-              },
-            });
-            return;
-          }
-        }
-        navigate('/userprofile', {
-          state: {
-            userId: location.state.userId,
-            username: location.state.username,
-            self: location.state.username === usernameToSearch,
-            sName: usernameToSearch,
-            sId: location.state.users[i].id,
-            users: location.state.users,
-            followed: false,
-          },
-        });
-        return;
-      }
+    const userToSearch = location.state.users.find((user) => user.username === usernameToSearch);
+
+    if (userToSearch) {
+      const searchResponse = await getUser(userToSearch.id);
+      const isFollowed = searchResponse.data.followers.some(
+        (follower) => follower.id === location.state.userId,
+      );
+
+      const userProfileState = {
+        userId: location.state.userId,
+        username: location.state.username,
+        self: location.state.username === usernameToSearch,
+        sName: usernameToSearch,
+        sId: userToSearch.id,
+        users: location.state.users,
+        followed: isFollowed,
+      };
+
+      navigate('/userprofile', {
+        state: userProfileState,
+      });
+    } else {
+      // Handle the case where the user is not found
     }
   };
 

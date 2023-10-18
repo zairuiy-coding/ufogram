@@ -1,0 +1,36 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`the component matches the snapshot 1`] = `
+<div
+  style={
+    Object {
+      "margin": "10px",
+    }
+  }
+>
+  <div>
+    lionelhu
+  </div>
+  <img
+    alt="image_unloaded"
+    src="https://picsum.photos/200/302"
+  />
+  <div>
+    Haha
+  </div>
+  <div>
+    <button
+      id="likeButton"
+      onClick={[Function]}
+      type="button"
+    >
+      Like
+    </button>
+  </div>
+  <div>
+    Likes:
+     
+    0
+  </div>
+</div>
+`;

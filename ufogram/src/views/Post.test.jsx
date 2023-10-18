@@ -45,7 +45,7 @@ test('renders likes label', () => {
 test('the component matches the snapshot', () => {
   const component = renderer.create(<Router>
     <Post username="lionelhu" imageUrl="https://picsum.photos/200/302" caption="Haha" />
-  </Router>);
+                                    </Router>);
   const tree = component.toJSON();
   expect(tree).toMatchSnapshot();
 });
@@ -62,32 +62,30 @@ test('like button testing', async () => {
       </Router>,
     );
   });
-  //   render(<Router>
-  //     <Post username='lionelhu' imageUrl='https://picsum.photos/200/302' caption='Haha'/>
-  // </Router>);
-  const buttonElement = screen.getByRole('button');
-  //   console.log(buttonElement);
-  act(() => {
-    userEvent.click(buttonElement);
-  });
-  const unlikeElement = screen.getByText(/Unlike/);
-  expect(unlikeElement).toBeInTheDocument();
 
+  // Find the "Like" button by its text
+  const likeButton = screen.getByText(/Like/);
+
+  // Check if the "Like" button is in the document
+  expect(likeButton).toBeInTheDocument();
+
+  // Click the "Like" button
   act(() => {
-    userEvent.click(buttonElement);
+    userEvent.click(likeButton);
   });
-  const likeElement = screen.getByRole('button', {
-    name: /Like/,
+
+  // After clicking, check if the "Unlike" button is in the document
+  const unlikeButton = screen.getByText(/Unlike/);
+
+  expect(unlikeButton).toBeInTheDocument();
+
+  // Click the "Unlike" button
+  act(() => {
+    userEvent.click(unlikeButton);
   });
-  expect(likeElement).toBeInTheDocument();
+
+  // After clicking, check if the "Like" button is back in the document
+  const likeButtonAgain = screen.getByText(/Like/);
+
+  expect(likeButtonAgain).toBeInTheDocument();
 });
-
-// test('Username is displayed after clicking on registration button', async () => {
-//   render(<Signup />);
-//   const usernameElement = screen.getByTestId('uname');
-//   await userEvent.type(usernameElement, 'lili');
-//   const buttonElement = screen.getByRole('button');
-//   await userEvent.click(buttonElement);
-//   const welcomeElement = screen.getAllByText(/lili/i);
-//   expect(welcomeElement).toBeInTheDocument();
-// });

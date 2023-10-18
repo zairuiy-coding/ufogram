@@ -27,10 +27,16 @@ module.exports = {
     },
   },
   rules: {
+    'import/no-extraneous-dependencies': ['error', {
+      devDependencies: ['**/*.test.js', '**/*.spec.js'], optionalDependencies: false, peerDependencies: false, packageDir: './',
+    }],
   },
   settings: { // <-- Added settings to auto-detect React version
     react: {
       version: 'detect',
     },
+  },
+  globals: {
+    PropTypes: 'readonly', // Define PropTypes as a global variable
   },
 };

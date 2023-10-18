@@ -37,7 +37,7 @@ export default function Login() {
 
         for (let i = 0; i < response.data.length; i += 1) {
           if (response.data[i].username === username && response.data[i].password === password) {
-            console.log(response.data[i].id);
+            // console.log(response.data[i].id);
             userFound = true;
             userId = response.data[i].id;
             // setUserId(response.data[i].id);
@@ -46,11 +46,11 @@ export default function Login() {
         }
         if (userFound) {
           // setLoggedIn(true);
-          console.log(userId);
-          console.log(username);
-          console.log(response.data);
+        //   console.log(userId);
+        //   console.log(username);
+        //   console.log(response.data);
           navigate('/main', { state: { userId, username, users: response.data } });
-          console.log('naviate successfully');
+        //   console.log('naviate successfully');
         }
       } else {
         // Authentication failed, set error message
@@ -58,7 +58,7 @@ export default function Login() {
       }
     } catch (error) {
     //   setError('Error during login:', error);
-      console.log('Login error');
+    //   console.log('Login error');
     }
   }
 

@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import Post from './Post';
 import getAllPosts from '../api/getAllPosts';
 import getUser from '../api/getUser';
 
-export default function Activity(props) {
+export default function Activity({ userId }) {
   const [allPosts, setAllPosts] = useState([]);
   const [following, setFollowing] = useState([]);
 
@@ -12,16 +13,16 @@ export default function Activity(props) {
       try {
         const response = await getAllPosts();
         if (response.status === 200) {
-          console.log(response.data);
+        //   console.log(response.data);
           setAllPosts(response.data.reverse()); // reverse the post list
         } else {
-          console.log('');
+        //   console.log('');
         }
-        const fResponse = await getUser(props.userId);
+        const fResponse = await getUser(userId);
         setFollowing(fResponse.data.following.map((user) => user.id));
-        console.log(following);
+        // console.log(following);
       } catch (error) {
-        console.error('getUser error', error);
+        // console.error('getUser error', error);
       }
     }
     fetchAllPosts();
@@ -44,3 +45,7 @@ export default function Activity(props) {
     </div>
   );
 }
+
+Activity.propTypes = {
+  userId: PropTypes.number.isRequired, // Prop validation for userId
+};
