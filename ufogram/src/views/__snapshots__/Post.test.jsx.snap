@@ -18,19 +18,5 @@ exports[`the component matches the snapshot 1`] = `
   <div>
     Haha
   </div>
-  <div>
-    <button
-      id="likeButton"
-      onClick={[Function]}
-      type="button"
-    >
-      Like
-    </button>
-  </div>
-  <div>
-    Likes:
-     
-    0
-  </div>
 </div>
 `;

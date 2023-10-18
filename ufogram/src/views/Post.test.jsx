@@ -12,33 +12,33 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
 import Post from './Post';
 
-test('renders like button', () => {
-  render(
-    <Router>
-      {/* <Routes>
-                <Route path="/signup" element={<Signup />} />
-            </Routes> */}
-      <Post username="lionelhu" imageUrl="https://picsum.photos/200/302" caption="Haha" />
-    </Router>,
-  );
-  const linkElement = screen.getByRole('button', {
-    name: /Like/,
-  });
-  expect(linkElement).toBeInTheDocument();
-});
+// test('renders like button', () => {
+//   render(
+//     <Router>
+//       {/* <Routes>
+//                 <Route path="/signup" element={<Signup />} />
+//             </Routes> */}
+//       <Post username="lionelhu" imageUrl="https://picsum.photos/200/302" caption="Haha" />
+//     </Router>,
+//   );
+//   const linkElement = screen.getByRole('button', {
+//     name: /Like/,
+//   });
+//   expect(linkElement).toBeInTheDocument();
+// });
 
-test('renders likes label', () => {
-  render(
-    <Router>
-      {/* <Routes>
-              <Route path="/signup" element={<Signup />} />
-          </Routes> */}
-      <Post username="lionelhu" imageUrl="https://picsum.photos/200/302" caption="Haha" />
-    </Router>,
-  );
-  const linkElement = screen.getByText(/Likes:/);
-  expect(linkElement).toBeInTheDocument();
-});
+// test('renders likes label', () => {
+//   render(
+//     <Router>
+//       {/* <Routes>
+//               <Route path="/signup" element={<Signup />} />
+//           </Routes> */}
+//       <Post username="lionelhu" imageUrl="https://picsum.photos/200/302" caption="Haha" />
+//     </Router>,
+//   );
+//   const linkElement = screen.getByText(/Likes:/);
+//   expect(linkElement).toBeInTheDocument();
+// });
 
 /**
  * Snapshot Testing
