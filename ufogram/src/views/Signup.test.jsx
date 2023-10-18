@@ -4,137 +4,140 @@
 
 import React, { useState } from 'react';
 import '@testing-library/jest-dom';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import {
+  render, screen, fireEvent, waitFor,
+  act,
+} from '@testing-library/react';
 import renderer from 'react-test-renderer';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import {
+  BrowserRouter as Router, Routes, Route, MemoryRouter,
+} from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
-import Signup from './Signup';
-import { act } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
 import * as router from 'react-router-dom';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
+import Signup from './Signup';
 
 beforeEach(() => {
-    expect(router)
-    });
+  expect(router);
+});
 
-    const mockAxios = new MockAdapter(axios);
+const mockAxios = new MockAdapter(axios);
 
-  const users = [
-    {
-      username: 'zairuiy',
-      password: '1234567',
-      following: [
-        {
-          username: 'lionelhu',
-          id: 2,
-        },
-      ],
-      followers: [
-        {
-          username: 'lionelhu',
-          id: 2,
-        },
-      ],
-      id: 1,
-    },
-    {
-      username: 'lionelhu',
-      password: '1234567',
-      following: [
-        {
-          username: 'zairuiy',
-          id: 1,
-        },
-      ],
-      followers: [
-        {
-          username: 'zairuiy',
-          id: 1,
-        },
-      ],
-      id: 2,
-    },
-  ];
+const users = [
+  {
+    username: 'zairuiy',
+    password: '1234567',
+    following: [
+      {
+        username: 'lionelhu',
+        id: 2,
+      },
+    ],
+    followers: [
+      {
+        username: 'lionelhu',
+        id: 2,
+      },
+    ],
+    id: 1,
+  },
+  {
+    username: 'lionelhu',
+    password: '1234567',
+    following: [
+      {
+        username: 'zairuiy',
+        id: 1,
+      },
+    ],
+    followers: [
+      {
+        username: 'zairuiy',
+        id: 1,
+      },
+    ],
+    id: 2,
+  },
+];
 
-  mockAxios.onGet('http://localhost:3000/Users').reply(200, users);
-  mockAxios.onPost('http://localhost:3000/Users').reply(201, users);
+mockAxios.onGet('http://localhost:3000/Users').reply(200, users);
+mockAxios.onPost('http://localhost:3000/Users').reply(201, users);
 
-    const mockedNavigate = jest.fn();
+const mockedNavigate = jest.fn();
 
-    jest.mock('react-router-dom', () => ({
-        ...jest.requireActual('react-router-dom'),
-        // useNavigate: () => ({ navigate: mockedNavigate})
-        useNavigate: () => mockedNavigate,
-    }));
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  // useNavigate: () => ({ navigate: mockedNavigate})
+  useNavigate: () => mockedNavigate,
+}));
 
 test('renders title', () => {
-    render(
-      <Router>
-          {/* <Routes>
+  render(
+    <Router>
+      {/* <Routes>
               <Route path="/signup" element={<Signup />} />
           </Routes> */}
-          <Signup />
-      </Router>
-    );
-    const linkElement = screen.getByText(/UFOgram/);
-    expect(linkElement).toBeInTheDocument();
-  });
+      <Signup />
+    </Router>,
+  );
+  const linkElement = screen.getByText(/UFOgram/);
+  expect(linkElement).toBeInTheDocument();
+});
 
 test('renders username label', () => {
   render(
     <Router>
-        {/* <Routes>
+      {/* <Routes>
             <Route path="/signup" element={<Signup />} />
         </Routes> */}
-        <Signup />
-    </Router>
+      <Signup />
+    </Router>,
   );
   const linkElement = screen.getByText(/Username:/);
   expect(linkElement).toBeInTheDocument();
 });
 
 test('renders password label', () => {
-    render(
-        <Router>
-            {/* <Routes>
+  render(
+    <Router>
+      {/* <Routes>
                 <Route path="/signup" element={<Signup />} />
             </Routes> */}
-            <Signup />
-        </Router>
-      );
-      const linkElement = screen.getByText(/Password:/);
-    expect(linkElement).toBeInTheDocument();
+      <Signup />
+    </Router>,
+  );
+  const linkElement = screen.getByText(/Password:/);
+  expect(linkElement).toBeInTheDocument();
 });
 
 test('renders signup button', () => {
-    render(
-        <Router>
-            {/* <Routes>
+  render(
+    <Router>
+      {/* <Routes>
                 <Route path="/signup" element={<Signup />} />
             </Routes> */}
-            <Signup />
-        </Router>
-      );
+      <Signup />
+    </Router>,
+  );
   const linkElement = screen.getByRole('button', {
-    name: /Signup/
-  })
+    name: /Signup/,
+  });
   expect(linkElement).toBeInTheDocument();
 });
 
 test('renders login button', () => {
-    render(
-        <Router>
-            {/* <Routes>
+  render(
+    <Router>
+      {/* <Routes>
                 <Route path="/signup" element={<Signup />} />
             </Routes> */}
-            <Signup />
-        </Router>
-      );
+      <Signup />
+    </Router>,
+  );
   const linkElement = screen.getByRole('button', {
-    name: /Login/
-  })
+    name: /Login/,
+  });
   expect(linkElement).toBeInTheDocument();
 });
 
@@ -148,78 +151,82 @@ test('the component matches the snapshot', () => {
         <Route path="/signup" element={<Signup />} />
     </Routes> */}
     <Signup />
-</Router>);
+                                    </Router>);
   const tree = component.toJSON();
   expect(tree).toMatchSnapshot();
 });
 
 test('Test the login button', async () => {
-    act(() => {
-        render(
-            <MemoryRouter initialEntries={['/signup']}> {/* Set the initial route */}
-              <Signup />
-            </MemoryRouter>
-          );
-    })
-    // render(
-    //   <MemoryRouter initialEntries={['/login']}> {/* Set the initial route */}
-    //     <Login />
-    //   </MemoryRouter>
-    // );
+  act(() => {
+    render(
+      <MemoryRouter initialEntries={['/signup']}>
+        {' '}
+        {/* Set the initial route */}
+        <Signup />
+      </MemoryRouter>,
+    );
+  });
+  // render(
+  //   <MemoryRouter initialEntries={['/login']}> {/* Set the initial route */}
+  //     <Login />
+  //   </MemoryRouter>
+  // );
 
-    const loginButton = screen.getByText('Login');
-    act(() => {fireEvent.click(loginButton)});
+  const loginButton = screen.getByText('Login');
+  act(() => { fireEvent.click(loginButton); });
 
-    // check if you have successfully navigated to the expected page
-    // const newPageElement = screen.getByText('Login');
+  // check if you have successfully navigated to the expected page
+  // const newPageElement = screen.getByText('Login');
 
-    // expect(newPageElement).toBeInTheDocument();
-    // expect(navigate).toHaveBeenCalledWith('/signup');
-    await waitFor(() => {
-        expect(mockedNavigate).toHaveBeenCalledWith('/login');
-    });
+  // expect(newPageElement).toBeInTheDocument();
+  // expect(navigate).toHaveBeenCalledWith('/signup');
+  await waitFor(() => {
+    expect(mockedNavigate).toHaveBeenCalledWith('/login');
+  });
 });
 
 test('Tests signup button', async () => {
-    act(() => {
-        render(
-            <MemoryRouter initialEntries={['/signup']}> {/* Set the initial route */}
-              <Signup />
-            </MemoryRouter>
-          );
-    })
-    // render(
-    //   <MemoryRouter initialEntries={['/login']}> {/* Set the initial route */}
-    //     <Login />
-    //   </MemoryRouter>
-    // );
+  act(() => {
+    render(
+      <MemoryRouter initialEntries={['/signup']}>
+        {' '}
+        {/* Set the initial route */}
+        <Signup />
+      </MemoryRouter>,
+    );
+  });
+  // render(
+  //   <MemoryRouter initialEntries={['/login']}> {/* Set the initial route */}
+  //     <Login />
+  //   </MemoryRouter>
+  // );
 
-    const usernameBox = screen.getByRole('textbox')
-    // const usernameBox = screen.getByDisplayValue('usernameBox');
-  
-    act(() => {
-        userEvent.type(usernameBox, 'test11');
-    })
+  const usernameBox = screen.getByRole('textbox');
+  // const usernameBox = screen.getByDisplayValue('usernameBox');
 
-    // const passwordBox = screen.getByRole('textbox')
-    const passwordBox = screen.getByTestId('passwordBox');
-  
-    act(() => {
-        userEvent.type(passwordBox, '1234567');
-    })
+  act(() => {
+    userEvent.type(usernameBox, 'test11');
+  });
 
-    const signupButton = screen.getByText('Signup');
-    act(() => {fireEvent.click(signupButton)});
+  // const passwordBox = screen.getByRole('textbox')
+  const passwordBox = screen.getByTestId('passwordBox');
 
-    // check if you have successfully navigated to the expected page
-    // const newPageElement = screen.getByText('Signup');
+  act(() => {
+    userEvent.type(passwordBox, '1234567');
+  });
 
-    // expect(newPageElement).toBeInTheDocument();
-    await waitFor(() => {
-        expect(mockedNavigate).toHaveBeenCalledWith('/login');
-    });
-    // expect(mockedNavigate).toHaveBeenCalledWith('/main');
-    // await waitFor(() => expect(window.location.href).toContain('/main'));
+  const signupButton = screen.getByText('Signup');
+  act(() => { fireEvent.click(signupButton); });
+
+  // check if you have successfully navigated to the expected page
+  // const newPageElement = screen.getByText('Signup');
+
+  // expect(newPageElement).toBeInTheDocument();
+  await waitFor(() => {
+    expect(mockedNavigate).toHaveBeenCalledWith('/login');
+  });
+  // expect(mockedNavigate).toHaveBeenCalledWith('/main');
+  // await waitFor(() => expect(window.location.href).toContain('/main'));
 });
 
 /**

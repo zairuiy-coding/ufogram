@@ -8,17 +8,22 @@ function PostRender({ username, imageUrl, caption }) {
   // const likeButton = document.getElementById("likeButton");
 
   const handleLike = ((clickEvent) => {
+    console.log('1', liked);
     if (liked) {
       setLikes(likes - 1);
       setLiked(false);
+      console.log('5', liked);
     //   clickEvent.target.innerHTML = 'Like';
     } else {
       setLikes(likes + 1);
       setLiked(true);
+      console.log('6', liked);
     //   clickEvent.target.innerHTML = 'Unlike';
     }
     const button = clickEvent.target;
+    console.log('2', button.innerHTML);
     button.innerHTML = liked ? 'Unlike' : 'Like';
+    console.log('4', button.innerHTML);
   });
   return (
     <div style={{ margin: '10px' }}>

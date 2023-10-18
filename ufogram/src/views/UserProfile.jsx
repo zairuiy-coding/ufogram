@@ -23,6 +23,7 @@ export default function UserProfile() {
     const searchResponse = await getUser(location.state.sId);
     const currFollowing = selfResponse.data.following.slice();
     const currFollowers = searchResponse.data.followers.slice();
+    const copy = followEvent;
     if (followed) {
       const newFollowing = currFollowing.filter((user) => user.id !== location.state.sId);
       const newFollowers = currFollowers.filter((user) => user.id !== location.state.userId);
@@ -40,8 +41,7 @@ export default function UserProfile() {
         following: searchResponse.data.following,
         followers: newFollowers,
       });
-
-      followEvent.target.innerHTML = 'Follow';
+      copy.target.innerHTML = 'Follow';
       // setFollowed(false);
       followed = false;
       console.log(`Shoudl be false: ${followed}`);
@@ -71,7 +71,7 @@ export default function UserProfile() {
         followers: newFollowers,
       });
 
-      followEvent.target.innerHTML = 'Unfollow';
+      copy.target.innerHTML = 'Unfollow';
       console.log('Inner HTML: ', followEvent.target.innerHTML);
       // setFollowed(true);
       followed = true;
