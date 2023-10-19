@@ -11,6 +11,10 @@
         {
           "username": "lionelhu5",
           "id": 8
+        },
+        {
+          "id": 2,
+          "username": "lionelhu"
         }
       ],
       "followers": [
@@ -21,6 +25,10 @@
         {
           "username": "lionelhu5",
           "id": 8
+        },
+        {
+          "id": 2,
+          "username": "lionelhu"
         }
       ],
       "id": 1
@@ -36,12 +44,20 @@
         {
           "id": 8,
           "username": "lionelhu5"
+        },
+        {
+          "id": 1,
+          "username": "zairuiy"
         }
       ],
       "followers": [
         {
           "username": "user3",
           "id": 3
+        },
+        {
+          "id": 1,
+          "username": "zairuiy"
         }
       ],
       "id": 2
@@ -128,6 +144,68 @@
       "following": [],
       "followers": [],
       "id": 9
+    }
+  ],
+  "Posts": [
+    {
+      "caption": "Hello World!",
+      "fileURL": "https://picsum.photos/200/301",
+      "likes": 0,
+      "author": {
+        "id": 1,
+        "username": "zairuiy"
+      },
+      "id": 1
+    },
+    {
+      "caption": "123",
+      "fileURL": "https://picsum.photos/200/303",
+      "likes": 0,
+      "author": {
+        "id": 1,
+        "username": "zairuiy"
+      },
+      "id": 2
+    },
+    {
+      "caption": "test1",
+      "fileURL": "https://picsum.photos/200/304",
+      "likes": 0,
+      "author": {
+        "id": 1,
+        "username": "zairuiy"
+      },
+      "id": 3
+    },
+    {
+      "caption": "test2",
+      "fileURL": "https://picsum.photos/200/305",
+      "likes": 0,
+      "author": {
+        "id": 1,
+        "username": "zairuiy"
+      },
+      "id": 4
+    },
+    {
+      "caption": "Haha",
+      "fileURL": "https://picsum.photos/200/303",
+      "likes": 0,
+      "author": {
+        "id": 2,
+        "username": "lionelhu"
+      },
+      "id": 5
+    },
+    {
+      "caption": "Youtube haha",
+      "fileURL": "https://www.youtube.com/embed/i8n1gSw_o_8",
+      "likes": 0,
+      "author": {
+        "id": 2,
+        "username": "lionelhu"
+      },
+      "id": 6
     }
   ]
 }

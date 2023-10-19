@@ -1,0 +1,85 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`the component matches the snapshot 1`] = `
+<div
+  style={
+    Object {
+      "display": "flex",
+      "justifyContent": "space-evenly",
+    }
+  }
+>
+  <div
+    style={
+      Object {
+        "background": "#8769b6",
+        "display": "flex",
+        "justifyContent": "center",
+        "position": "fixed",
+        "width": "100%",
+      }
+    }
+  >
+    <h1>
+      New Post
+    </h1>
+    <div>
+      <button
+        onClick={[Function]}
+        title="Create New Post"
+        type="button"
+      >
+        Main
+      </button>
+    </div>
+  </div>
+  <div
+    style={
+      Object {
+        "background": "#b6f486",
+        "display": "flex",
+        "justifyContent": "center",
+        "marginTop": "100px",
+        "width": "100%",
+      }
+    }
+  >
+    <label
+      htmlFor="image/file"
+    >
+      Image/Video:
+      <input
+        data-testid="linkBox"
+        name="fileLink"
+        onChange={[Function]}
+        type="fileLink"
+      />
+    </label>
+    <label
+      htmlFor="caption"
+    >
+      Caption:
+      <input
+        data-testid="captionBox"
+        name="caption"
+        onChange={[Function]}
+        type="text"
+      />
+    </label>
+    <button
+      onClick={[Function]}
+      title="discard"
+      type="button"
+    >
+      Discard
+    </button>
+    <button
+      onClick={[Function]}
+      title="post"
+      type="button"
+    >
+      Post
+    </button>
+  </div>
+</div>
+`;
