@@ -8,6 +8,7 @@ function PostRender({
 }) {
   const [likes, setLikes] = useState(0);
   const [liked, setLiked] = useState(false);
+  const [comment, setComment] = useState('');
 
   // console.log('self: ', self);
 
@@ -47,6 +48,13 @@ function PostRender({
     });
   });
 
+  const handleComment = ((commentEvent) => {
+    setComment(commentEvent.target.value);
+  });
+
+  const addComment = (() => {
+  });
+
   return (
     <div style={{ margin: '10px' }}>
       <h2>{ username }</h2>
@@ -73,6 +81,10 @@ function PostRender({
         <div>
           <Comment text="This is so fun!" author="lionelhu" />
           <Comment text="I like it!" author="lionelhu" />
+          <div>
+            <input type="text" name="comment" data-testid="captionBox" onChange={handleComment} />
+            <button type="button" id="commentButton" onClick={addComment}>comment</button>
+          </div>
         </div>
       </div>
     </div>
