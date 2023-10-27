@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import getUser from '../api/getUser';
 import updateUser from '../api/updateUser';
+import Activity from './Activity';
 
 export default function UserProfile() {
   const navigate = useNavigate();
@@ -12,6 +13,15 @@ export default function UserProfile() {
   let { followed } = location.state;
 
   const isMyself = location.state.self;
+
+  let selfKind;
+
+  if (location.state.self) {
+    selfKind = 1;
+  } else {
+    selfKind = 2;
+  }
+
 
   const handleMain = () => {
     navigate('/main', { state: { userId: location.state.userId, username: location.state.username, users: location.state.users } });
@@ -175,6 +185,7 @@ export default function UserProfile() {
               </select>
             </label>
           </div>
+          <Activity userId={location.state.userId} selfKind={selfKind} state={location.state} />
         </div>
       </div>
     </div>

@@ -84,7 +84,7 @@ export default function Main() {
         display: 'flex', width: '100%', justifyContent: 'center', marginTop: '80px',
       }}
       >
-        <Activity userId={location.state.userId} />
+        <Activity userId={location.state.userId} selfKind={0} state={useLocation.state} />
       </div>
     </div>
   );

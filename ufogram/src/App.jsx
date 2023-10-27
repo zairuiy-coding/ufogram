@@ -6,6 +6,7 @@ import Signup from './views/Signup';
 import Main from './views/Main';
 import UserProfile from './views/UserProfile';
 import NewPost from './views/Newpost';
+import Editpost from './views/Editpost';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/userprofile" element={<UserProfile />} />
           <Route path="/newpost" element={<NewPost />} />
+          <Route path="/editpost" element={<Editpost />} />
         </Routes>
       </BrowserRouter>
     </div>
