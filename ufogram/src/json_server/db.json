@@ -6,144 +6,144 @@
       "following": [
         {
           "username": "lionelhu4",
-          "id": 7
+          "_id": 7
         },
         {
           "username": "lionelhu5",
-          "id": 8
+          "_id": 8
         },
         {
-          "id": 2,
+          "_id": 2,
           "username": "lionelhu"
         }
       ],
       "followers": [
         {
           "username": "lionelhu4",
-          "id": 7
+          "_id": 7
         },
         {
           "username": "lionelhu5",
-          "id": 8
+          "_id": 8
         },
         {
-          "id": 2,
+          "_id": 2,
           "username": "lionelhu"
         }
       ],
-      "id": 1
+      "_id": 1
     },
     {
       "username": "lionelhu",
       "password": "1234567",
       "following": [
         {
-          "id": 3,
+          "_id": 3,
           "username": "user3"
         },
         {
-          "id": 8,
+          "_id": 8,
           "username": "lionelhu5"
         },
         {
-          "id": 1,
+          "_id": 1,
           "username": "zairuiy"
         }
       ],
       "followers": [
         {
           "username": "user3",
-          "id": 3
+          "_id": 3
         },
         {
-          "id": 1,
+          "_id": 1,
           "username": "zairuiy"
         }
       ],
-      "id": 2
+      "_id": 2
     },
     {
       "username": "user3",
       "password": "1234567",
       "following": [
         {
-          "id": 2,
+          "_id": 2,
           "username": "lionelhu"
         }
       ],
       "followers": [
         {
-          "id": 2,
+          "_id": 2,
           "username": "lionelhu"
         }
       ],
-      "id": 3
+      "_id": 3
     },
     {
       "username": "yuan",
       "password": "1234567",
       "following": [],
       "followers": [],
-      "id": 4
+      "_id": 4
     },
     {
       "username": "lionelhu2",
       "password": "1234567",
       "following": [],
       "followers": [],
-      "id": 5
+      "_id": 5
     },
     {
       "username": "lionelhu3",
       "password": "1234567",
       "following": [],
       "followers": [],
-      "id": 6
+      "_id": 6
     },
     {
       "username": "lionelhu4",
       "password": "1234567",
       "following": [
         {
-          "id": 1,
+          "_id": 1,
           "username": "zairuiy"
         }
       ],
       "followers": [
         {
-          "id": 1,
+          "_id": 1,
           "username": "zairuiy"
         }
       ],
-      "id": 7
+      "_id": 7
     },
     {
       "username": "lionelhu5",
       "password": "1234567",
       "following": [
         {
-          "id": 1,
+          "_id": 1,
           "username": "zairuiy"
         }
       ],
       "followers": [
         {
-          "id": 1,
+          "_id": 1,
           "username": "zairuiy"
         },
         {
-          "id": 2,
+          "_id": 2,
           "username": "lionelhu"
         }
       ],
-      "id": 8
+      "_id": 8
     },
     {
       "username": "lionelhu6",
       "password": "1234567",
       "following": [],
       "followers": [],
-      "id": 9
+      "_id": 9
     }
   ],
   "Posts": [
@@ -152,60 +152,92 @@
       "fileURL": "https://picsum.photos/200/301",
       "likes": 0,
       "author": {
-        "id": 1,
+        "_id": 1,
         "username": "zairuiy"
       },
-      "id": 1
+      "comments": [1, 2],
+      "_id": 1
     },
     {
       "caption": "123",
       "fileURL": "https://picsum.photos/200/303",
       "likes": 0,
       "author": {
-        "id": 1,
+        "_id": 1,
         "username": "zairuiy"
       },
-      "id": 2
+      "comments": [3],
+      "_id": 2
     },
     {
       "caption": "test1",
       "fileURL": "https://picsum.photos/200/304",
       "likes": 0,
       "author": {
-        "id": 3,
+        "_id": 3,
         "username": "user3"
       },
-      "id": 3
+      "comments": [],
+      "_id": 3
     },
     {
       "caption": "test2",
       "fileURL": "https://picsum.photos/200/305",
       "likes": 0,
       "author": {
-        "id": 1,
+        "_id": 1,
         "username": "zairuiy"
       },
-      "id": 4
+      "comments": [],
+      "_id": 4
     },
     {
       "caption": "Haha",
       "fileURL": "https://picsum.photos/200/303",
       "likes": 0,
       "author": {
-        "id": 2,
+        "_id": 2,
         "username": "lionelhu"
       },
-      "id": 5
+      "comments": [],
+      "_id": 5
     },
     {
       "caption": "Youtube haha",
       "fileURL": "https://www.youtube.com/embed/i8n1gSw_o_8",
       "likes": 0,
       "author": {
-        "id": 2,
+        "_id": 2,
         "username": "lionelhu"
       },
-      "id": 6
+      "comments": [],
+      "_id": 6
+    }
+  ],
+  "Comments": [
+    {
+      "_id": 1,
+      "author": {
+        "_id": 2,
+        "username": "lionelhu"
+      },
+      "text": "Test Comment 1"
+    }, 
+    {
+      "_id": 2,
+      "author": {
+        "_id": 2,
+        "username": "lionelhu"
+      },
+      "text": "Test Comment 2"
+    }, 
+    {
+      "_id": 3,
+      "author": {
+        "_id": 3,
+        "username": "lionelhu"
+      },
+      "text": "Test Comment 3"
     }
   ]
 }
