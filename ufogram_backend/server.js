@@ -86,6 +86,28 @@ webapp.post('/Users/', async (req, res) => {
   }
 });
 
+webapp.get('/Posts/likes/:id/:newNum', async (req, res) => {
+    console.log('Update a post\'s number of likes');
+    try {
+      if (req.params.id === undefined) {
+        res.status(404).json({ error: 'id is missing' });
+        return;
+      }
+      if (req.params.newNum === undefined) {
+        res.status(404).json({ error: 'newNum is missing' });
+        return;
+      }
+      const result = await lib.updatePostLikes(db, req.params.id, req.params.newNum);
+      if (result === undefined) {
+        res.status(404).json({ error: 'bad post id' });
+        return;
+      }
+      res.status(200).json({ data: result });
+    } catch (err) {
+      res.status(404).json({ error: err.message });
+    }
+  });
+
 // webapp.delete('/player/:player', async (req, res) => {
 //   if (req.params.player === undefined) {
 //     res.status(404).json({ error: 'name is missing' });

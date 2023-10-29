@@ -83,6 +83,20 @@ const getDB = async () => {
     }
   };
 
+  const updatePostLikes = async (postId, newNum) => {
+    try {
+      // get the db
+      const db = await getDB();
+      const result = await db.collection('Posts').updateOne(
+        { _id: ObjectId(postId) },
+        { $set: { likes: newNum } },
+      );
+      return result;
+    } catch (err) {
+      console.log(`error: ${err.message}`);
+    }
+  };
+
 // export the functions
 module.exports = {
   closeMongoDBConnection,
@@ -92,4 +106,5 @@ module.exports = {
   getUsers,
   getUser,
   updateUser,
+  updatePostLikes,
 };
