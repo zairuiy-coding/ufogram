@@ -17,6 +17,7 @@ export default function Login() {
 
   async function handleLogin() {
     try {
+      console.log('start log in');
       // Make an API call to your backend for authentication
       // const response = await axios.get('http://localhost:3000/Users', {
       //     method: 'GET',
@@ -34,22 +35,23 @@ export default function Login() {
 
       if (response.status === 200) {
         let userFound = false;
-
-        for (let i = 0; i < response.data.length; i += 1) {
+        console.log(response);
+        for (let i = 0; i < response.data.users.length; i += 1) {
+          console.log(i);
           if (response.data.users[i].username === username
-            && response.data[i].password === password) {
-            // console.log(response.data[i].id);
+            && response.data.users[i].password === password) {
+            console.log(response.data.users[i].id);
             userFound = true;
-            userId = response.data[i].id;
+            userId = response.data.users[i].id;
             // setUserId(response.data[i].id);
             break;
           }
         }
         if (userFound) {
           // setLoggedIn(true);
-        //   console.log(userId);
-        //   console.log(username);
-        //   console.log(response.data);
+          console.log(userId);
+          console.log(username);
+          console.log(response.data.users);
           navigate('/main', { state: { userId, username, users: response.data } });
         //   console.log('naviate successfully');
         }
