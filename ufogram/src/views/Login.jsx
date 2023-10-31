@@ -36,7 +36,8 @@ export default function Login() {
         let userFound = false;
 
         for (let i = 0; i < response.data.length; i += 1) {
-          if (response.data[i].username === username && response.data[i].password === password) {
+          if (response.data.users[i].username === username
+            && response.data[i].password === password) {
             // console.log(response.data[i].id);
             userFound = true;
             userId = response.data[i].id;

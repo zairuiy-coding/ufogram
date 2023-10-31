@@ -37,7 +37,7 @@ webapp.get('/Users', async (_req, res) => {
   console.log('READ all users');
   try {
     const results = await lib.getUsers();
-    res.status(200).json({ data: results });
+    res.status(200).json({ users: results });
   } catch (err) {
     res.status(404).json({ error: err.message });
   }
@@ -55,7 +55,7 @@ webapp.get('/Users/:id', async (req, res) => {
       res.status(404).json({ error: 'bad user id' });
       return;
     }
-    res.status(200).json({ data: result });
+    res.status(200).json({ user: result });
   } catch (err) {
     res.status(404).json({ error: err.message });
   }
@@ -86,7 +86,7 @@ webapp.post('/Users/', async (req, res) => {
   }
 });
 
-webapp.get('/Posts/like/:postId/:userId', async (req, res) => {
+webapp.put('/Posts/like/:postId/:userId', async (req, res) => {
   console.log('Like a post');
   try {
     if (req.params.postId === undefined) {
@@ -116,7 +116,7 @@ webapp.get('/Posts/like/:postId/:userId', async (req, res) => {
   }
 });
 
-webapp.get('/Posts/unlike/:postId/:userId', async (req, res) => {
+webapp.put('/Posts/unlike/:postId/:userId', async (req, res) => {
   console.log('Unlike a post');
   try {
     if (req.params.postId === undefined) {
@@ -146,35 +146,35 @@ webapp.get('/Posts/unlike/:postId/:userId', async (req, res) => {
   }
 });
 
-webapp.get('/Posts/like/:postId/:userId', async (req, res) => {
-  console.log('Like a post');
-  try {
-    if (req.params.postId === undefined) {
-      res.status(404).json({ error: 'post ID is missing' });
-      return;
-    }
-    if (req.params.userId === undefined) {
-      res.status(404).json({ error: 'user ID is missing' });
-      return;
-    }
-    const result = await lib.addPostLike(req.params.postId, req.params.userId);
-    if (result === undefined) {
-      res.status(404).json({ error: 'bad post ID' });
-      return;
-    }
-    if (result === -2) {
-      res.status(404).json({ error: 'bad user ID' });
-      return;
-    }
-    if (result === -1) {
-      res.status(400).json({ error: 'user already liked' });
-      return;
-    }
-    res.status(200).json({ data: result });
-  } catch (err) {
-    res.status(404).json({ error: err.message });
-  }
-});
+// webapp.get('/Posts/like/:postId/:userId', async (req, res) => {
+//   console.log('Like a post');
+//   try {
+//     if (req.params.postId === undefined) {
+//       res.status(404).json({ error: 'post ID is missing' });
+//       return;
+//     }
+//     if (req.params.userId === undefined) {
+//       res.status(404).json({ error: 'user ID is missing' });
+//       return;
+//     }
+//     const result = await lib.addPostLike(req.params.postId, req.params.userId);
+//     if (result === undefined) {
+//       res.status(404).json({ error: 'bad post ID' });
+//       return;
+//     }
+//     if (result === -2) {
+//       res.status(404).json({ error: 'bad user ID' });
+//       return;
+//     }
+//     if (result === -1) {
+//       res.status(400).json({ error: 'user already liked' });
+//       return;
+//     }
+//     res.status(200).json({ data: result });
+//   } catch (err) {
+//     res.status(404).json({ error: err.message });
+//   }
+// });
 
 webapp.put('/Posts/:postId', async (req, res) => {
   console.log('Edit a post');
