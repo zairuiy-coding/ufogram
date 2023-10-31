@@ -1,7 +1,7 @@
 const { MongoClient } = require('mongodb');
 const { ObjectId } = require('mongodb');
 
-const dbURL = 'mongodb+srv://UFOAdmin:9HTzfKuWB23W6RPW@ufogram.b3wc2qn.mongodb.net/?retryWrites=true&w=majority';
+const dbURL = 'mongodb+srv://UFOAdmin:9HTzfKuWB23W6RPW@UFOgram.b3wc2qn.mongodb.net/UFOgram?retryWrites=true&w=majority';
 
 let MongoConnection;
 // connection to the db
@@ -14,7 +14,7 @@ const connect = async () => {
     )); // we return the entire connection, not just the DB
     // check that we are connected to the db
     console.log(`connected to db: ${MongoConnection.db().databaseName}`);
-    return MongoConnection;
+    // return MongoConnection;
   } catch (err) {
     console.log(err.message);
   }
@@ -118,7 +118,7 @@ const getUsers = async () => {
   try {
     // get the db
     const db = await getDB();
-    const result = await db.collection('Users').find({}).toArray();
+    const result = await db.collection('Users').find().toArray();
     // print the results
     console.log(`Users: ${JSON.stringify(result)}`);
     return result;
