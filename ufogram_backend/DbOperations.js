@@ -256,17 +256,11 @@ const updatePost = async (postId, caption, fileURL, author) => {
   }
 };
 
-const createPost = async (postId, caption, fileURL, author) => {
+const createPost = async (newPost) => {
   try {
     const db = await getDB();
-    const result = await db.collection('Posts').updateOne(
-      { _id: ObjectId(postId) },
-      { $set: { caption } },
-      { $set: { fileURL } },
-      { $set: { author } },
-    );
-    console.log(`Post: ${JSON.stringify(result)}`);
-    return result;
+    const result = await db.collection('Posts').insertOne(newPost);
+    return result.insertedId;
   } catch (err) {
     console.log(`error: ${err.message}`);
   }
