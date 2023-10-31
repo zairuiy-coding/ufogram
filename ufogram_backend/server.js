@@ -13,30 +13,30 @@ webapp.use(cors());
 const lib = require('./DbOperations');
 
 // Server port
-const port = 8080;
+// const port = 8080;
 
-webapp.use(express.urlencoded({
-  extended: true,
-}));
+// webapp.use(express.urlencoded({
+//   extended: true,
+// }));
 
-let db;
+// let db;
 
 // Start server and connect to the DB
-webapp.listen(port, async () => {
-  db = await lib.connect();
-  console.log(`Server running on port:${port}`);
-});
+// webapp.listen(port, async () => {
+//   db = await lib.connect();
+//   console.log(`Server running on port:${port}`);
+// });
 
 // Root endpoint
 webapp.get('/', (_req, res) => {
-  res.json({ message: 'Welcome to our web app' });
+  res.json({ message: 'Welcome to UDFOgram' });
 });
 
 // Other API endpoints
 webapp.get('/Users', async (_req, res) => {
   console.log('READ all users');
   try {
-    const results = await lib.getUsers(db);
+    const results = await lib.getUsers();
     res.status(200).json({ data: results });
   } catch (err) {
     res.status(404).json({ error: err.message });
@@ -50,7 +50,7 @@ webapp.get('/Users/:id', async (req, res) => {
       res.status(404).json({ error: 'id is missing' });
       return;
     }
-    const result = await lib.getUser(db, req.params.id);
+    const result = await lib.getUser(req.params.id);
     if (result === undefined) {
       res.status(404).json({ error: 'bad user id' });
       return;
@@ -75,7 +75,7 @@ webapp.post('/Users/', async (req, res) => {
     followers: [],
   };
   try {
-    const result = await lib.addUser(db, newUser);
+    const result = await lib.addUser(newUser);
     console.log(`id: ${JSON.stringify(result)}`);
     // add id to new user and return it
     res.status(201).json({
@@ -97,7 +97,7 @@ webapp.get('/Posts/like/:postId/:userId', async (req, res) => {
       res.status(404).json({ error: 'user ID is missing' });
       return;
     }
-    const result = await lib.addPostLike(db, req.params.postId, req.params.userId);
+    const result = await lib.addPostLike(req.params.postId, req.params.userId);
     if (result === undefined) {
       res.status(404).json({ error: 'bad post ID' });
       return;
@@ -127,7 +127,7 @@ webapp.get('/Posts/unlike/:postId/:userId', async (req, res) => {
       res.status(404).json({ error: 'user ID is missing' });
       return;
     }
-    const result = await lib.addPostLike(db, req.params.postId, req.params.userId);
+    const result = await lib.addPostLike(req.params.postId, req.params.userId);
     if (result === undefined) {
       res.status(404).json({ error: 'bad post ID' });
       return;
@@ -157,7 +157,7 @@ webapp.get('/Posts/like/:postId/:userId', async (req, res) => {
       res.status(404).json({ error: 'user ID is missing' });
       return;
     }
-    const result = await lib.addPostLike(db, req.params.postId, req.params.userId);
+    const result = await lib.addPostLike(req.params.postId, req.params.userId);
     if (result === undefined) {
       res.status(404).json({ error: 'bad post ID' });
       return;
@@ -188,7 +188,7 @@ webapp.put('/Posts/:postId', async (req, res) => {
       return;
     }
 
-    const result = await lib.updatePost(db, req.params.postId, req.body.caption, req.body.fileURL, req.body.author);
+    const result = await lib.updatePost(req.params.postId, req.body.caption, req.body.fileURL, req.body.author);
     if (result === undefined) {
       res.status(404).json({ error: 'bad post ID' });
       return;
@@ -207,7 +207,7 @@ webapp.delete('/Posts/:postId', async (req, res) => {
       return;
     }
 
-    const result = await lib.deletePost(db, req.params.postId);
+    const result = await lib.deletePost(req.params.postId);
     if (result === undefined) {
       res.status(404).json({ error: 'bad post ID' });
       return;
@@ -225,7 +225,7 @@ webapp.get('/Comments/:id', async (req, res) => {
       res.status(404).json({ error: 'id is missing' });
       return;
     }
-    const result = await lib.getComment(db, req.params.id);
+    const result = await lib.getComment(req.params.id);
     if (result === undefined) {
       res.status(404).json({ error: 'bad comment id' });
       return;
@@ -252,9 +252,9 @@ webapp.post('/Comments/:postId', async (req, res) => {
     author: req.body.author,
   };
   try {
-    const result = await lib.addComment(db, newComment);
+    const result = await lib.addComment(newComment);
     console.log(`id: ${JSON.stringify(result)}`);
-    const result2 = await lib.commentPost(db, req.params.postId, result);
+    const result2 = await lib.commentPost(req.params.postId, result);
     if (result2 === -2) {
       res.status(404).json({ error: 'comment not found' });
     }

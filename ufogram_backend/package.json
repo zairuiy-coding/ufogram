@@ -2,7 +2,7 @@
   "name": "pwd",
   "version": "1.0.0",
   "description": "the backend of UFOgram. Implemented with mongodb and express",
-  "main": "server.js",
+  "main": "index.js",
   "scripts": {
     "start": "node server.js",
     "test": "jest --coverage"
