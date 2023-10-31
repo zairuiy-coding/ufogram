@@ -5,237 +5,115 @@
       "password": "1234567",
       "following": [
         {
-          "username": "lionelhu4",
-          "_id": 7
-        },
-        {
-          "username": "lionelhu5",
-          "_id": 8
-        },
-        {
-          "_id": 2,
+          "id": 2,
           "username": "lionelhu"
         }
       ],
       "followers": [
         {
-          "username": "lionelhu4",
-          "_id": 7
-        },
-        {
-          "username": "lionelhu5",
-          "_id": 8
-        },
-        {
-          "_id": 2,
+          "id": 2,
           "username": "lionelhu"
         }
-      ],
-      "_id": 1
+      ]
     },
     {
       "username": "lionelhu",
       "password": "1234567",
       "following": [
         {
-          "_id": 3,
+          "id": 3,
           "username": "user3"
         },
         {
-          "_id": 8,
-          "username": "lionelhu5"
-        },
-        {
-          "_id": 1,
+          "id": 1,
           "username": "zairuiy"
         }
       ],
       "followers": [
         {
           "username": "user3",
-          "_id": 3
+          "id": 3
         },
         {
-          "_id": 1,
+          "id": 1,
           "username": "zairuiy"
         }
-      ],
-      "_id": 2
+      ]
     },
     {
       "username": "user3",
       "password": "1234567",
       "following": [
         {
-          "_id": 2,
+          "id": 2,
           "username": "lionelhu"
         }
       ],
       "followers": [
         {
-          "_id": 2,
+          "id": 2,
           "username": "lionelhu"
         }
-      ],
-      "_id": 3
+      ]
     },
     {
       "username": "yuan",
       "password": "1234567",
       "following": [],
-      "followers": [],
-      "_id": 4
-    },
-    {
-      "username": "lionelhu2",
-      "password": "1234567",
-      "following": [],
-      "followers": [],
-      "_id": 5
-    },
-    {
-      "username": "lionelhu3",
-      "password": "1234567",
-      "following": [],
-      "followers": [],
-      "_id": 6
-    },
-    {
-      "username": "lionelhu4",
-      "password": "1234567",
-      "following": [
-        {
-          "_id": 1,
-          "username": "zairuiy"
-        }
-      ],
-      "followers": [
-        {
-          "_id": 1,
-          "username": "zairuiy"
-        }
-      ],
-      "_id": 7
-    },
-    {
-      "username": "lionelhu5",
-      "password": "1234567",
-      "following": [
-        {
-          "_id": 1,
-          "username": "zairuiy"
-        }
-      ],
-      "followers": [
-        {
-          "_id": 1,
-          "username": "zairuiy"
-        },
-        {
-          "_id": 2,
-          "username": "lionelhu"
-        }
-      ],
-      "_id": 8
-    },
-    {
-      "username": "lionelhu6",
-      "password": "1234567",
-      "following": [],
-      "followers": [],
-      "_id": 9
+      "followers": []
     }
   ],
   "Posts": [
     {
       "caption": "Hello World!",
       "fileURL": "https://picsum.photos/200/301",
-      "likes": 0,
+      "likes": ["65404186357e2d1e38f7cbeb", "65404186357e2d1e38f7cbec"],
       "author": {
-        "_id": 1,
+        "id": "65404186357e2d1e38f7cbeb",
         "username": "zairuiy"
       },
-      "comments": [1, 2],
-      "_id": 1
-    },
-    {
-      "caption": "123",
-      "fileURL": "https://picsum.photos/200/303",
-      "likes": 0,
-      "author": {
-        "_id": 1,
-        "username": "zairuiy"
-      },
-      "comments": [3],
-      "_id": 2
+      "comments": ["654042a8357e2d1e38f8b55b", "654042a8357e2d1e38f8b55c"]
     },
     {
       "caption": "test1",
       "fileURL": "https://picsum.photos/200/304",
-      "likes": 0,
+      "likes": ["65404186357e2d1e38f7cbec"],
       "author": {
-        "_id": 3,
+        "id": "65404186357e2d1e38f7cbed",
         "username": "user3"
       },
-      "comments": [],
-      "_id": 3
-    },
-    {
-      "caption": "test2",
-      "fileURL": "https://picsum.photos/200/305",
-      "likes": 0,
-      "author": {
-        "_id": 1,
-        "username": "zairuiy"
-      },
-      "comments": [],
-      "_id": 4
-    },
-    {
-      "caption": "Haha",
-      "fileURL": "https://picsum.photos/200/303",
-      "likes": 0,
-      "author": {
-        "_id": 2,
-        "username": "lionelhu"
-      },
-      "comments": [],
-      "_id": 5
+      "comments": ["654042a8357e2d1e38f8b55d"]
     },
     {
       "caption": "Youtube haha",
       "fileURL": "https://www.youtube.com/embed/i8n1gSw_o_8",
-      "likes": 0,
+      "likes": [],
       "author": {
-        "_id": 2,
+        "id": "65404186357e2d1e38f7cbec",
         "username": "lionelhu"
       },
-      "comments": [],
-      "_id": 6
+      "comments": []
     }
   ],
   "Comments": [
     {
-      "_id": 1,
       "author": {
-        "_id": 2,
+        "id": "65404186357e2d1e38f7cbec",
         "username": "lionelhu"
       },
       "text": "Test Comment 1"
     }, 
     {
-      "_id": 2,
       "author": {
-        "_id": 2,
+        "id": "65404186357e2d1e38f7cbec",
         "username": "lionelhu"
       },
       "text": "Test Comment 2"
     }, 
     {
-      "_id": 3,
       "author": {
-        "_id": 3,
-        "username": "lionelhu"
+        "id": "65404186357e2d1e38f7cbee",
+        "username": "yuan"
       },
       "text": "Test Comment 3"
     }

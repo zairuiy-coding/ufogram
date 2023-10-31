@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-// import createNewPost from '../api/createNewPost';
+import editPost from '../api/editPost';
+import deletePost from '../api/deletePost';
 
 export default function PostRender() {
   const location = useLocation();
@@ -68,15 +69,19 @@ export default function PostRender() {
 
     try {
       // change to editPost!!!
-    //   const status = await createNewPost(caption, file, author);
+      const status = await editPost(caption, file, author, location.state.postId);
       //   console.log('Status', status);
 
-      if (status === 201) {
-        navigate('/main', {
+      if (status === 200) {
+        navigate('/userprofile', {
           state: {
             userId: location.state.userId,
             username: location.state.username,
+            self: true,
+            sName: location.state.username,
+            sId: location.state.userId,
             users: location.state.users,
+            followed: true,
           },
         });
       } else {
@@ -87,13 +92,36 @@ export default function PostRender() {
     }
   };
 
-  const handleMain = () => {
-    navigate('/main', { state: { userId: location.state.userId, username: location.state.username, users: location.state.users } });
+  const handleDiscard = () => {
+    navigate('/userprofile', {
+      state: {
+        userId: location.state.userId,
+        username: location.state.username,
+        self: true,
+        sName: location.state.username,
+        sId: location.state.userId,
+        users: location.state.users,
+        followed: true,
+      },
+    });
   };
 
-  const handleDelete = () => {
-    // Delete post!!!
-    navigate('/main', { state: { userId: location.state.userId, username: location.state.username, users: location.state.users } });
+  const handleDelete = async () => {
+    const response = await deletePost(location.state.postId);
+    if (response.status !== 200) {
+      console.log('Post deletion error');
+    }
+    navigate('/userprofile', {
+      state: {
+        userId: location.state.userId,
+        username: location.state.username,
+        self: true,
+        sName: location.state.username,
+        sId: location.state.userId,
+        users: location.state.users,
+        followed: true,
+      },
+    });
   };
 
   const handleFile = (fileEvent) => {
@@ -127,9 +155,9 @@ export default function PostRender() {
           Caption:
           <input type="text" name="caption" value={caption} data-testid="captionBox" onChange={handleCaption} />
         </label>
-        <button type="button" title="discard" onClick={handleMain}>Discard</button>
+        <button type="button" title="discard" onClick={handleDiscard}>Discard</button>
         <button type="button" title="post" onClick={handlePost}>Post</button>
-        <button type="button" title="discard" onClick={handleDelete}>Delete</button>
+        <button type="button" title="delete" onClick={handleDelete}>Delete</button>
       </div>
     </div>
   );

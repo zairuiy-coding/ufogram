@@ -7,7 +7,7 @@ import axios from 'axios';
  */
 export default async function getUser(userId) {
   try {
-    const response = await axios.get(`http://localhost:3000/Users/${userId}`, {
+    const response = await axios.get(`http://localhost:8080/Users/${userId}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -20,6 +20,6 @@ export default async function getUser(userId) {
   } catch (e) {
     // error
     // console.log('get user error: ', e);
-    return 400;
+    return -1;
   }
 }

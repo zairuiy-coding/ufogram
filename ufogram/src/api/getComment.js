@@ -5,9 +5,9 @@ import axios from 'axios';
 /**
  * A function to get comment.
  */
-export default async function getUser(commentId) {
+export default async function getComment(commentId) {
   try {
-    const response = await axios.get(`http://localhost:3000/Comments/${commentId}`, {
+    const response = await axios.get(`http://localhost:8080/Comments/${commentId}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -20,6 +20,6 @@ export default async function getUser(commentId) {
   } catch (e) {
     // error
     // console.log('get user error: ', e);
-    return 400;
+    return -1;
   }
 }

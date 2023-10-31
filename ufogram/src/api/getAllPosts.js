@@ -7,7 +7,7 @@ import axios from 'axios';
  */
 export default async function getAllPosts() {
   try {
-    const response = await axios.get('http://localhost:3000/Posts', {
+    const response = await axios.get('http://localhost:8080/Posts', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -19,6 +19,6 @@ export default async function getAllPosts() {
     return response;
   } catch (e) {
     // console.log('get all posts error');
-    return 404;
+    return -1;
   }
 }

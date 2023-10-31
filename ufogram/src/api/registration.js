@@ -9,10 +9,10 @@ import axios from 'axios';
 export default async function register(newUsername, newPassword) {
   if (newUsername === '' || newPassword === '' || newUsername === null || newPassword === null) {
     // bad input, throw error
-    return 404;
+    return -2;
   }
   try {
-    const response = await axios.post('http://localhost:3000/Users', {
+    const response = await axios.post('http://localhost:8080/Users', {
       username: newUsername,
       password: newPassword,
       following: [],
@@ -22,6 +22,6 @@ export default async function register(newUsername, newPassword) {
   } catch (e) {
     // error
     // console.log('registration error: ', e);
-    return 404;
+    return -1;
   }
 }

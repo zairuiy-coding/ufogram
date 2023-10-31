@@ -67,7 +67,7 @@ webapp.post('/Users/', async (req, res) => {
     res.status(404).json({ error: 'missing user info' });
     return;
   }
-  // create new player object
+  // create new user object
   const newUser = {
     username: req.body.username,
     password: req.body.password,
@@ -77,36 +77,197 @@ webapp.post('/Users/', async (req, res) => {
   try {
     const result = await lib.addUser(db, newUser);
     console.log(`id: ${JSON.stringify(result)}`);
-    // add id to new player and return it
+    // add id to new user and return it
     res.status(201).json({
-      student: { id: result, ...newUser },
+      user: { id: result, ...newUser },
     });
   } catch (err) {
     res.status(404).json({ error: err.message });
   }
 });
 
-webapp.get('/Posts/likes/:id/:newNum', async (req, res) => {
-    console.log('Update a post\'s number of likes');
-    try {
-      if (req.params.id === undefined) {
-        res.status(404).json({ error: 'id is missing' });
-        return;
-      }
-      if (req.params.newNum === undefined) {
-        res.status(404).json({ error: 'newNum is missing' });
-        return;
-      }
-      const result = await lib.updatePostLikes(db, req.params.id, req.params.newNum);
-      if (result === undefined) {
-        res.status(404).json({ error: 'bad post id' });
-        return;
-      }
-      res.status(200).json({ data: result });
-    } catch (err) {
-      res.status(404).json({ error: err.message });
+webapp.get('/Posts/like/:postId/:userId', async (req, res) => {
+  console.log('Like a post');
+  try {
+    if (req.params.postId === undefined) {
+      res.status(404).json({ error: 'post ID is missing' });
+      return;
     }
-  });
+    if (req.params.userId === undefined) {
+      res.status(404).json({ error: 'user ID is missing' });
+      return;
+    }
+    const result = await lib.addPostLike(db, req.params.postId, req.params.userId);
+    if (result === undefined) {
+      res.status(404).json({ error: 'bad post ID' });
+      return;
+    }
+    if (result === -2) {
+      res.status(404).json({ error: 'bad user ID' });
+      return;
+    }
+    if (result === -1) {
+      res.status(400).json({ error: 'user already liked' });
+      return;
+    }
+    res.status(200).json({ data: result });
+  } catch (err) {
+    res.status(404).json({ error: err.message });
+  }
+});
+
+webapp.get('/Posts/unlike/:postId/:userId', async (req, res) => {
+  console.log('Unlike a post');
+  try {
+    if (req.params.postId === undefined) {
+      res.status(404).json({ error: 'post ID is missing' });
+      return;
+    }
+    if (req.params.userId === undefined) {
+      res.status(404).json({ error: 'user ID is missing' });
+      return;
+    }
+    const result = await lib.addPostLike(db, req.params.postId, req.params.userId);
+    if (result === undefined) {
+      res.status(404).json({ error: 'bad post ID' });
+      return;
+    }
+    if (result === -2) {
+      res.status(404).json({ error: 'bad user ID' });
+      return;
+    }
+    if (result === -1) {
+      res.status(400).json({ error: 'user haven\'t liked' });
+      return;
+    }
+    res.status(200).json({ data: result });
+  } catch (err) {
+    res.status(404).json({ error: err.message });
+  }
+});
+
+webapp.get('/Posts/like/:postId/:userId', async (req, res) => {
+  console.log('Like a post');
+  try {
+    if (req.params.postId === undefined) {
+      res.status(404).json({ error: 'post ID is missing' });
+      return;
+    }
+    if (req.params.userId === undefined) {
+      res.status(404).json({ error: 'user ID is missing' });
+      return;
+    }
+    const result = await lib.addPostLike(db, req.params.postId, req.params.userId);
+    if (result === undefined) {
+      res.status(404).json({ error: 'bad post ID' });
+      return;
+    }
+    if (result === -2) {
+      res.status(404).json({ error: 'bad user ID' });
+      return;
+    }
+    if (result === -1) {
+      res.status(400).json({ error: 'user already liked' });
+      return;
+    }
+    res.status(200).json({ data: result });
+  } catch (err) {
+    res.status(404).json({ error: err.message });
+  }
+});
+
+webapp.put('/Posts/:postId', async (req, res) => {
+  console.log('Edit a post');
+  try {
+    if (req.params.postId === undefined) {
+      res.status(404).json({ error: 'post ID is missing' });
+      return;
+    }
+    if (!req.body.caption || !req.body.fileURL || !req.body.author) {
+      res.status(404).json({ error: 'missing post info' });
+      return;
+    }
+
+    const result = await lib.updatePost(db, req.params.postId, req.body.caption, req.body.fileURL, req.body.author);
+    if (result === undefined) {
+      res.status(404).json({ error: 'bad post ID' });
+      return;
+    }
+    res.status(200).json({ data: result });
+  } catch (err) {
+    res.status(404).json({ error: err.message });
+  }
+});
+
+webapp.delete('/Posts/:postId', async (req, res) => {
+  console.log('Delete a post');
+  try {
+    if (req.params.postId === undefined) {
+      res.status(404).json({ error: 'post ID is missing' });
+      return;
+    }
+
+    const result = await lib.deletePost(db, req.params.postId);
+    if (result === undefined) {
+      res.status(404).json({ error: 'bad post ID' });
+      return;
+    }
+    res.status(200).json({ data: result });
+  } catch (err) {
+    res.status(404).json({ error: err.message });
+  }
+});
+
+webapp.get('/Comments/:id', async (req, res) => {
+  console.log('READ a comment by id');
+  try {
+    if (req.params.id === undefined) {
+      res.status(404).json({ error: 'id is missing' });
+      return;
+    }
+    const result = await lib.getComment(db, req.params.id);
+    if (result === undefined) {
+      res.status(404).json({ error: 'bad comment id' });
+      return;
+    }
+    res.status(200).json({ data: result });
+  } catch (err) {
+    res.status(404).json({ error: err.message });
+  }
+});
+
+webapp.post('/Comments/:postId', async (req, res) => {
+  console.log('CREATE a comment');
+  if (req.params.postId === undefined) {
+    res.status(404).json({ error: 'post ID is missing' });
+    return;
+  }
+  if (!req.body.text || !req.body.author) {
+    res.status(404).json({ error: 'missing user info' });
+    return;
+  }
+  // create new comment object
+  const newComment = {
+    text: req.body.text,
+    author: req.body.author,
+  };
+  try {
+    const result = await lib.addComment(db, newComment);
+    console.log(`id: ${JSON.stringify(result)}`);
+    const result2 = await lib.commentPost(db, req.params.postId, result);
+    if (result2 === -2) {
+      res.status(404).json({ error: 'comment not found' });
+    }
+    if (result2 === undefined) {
+      res.status(404).json({ error: 'post not found' });
+    }
+    res.status(201).json({
+      comment: { id: result, ...newComment },
+    });
+  } catch (err) {
+    res.status(404).json({ error: err.message });
+  }
+});
 
 // webapp.delete('/player/:player', async (req, res) => {
 //   if (req.params.player === undefined) {

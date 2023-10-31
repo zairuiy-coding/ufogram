@@ -50,6 +50,7 @@ export default function Activity({ userId, selfKind, state }) {
           caption={post.caption}
           self={selfKind}
           state={state}
+          postId={post.id}
         />
       ))}
       { allPosts.length !== 0 && selfKind === 1
@@ -60,6 +61,7 @@ export default function Activity({ userId, selfKind, state }) {
           caption={post.caption}
           self={selfKind}
           state={state}
+          postId={post.id}
         />
       ))}
       { allPosts.length !== 0 && selfKind === 2
@@ -70,6 +72,7 @@ export default function Activity({ userId, selfKind, state }) {
           caption={post.caption}
           self={selfKind}
           state={state}
+          postObject={post}
         />
       ))}
       { allPosts.length === 0 && <t>No posts</t>}
@@ -78,7 +81,7 @@ export default function Activity({ userId, selfKind, state }) {
 }
 
 Activity.propTypes = {
-  userId: PropTypes.number.isRequired, // Prop validation for userId
+  userId: PropTypes.string.isRequired, // Prop validation for userId
   selfKind: PropTypes.number.isRequired, // Prop validation for userId
   state: PropTypes.string.isRequired, // Prop validation for userId
 };

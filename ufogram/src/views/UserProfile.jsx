@@ -22,7 +22,6 @@ export default function UserProfile() {
     selfKind = 2;
   }
 
-
   const handleMain = () => {
     navigate('/main', { state: { userId: location.state.userId, username: location.state.username, users: location.state.users } });
   };

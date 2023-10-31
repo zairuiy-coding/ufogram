@@ -6,16 +6,19 @@ import axios from 'axios';
  * @param {*} text the text of the comment
  * @param {*} author the author of the post
  */
-export default async function createNewPost(text, author) {
+export default async function createNewComment(text, author, postId) {
   try {
-    const response = await axios.post('http://localhost:3000/Comments', {
+    const response = await axios.post(`http://localhost:8080/Comments/${postId}`, {
       text,
       author,
     });
-    return response.status;
+    // if (response.status === 201) {
+    //   await axios.post(`http://localhost:8080/CommentPost/${postId}/${response.id}`);
+    // }
+    return response;
   } catch (e) {
     // error
     // console.log('create post error: ', e);
-    return 404;
+    return -1;
   }
 }
