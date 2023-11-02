@@ -99,7 +99,6 @@ export default function Activity({ userId, selfKind, state }) {
             <Post username="Zairui" imageUrl="https://picsum.photos/200/303" caption="Hi"/> */}
 
       { posts.length !== 0 && selfKind === 0 && posts.filter((post) => {
-        console.log('aaaaa');
         if (f.some((author) => author.id === post.author.id)) {
           console.log('Followed post');
           return post;
@@ -116,7 +115,7 @@ export default function Activity({ userId, selfKind, state }) {
           post={post}
         />
       ))}
-      { console.log('1') && posts.length !== 0 && selfKind === 1
+      { posts.length !== 0 && selfKind === 1
       && posts.filter((post) => post.author.id === userId).map((post) => (
         <Post
           username={post.author.username}
@@ -127,7 +126,7 @@ export default function Activity({ userId, selfKind, state }) {
           post={post}
         />
       ))}
-      { console.log('2') && posts.length !== 0 && selfKind === 2
+      { posts.length !== 0 && selfKind === 2
       && posts.filter((post) => post.author.id === state.sId).map((post) => (
         <Post
           username={post.author.username}

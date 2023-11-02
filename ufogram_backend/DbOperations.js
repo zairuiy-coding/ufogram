@@ -179,6 +179,19 @@ const getPosts = async () => {
   }
 };
 
+const getPost = async (postId) => {
+  try {
+    // get the db
+    const db = await getDB();
+    const result = await db.collection('Posts').findOne({ _id: new ObjectId(postId) });
+    // print the result
+    console.log(`Post: ${JSON.stringify(result)}`);
+    return result;
+  } catch (err) {
+    console.log(`error: ${err.message}`);
+  }
+};
+
 const addPostLike = async (postId, userId) => {
   try {
     // get the db
@@ -343,6 +356,7 @@ module.exports = {
   getUsers,
   getUser,
   getPosts,
+  getPost,
   updatePost,
   addPostLike,
   removePostLike,

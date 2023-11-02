@@ -251,6 +251,30 @@ webapp.get('/Comments/:id', async (req, res) => {
   }
 });
 
+webapp.get('/Comments/post/:id', async (req, res) => {
+  console.log('Get all commebts of a post');
+  try {
+    if (req.params.id === undefined) {
+      res.status(404).json({ error: 'id is missing' });
+      return;
+    }
+    const post = await lib.getPost(req.params.id);
+    if (post === undefined) {
+      res.status(404).json({ error: 'bad post id' });
+      return;
+    }
+    const result = await Promise.all(
+      post.comments.map(async (commentId) => {
+        const comment = await lib.getComment(commentId);
+        return comment;
+      }),
+    );
+    res.status(200).json({ data: result });
+  } catch (err) {
+    res.status(404).json({ error: err.message });
+  }
+});
+
 webapp.post('/Comments/:postId', async (req, res) => {
   console.log('CREATE a comment');
   if (req.params.postId === undefined) {

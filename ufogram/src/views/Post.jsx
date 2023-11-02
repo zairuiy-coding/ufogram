@@ -83,10 +83,11 @@ function PostRender({
       async function fetchComments() {
         try {
           // console.log(location.state.sId);
-          const result = await getPostComments(post.comments);
+          // eslint-disable-next-line no-underscore-dangle
+          const result = await getPostComments(post._id);
           if (result !== -1) {
             // console.log(response.data.following);
-            setComments(result);
+            setComments(result.data.data);
           } else {
             // Authentication failed, set error message
             console.log('Error in getting commehts of a post.');

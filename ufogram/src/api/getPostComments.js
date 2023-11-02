@@ -5,14 +5,12 @@ import axios from 'axios';
 /**
  * A function to get all comments under a post.
  */
-export default async function getPostComments(commentsArray) {
+export default async function getPostComments(postId) {
   try {
-    const result = await Promise.all(commentsArray.map(async (commentId) => {
-      const response = await axios.get(`http://localhost:8080/Comments/${commentId}`);
-      if (response.status === 200) {
-        return response.data;
-      }
-    }));
+    const result = await axios.get(`http://localhost:8080/Comments/post/${postId}`);
+    if (result.status === 200) {
+      return result;
+    }
     return result;
   } catch (e) {
     // console.log('get all posts error');
