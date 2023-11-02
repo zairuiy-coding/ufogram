@@ -12,13 +12,11 @@ export default async function register(newUsername, newPassword) {
     return -2;
   }
   try {
-    const response = await axios.post('http://localhost:8080/Users', {
+    const response = await axios.post('http://localhost:8080/Users/', {
       username: newUsername,
       password: newPassword,
-      following: [],
-      followers: [],
     });
-    return response.status;
+    return response;
   } catch (e) {
     // error
     // console.log('registration error: ', e);

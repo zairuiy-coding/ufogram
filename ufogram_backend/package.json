@@ -16,6 +16,7 @@
   "author": "UFOgram",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.20.2",
     "mongodb": "^5.1.0"
   },
   "devDependencies": {

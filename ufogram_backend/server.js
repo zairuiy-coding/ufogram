@@ -1,5 +1,6 @@
 // Import express
 const express = require('express');
+const bodyParser = require('body-parser');
 
 // enable cross-origin resource sharing (cors)
 const cors = require('cors');
@@ -8,6 +9,7 @@ const cors = require('cors');
 const webapp = express();
 
 webapp.use(cors());
+webapp.use(bodyParser.json());
 
 // Import database operations
 const lib = require('./DbOperations');
@@ -63,6 +65,7 @@ webapp.get('/Users/:id', async (req, res) => {
 
 webapp.post('/Users/', async (req, res) => {
   console.log('CREATE a user');
+  console.log(req.body);
   if (!req.body.username || !req.body.password) {
     res.status(404).json({ error: 'missing user info' });
     return;

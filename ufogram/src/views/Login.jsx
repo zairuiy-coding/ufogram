@@ -33,7 +33,7 @@ export default function Login() {
 
       let userId = 0;
 
-      if (response.status === 200) {
+      if (response !== -1 && response.status === 200) {
         let userFound = false;
         console.log(response);
         for (let i = 0; i < response.data.users.length; i += 1) {

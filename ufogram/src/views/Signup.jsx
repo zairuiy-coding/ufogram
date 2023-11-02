@@ -12,15 +12,18 @@ function Signup() {
   const handleSignup = async () => {
     // console.log('User info', username, password);
     const response = await getUsers();
-    for (let i = 0; i < response.data.length; i += 1) {
-      if (response.data[i].username === username) {
+    if (response === -1 || response.status !== 200) {
+      return;
+    }
+    for (let i = 0; i < response.data.users.length; i += 1) {
+      if (response.data.users[i].username === username) {
         return;
       }
     }
     try {
-      const status = await register(username, password);
+      const response2 = await register(username, password);
       // console.log('Status', status);
-      if (status === 201) {
+      if (response2 !== -1 && response2 !== -2 && response2.status === 201) {
         navigate('/login');
       }
     } catch (err) {
