@@ -52,6 +52,7 @@ webapp.get('/Users/:id', async (req, res) => {
       res.status(404).json({ error: 'id is missing' });
       return;
     }
+    console.log('User id: ', req.params.id);
     const result = await lib.getUser(req.params.id);
     if (result === undefined) {
       res.status(404).json({ error: 'bad user id' });

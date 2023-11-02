@@ -40,9 +40,11 @@ export default function Login() {
           console.log(i);
           if (response.data.users[i].username === username
             && response.data.users[i].password === password) {
-            console.log(response.data.users[i].id);
+            // eslint-disable-next-line no-underscore-dangle
+            console.log(response.data.users[i]._id);
             userFound = true;
-            userId = response.data.users[i].id;
+            // eslint-disable-next-line no-underscore-dangle
+            userId = response.data.users[i]._id;
             // setUserId(response.data[i].id);
             break;
           }
