@@ -10,6 +10,7 @@ import getPostComments from '../api/getPostComments';
 function PostRender({
   username, imageUrl, caption, self, state, post,
 }) {
+  console.log(post);
   const [likes, setLikes] = useState(0);
   const [liked, setLiked] = useState(false);
   const [newComment, setNewComment] = useState('');
@@ -31,13 +32,15 @@ function PostRender({
     const eventCopy = clickEvent;
     console.log('1', liked);
     if (liked) {
-      unlikePost(post.id, state.userId);
+      // eslint-disable-next-line no-underscore-dangle
+      unlikePost(post._id, state.userId);
       setLikes(likes - 1);
       setLiked(false);
       console.log('5', liked);
       eventCopy.target.innerHTML = 'Like';
     } else {
-      likePost(post.id, state.userId);
+      // eslint-disable-next-line no-underscore-dangle
+      likePost(post._id, state.userId);
       setLikes(likes + 1);
       setLiked(true);
       console.log('6', liked);
@@ -57,7 +60,8 @@ function PostRender({
         users: state.users,
         initFile: imageUrl,
         initCap: caption,
-        postId: post.id,
+        // eslint-disable-next-line no-underscore-dangle
+        postId: post._id,
       },
     });
   });
@@ -68,7 +72,8 @@ function PostRender({
   });
 
   const addComment = (async () => {
-    await createNewComment(newComment, state.userId, post.id);
+    // eslint-disable-next-line no-underscore-dangle
+    await createNewComment(newComment, state.userId, post._id);
   });
 
   const GetComments = () => {

@@ -90,6 +90,17 @@ webapp.post('/Users/', async (req, res) => {
   }
 });
 
+webapp.get('/Posts', async (_req, res) => {
+  console.log('READ all posts');
+  try {
+    const results = await lib.getPosts();
+    console.log(results);
+    res.status(200).json({ posts: results });
+  } catch (err) {
+    res.status(404).json({ error: err.message });
+  }
+});
+
 webapp.put('/Posts/like/:postId/:userId', async (req, res) => {
   console.log('Like a post');
   try {

@@ -7,6 +7,7 @@ export default function Main() {
   const navigate = useNavigate();
 
   const location = useLocation();
+  console.log('Main state: ', location.state);
 
   const [usernameToSearch, setUsernameToSearch] = useState('');
 
@@ -84,7 +85,7 @@ export default function Main() {
         display: 'flex', width: '100%', justifyContent: 'center', marginTop: '80px',
       }}
       >
-        <Activity userId={location.state.userId} selfKind={0} state={useLocation.state} />
+        <Activity userId={location.state.userId} selfKind={0} state={location.state} />
       </div>
     </div>
   );
