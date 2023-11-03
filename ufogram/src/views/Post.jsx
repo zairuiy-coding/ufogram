@@ -125,9 +125,10 @@ function PostRender({
       <div>
         <h3>Comments:</h3>
         <div>
-          {GetComments().map((comment) => {
-            <Comment text={comment.text} author={comment.author} />;
-          })}
+          {GetComments().map((comment) => (
+            <Comment key={comment.id} text={comment.text} author={comment.author} />
+          ))}
+
           <div>
             <input type="text" name="comment" data-testid="captionBox" onChange={handleComment} />
             <button type="button" id="commentButton" onClick={addComment}>comment</button>

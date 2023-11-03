@@ -13,16 +13,18 @@ export default function DisplayPosts({
     >
       { allPosts.length !== 0
             && selfKind === 0
-            && allPosts.filter((post) => following.some((user) => user.id === post.author.id)).map((post) => (
-              <Post
-                username={post.author.username}
-                imageUrl={post.fileURL}
-                caption={post.caption}
-                self={selfKind}
-                state={state}
-                postObj={post}
-              />
-            ))}
+            && allPosts.filter((post) => following.some((user) => user.id === post.author.id)).map(
+              (post) => (
+                <Post
+                  username={post.author.username}
+                  imageUrl={post.fileURL}
+                  caption={post.caption}
+                  self={selfKind}
+                  state={state}
+                  postObj={post}
+                />
+              ),
+            )}
       { allPosts.length !== 0 && selfKind === 1
             && allPosts.filter((post) => post.author.id === userId).map((post) => (
               <Post

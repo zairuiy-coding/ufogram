@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
-export default function PostRender({ text, author }) {
+export default function Comment({ text, author }) {
   return (
     <div style={{ }}>
       { author }
@@ -14,7 +14,7 @@ export default function PostRender({ text, author }) {
 }
 
 // Prop validation using ESLint's prop object
-PostRender.propTypes = {
+Comment.propTypes = {
   text: PropTypes.string.isRequired,
   author: PropTypes.string.isRequired,
 };
