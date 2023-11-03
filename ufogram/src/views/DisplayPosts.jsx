@@ -22,6 +22,8 @@ export default function DisplayPosts({
                   self={selfKind}
                   state={state}
                   postObj={post}
+                  // eslint-disable-next-line no-underscore-dangle
+                  key={post._id}
                 />
               ),
             )}
@@ -34,6 +36,8 @@ export default function DisplayPosts({
                 self={selfKind}
                 state={state}
                 postObj={post}
+                // eslint-disable-next-line no-underscore-dangle
+                key={post._id}
               />
             ))}
       { allPosts.length !== 0 && selfKind === 2
@@ -45,6 +49,8 @@ export default function DisplayPosts({
                 self={selfKind}
                 state={state}
                 postObj={post}
+                // eslint-disable-next-line no-underscore-dangle
+                key={post._id}
               />
             ))}
       { allPosts.length === 0 && <t>No posts</t>}

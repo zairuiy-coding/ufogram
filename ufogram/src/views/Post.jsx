@@ -20,13 +20,15 @@ function PostRender({
   const navigate = useNavigate();
 
   let likeText = 'Like';
-  setLikes(postObj.likes.length);
-  if (postObj.likes.includes(state.userId)) {
-    likeText = 'Unlike';
-    setLiked(true);
-  }
 
-  // const likeButton = document.getElementById('likeButton');
+  useEffect(() => {
+    console.log('UseEffect called');
+
+    setLikes(postObj.likes.length);
+    if (postObj.likes.includes(state.userId)) {
+      setLiked(true);
+    }
+  }, []);
 
   const handleLike = ((clickEvent) => {
     const eventCopy = clickEvent;
@@ -48,7 +50,7 @@ function PostRender({
     }
     // const button = clickEvent.target;
     // console.log('2', button.innerHTML);
-    // button.innerHTML = liked ? 'Unlike' : 'Like';
+    likeText = liked ? 'Unlike' : 'Like';
     // console.log('4', button.innerHTML);
   });
 

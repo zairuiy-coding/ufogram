@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import DisplayPosts from './DisplayPosts';
 import getAllPosts from '../api/getAllPosts';
@@ -84,7 +84,12 @@ export default function Activity({ userId, selfKind, state }) {
 
         const responsew = await getAllPosts();
         if (responsew.status === 200) {
-          setAllPosts(responsew.data.posts.reverse());
+          const newPosts = responsew.data.posts.reverse();
+          if (JSON.stringify(newPosts) !== JSON.stringify(allPosts)) {
+            console.log('change posts to', responsew.data.posts.reverse());
+            setAllPosts(newPosts);
+          }
+          // setAllPosts(responsew.data.posts.reverse());
           // allPosts = response.data.posts.reverse();
         } else {
           console.log('getAllPosts error');
@@ -135,7 +140,7 @@ export default function Activity({ userId, selfKind, state }) {
   // console.log('AllPosts: ', posts);
   // console.log('Post length: ', posts.length);
   // console.log('F: ', f);
-
+  console.log('POSTS', allPosts);
   return (
     <DisplayPosts
       following={following}
