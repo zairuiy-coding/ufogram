@@ -8,9 +8,9 @@ import createNewComment from '../api/createNewComment';
 import getPostComments from '../api/getPostComments';
 
 function PostRender({
-  username, imageUrl, caption, self, state, post,
+  username, imageUrl, caption, self, state, postObj,
 }) {
-  console.log(post);
+  console.log(postObj);
   const [likes, setLikes] = useState(0);
   const [liked, setLiked] = useState(false);
   const [newComment, setNewComment] = useState('');
@@ -20,8 +20,8 @@ function PostRender({
   const navigate = useNavigate();
 
   let likeText = 'Like';
-  setLikes(post.likes.length);
-  if (post.likes.includes(state.userId)) {
+  setLikes(postObj.likes.length);
+  if (postObj.likes.includes(state.userId)) {
     likeText = 'Unlike';
     setLiked(true);
   }
@@ -33,14 +33,14 @@ function PostRender({
     console.log('1', liked);
     if (liked) {
       // eslint-disable-next-line no-underscore-dangle
-      unlikePost(post._id, state.userId);
+      unlikePost(postObj._id, state.userId);
       setLikes(likes - 1);
       setLiked(false);
       console.log('5', liked);
       eventCopy.target.innerHTML = 'Like';
     } else {
       // eslint-disable-next-line no-underscore-dangle
-      likePost(post._id, state.userId);
+      likePost(postObj._id, state.userId);
       setLikes(likes + 1);
       setLiked(true);
       console.log('6', liked);
@@ -61,7 +61,7 @@ function PostRender({
         initFile: imageUrl,
         initCap: caption,
         // eslint-disable-next-line no-underscore-dangle
-        postId: post._id,
+        postId: postObj._id,
       },
     });
   });
@@ -73,7 +73,7 @@ function PostRender({
 
   const addComment = (async () => {
     // eslint-disable-next-line no-underscore-dangle
-    await createNewComment(newComment, state.userId, post._id);
+    await createNewComment(newComment, state.userId, postObj._id);
   });
 
   const GetComments = () => {
@@ -84,7 +84,7 @@ function PostRender({
         try {
           // console.log(location.state.sId);
           // eslint-disable-next-line no-underscore-dangle
-          const result = await getPostComments(post._id);
+          const result = await getPostComments(postObj._id);
           if (result !== -1) {
             // console.log(response.data.following);
             setComments(result.data.data);
@@ -145,7 +145,7 @@ PostRender.propTypes = {
   caption: PropTypes.string.isRequired,
   self: PropTypes.number.isRequired,
   state: PropTypes.string.isRequired,
-  post: PropTypes.string.isRequired,
+  postObj: PropTypes.string.isRequired,
 };
 
 export default PostRender;
