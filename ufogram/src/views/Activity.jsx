@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import DisplayPosts from './DisplayPosts';
 import getAllPosts from '../api/getAllPosts';
@@ -8,12 +8,13 @@ export default function Activity({ userId, selfKind, state }) {
   // selfKind: 0 means from main, 1 means from my profile, 2 means from soneone else's profile
   // const [posts, setPosts] = useState([]);
   // const [f, setF] = useState([]);
-  // const [allPosts, setAllPosts] = useState([]);
-  // const [following, setFollowing] = useState([]);
-  let allPosts;
-  let following;
-  const [id, setId] = useState('');
-  setId(userId);
+  const [allPosts, setAllPosts] = useState([]);
+  const [following, setFollowing] = useState([]);
+  const [fetched, setFetched] = useState(false);
+  // let allPosts;
+  // let following;
+  // const [id, setId] = useState('');
+  // setId(userId);
 
   console.log('userId: ', userId);
   console.log('self: ', selfKind);
@@ -71,37 +72,63 @@ export default function Activity({ userId, selfKind, state }) {
 
   useEffect(() => {
     console.log('UseEffect called');
-    async function fetchAllPosts() {
-      try {
-        const response = await getAllPosts();
-        if (response.status === 200) {
-          // setAllPosts(response.data.posts.reverse());
-          allPosts = response.data.posts.reverse();
-        } else {
-          console.log('getAllPosts error');
-        }
-      } catch (error) {
-        console.error('getAllPosts error', error);
-      }
-    }
-
-    async function fetchFollowing() {
+    async function fetchData() {
       try {
         const response = await getUser(userId);
         if (response.status === 200) {
-          // setFollowing(response.data.user.following);
-          following = response.data.user.following;
+          setFollowing(response.data.user.following);
+          // following = response.data.user.following;
         } else {
           console.log('getFollowing error');
         }
+
+        const responsew = await getAllPosts();
+        if (responsew.status === 200) {
+          setAllPosts(responsew.data.posts.reverse());
+          // allPosts = response.data.posts.reverse();
+        } else {
+          console.log('getAllPosts error');
+        }
+
+        setFetched(true);
       } catch (error) {
         console.error('getFollowing error', error);
       }
     }
+    if (!fetched) {
+      fetchData();
+    }
+  }, [userId, fetched]);
 
-    fetchAllPosts();
-    fetchFollowing();
-  }, [id]);
+  // const fetchData = useCallback(async () => {
+  //   try {
+  //     const response = await getAllPosts();
+  //     if (response.status === 200) {
+  //       setAllPosts(response.data.posts.reverse());
+  //       // allPosts = response.data.posts.reverse();
+  //     } else {
+  //       console.log('getAllPosts error');
+  //     }
+  //   } catch (error) {
+  //     console.error('getAllPosts error', error);
+  //   }
+
+  //   try {
+  //     const response = await getUser(userId);
+  //     if (response.status === 200) {
+  //       setFollowing(response.data.user.following);
+  //       // following = response.data.user.following;
+  //     } else {
+  //       console.log('getFollowing error');
+  //     }
+  //   } catch (error) {
+  //     console.error('getFollowing error', error);
+  //   }
+  // }, [userId]);
+
+  // useEffect(() => {
+  //   fetchData();
+  // }, []);
 
   // const posts = GetAllPosts();
   // const f = GetFollowing();
@@ -115,7 +142,7 @@ export default function Activity({ userId, selfKind, state }) {
       allPosts={allPosts}
       selfKind={selfKind}
       state={state}
-      userId
+      userId={userId}
     />
   );
 }
