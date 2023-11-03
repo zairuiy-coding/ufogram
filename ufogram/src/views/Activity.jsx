@@ -8,8 +8,12 @@ export default function Activity({ userId, selfKind, state }) {
   // selfKind: 0 means from main, 1 means from my profile, 2 means from soneone else's profile
   // const [posts, setPosts] = useState([]);
   // const [f, setF] = useState([]);
-  const [allPosts, setAllPosts] = useState([]);
-  const [following, setFollowing] = useState([]);
+  // const [allPosts, setAllPosts] = useState([]);
+  // const [following, setFollowing] = useState([]);
+  let allPosts;
+  let following;
+  const [id, setId] = useState('');
+  setId(userId);
 
   console.log('userId: ', userId);
   console.log('self: ', selfKind);
@@ -71,7 +75,8 @@ export default function Activity({ userId, selfKind, state }) {
       try {
         const response = await getAllPosts();
         if (response.status === 200) {
-          setAllPosts(response.data.posts.reverse());
+          // setAllPosts(response.data.posts.reverse());
+          allPosts = response.data.posts.reverse();
         } else {
           console.log('getAllPosts error');
         }
@@ -84,7 +89,8 @@ export default function Activity({ userId, selfKind, state }) {
       try {
         const response = await getUser(userId);
         if (response.status === 200) {
-          setFollowing(response.data.user.following);
+          // setFollowing(response.data.user.following);
+          following = response.data.user.following;
         } else {
           console.log('getFollowing error');
         }
@@ -95,7 +101,7 @@ export default function Activity({ userId, selfKind, state }) {
 
     fetchAllPosts();
     fetchFollowing();
-  }, []);
+  }, [id]);
 
   // const posts = GetAllPosts();
   // const f = GetFollowing();
