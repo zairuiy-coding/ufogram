@@ -69,10 +69,11 @@ export default function PostRender() {
 
     try {
       // change to editPost!!!
-      const status = await editPost(caption, file, author, location.state.postId);
+      const response = await editPost(caption, file, author, location.state.postId);
       //   console.log('Status', status);
 
-      if (status === 200) {
+      if (response.status === 200) {
+        console.log('editPost 200');
         navigate('/userprofile', {
           state: {
             userId: location.state.userId,
@@ -110,18 +111,20 @@ export default function PostRender() {
     const response = await deletePost(location.state.postId);
     if (response.status !== 200) {
       console.log('Post deletion error');
+      console.log(response);
+    } else {
+      navigate('/userprofile', {
+        state: {
+          userId: location.state.userId,
+          username: location.state.username,
+          self: true,
+          sName: location.state.username,
+          sId: location.state.userId,
+          users: location.state.users,
+          followed: true,
+        },
+      });
     }
-    navigate('/userprofile', {
-      state: {
-        userId: location.state.userId,
-        username: location.state.username,
-        self: true,
-        sName: location.state.username,
-        sId: location.state.userId,
-        users: location.state.users,
-        followed: true,
-      },
-    });
   };
 
   const handleFile = (fileEvent) => {

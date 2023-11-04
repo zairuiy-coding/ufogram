@@ -36,7 +36,7 @@ const checkUserExists = async (userId) => {
 
     db.collection('Users').findOne(
       {
-        _id: ObjectId(userId),
+        _id: new ObjectId(userId),
       },
       (err, result) => {
         if (err) {
@@ -62,7 +62,7 @@ const checkPostExists = async (postId) => {
 
     db.collection('Posts').findOne(
       {
-        _id: ObjectId(postId),
+        _id: new ObjectId(postId),
       },
       (err, result) => {
         if (err) {
@@ -88,7 +88,7 @@ const checkCommentExists = async (commentId) => {
 
     db.collection('Comments').findOne(
       {
-        _id: ObjectId(commentId),
+        _id: new ObjectId(commentId),
       },
       (err, result) => {
         if (err) {
@@ -185,7 +185,7 @@ const deleteUser = async (userId) => {
   try {
     const db = await getDB();
     const result = await db.collection('Users').deleteOne(
-      { _id: ObjectId(userId) },
+      { _id: new ObjectId(userId) },
     );
     console.log(`Deleted user: ${JSON.stringify(result)}`);
     return result;
@@ -233,7 +233,7 @@ const addPostLike = async (postId, userId) => {
     // check the user has not liked the post yet
     db.collection('Posts').findOne(
       {
-        _id: ObjectId(postId),
+        _id: new ObjectId(postId),
         likes: { $in: userId },
       },
       (err, result) => {
@@ -249,7 +249,7 @@ const addPostLike = async (postId, userId) => {
       },
     );
     const result = await db.collection('Posts').updateOne(
-      { _id: ObjectId(postId) },
+      { _id: new ObjectId(postId) },
       { $push: { likes: userId } },
     );
     return result;
@@ -270,7 +270,7 @@ const removePostLike = async (postId, userId) => {
 
     db.collection('Posts').findOne(
       {
-        _id: ObjectId(postId),
+        _id: new ObjectId(postId),
         likes: { $in: userId },
       },
       (err, result) => {
@@ -285,7 +285,7 @@ const removePostLike = async (postId, userId) => {
       },
     );
     const result = await db.collection('Posts').updateOne(
-      { _id: ObjectId(postId) },
+      { _id: new ObjectId(postId) },
       { $pull: { likes: userId } },
     );
     return result;
@@ -328,7 +328,7 @@ const deletePost = async (postId) => {
   try {
     const db = await getDB();
     const result = await db.collection('Posts').deleteOne(
-      { _id: ObjectId(postId) },
+      { _id: new ObjectId(postId) },
     );
     console.log(`Deleted post: ${JSON.stringify(result)}`);
     return result;

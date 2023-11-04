@@ -136,6 +136,7 @@ webapp.post('/Posts', async (req, res) => {
     fileURL: req.body.fileURL,
     likes: [],
     author: req.body.author,
+    comments: [],
   };
   try {
     const result = await lib.createPost(newPost);
