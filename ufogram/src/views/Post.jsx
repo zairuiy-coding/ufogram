@@ -107,7 +107,8 @@ function PostRender({
     // return comments;
     return (
       comments.map((comment) => (
-        <Comment key={comment.id} text={comment.text} author={comment.author} />
+        // eslint-disable-next-line no-underscore-dangle
+        <Comment key={comment._id} text={comment.text} author={comment.author} />
       ))
     );
   };
