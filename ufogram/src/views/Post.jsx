@@ -8,11 +8,11 @@ import createNewComment from '../api/createNewComment';
 import getPostComments from '../api/getPostComments';
 
 function PostRender({
-  username, imageUrl, caption, self, state, postObj, initialLikes,
+  username, imageUrl, caption, self, state, postObj,
 }) {
   console.log(postObj);
 
-  const [likes, setLikes] = useState(initialLikes);
+  const [likes, setLikes] = useState(0);
   const [liked, setLiked] = useState(false);
   const [newComment, setNewComment] = useState('');
 
@@ -26,7 +26,7 @@ function PostRender({
     console.log('UseEffect called');
 
     // const initalLikes = postObj.likes.length;
-    // setLikes(initalLikes);
+    setLikes(postObj.likes.length);
 
     if (postObj.likes.includes(state.userId)) {
       setLiked(true);
