@@ -20,6 +20,7 @@ export default async function getUser(userId) {
   } catch (e) {
     // error
     // console.log('get user error: ', e);
+    // console.log(e);
     return -1;
   }
 }

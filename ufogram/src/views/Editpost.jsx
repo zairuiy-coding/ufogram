@@ -140,7 +140,7 @@ export default function PostRender() {
       >
         <h1>New Post</h1>
         <div>
-          <button type="button" title="Create New Post" onClick={handleMain}>Main</button>
+          <button type="button" title="Create New Post" onClick={handleDiscard}>My Profile</button>
         </div>
       </div>
       <div style={{

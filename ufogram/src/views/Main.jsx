@@ -35,11 +35,14 @@ export default function Main() {
   };
 
   const handleSearchUser = async () => {
+    console.log(location.state.users);
     const userToSearch = location.state.users.find((user) => user.username === usernameToSearch);
-
+    console.log(userToSearch);
     if (userToSearch) {
-      const searchResponse = await getUser(userToSearch.id);
-      const isFollowed = searchResponse.data.followers.some(
+      // eslint-disable-next-line no-underscore-dangle
+      const searchResponse = await getUser(userToSearch._id);
+      console.log(searchResponse);
+      const isFollowed = searchResponse.data.user.followers.some(
         (follower) => follower.id === location.state.userId,
       );
 

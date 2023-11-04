@@ -54,7 +54,7 @@ export default function Login() {
           console.log(userId);
           console.log(username);
           console.log(response.data.users);
-          navigate('/main', { state: { userId, username, users: response.data } });
+          navigate('/main', { state: { userId, username, users: response.data.users } });
         //   console.log('naviate successfully');
         }
       } else {

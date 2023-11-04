@@ -33,8 +33,8 @@ function PostRender({
     }
   }, [state.userId]);
 
-  const handleLike = ((clickEvent) => {
-    const eventCopy = clickEvent;
+  const handleLike = (() => {
+    // const eventCopy = clickEvent;
     console.log('1', liked);
     if (liked) {
       // eslint-disable-next-line no-underscore-dangle
@@ -161,7 +161,6 @@ PostRender.propTypes = {
   self: PropTypes.number.isRequired,
   state: PropTypes.string.isRequired,
   postObj: PropTypes.string.isRequired,
-  initialLikes: PropTypes.number.isRequired,
 };
 
 export default PostRender;
