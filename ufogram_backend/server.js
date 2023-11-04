@@ -90,6 +90,29 @@ webapp.post('/Users/', async (req, res) => {
   }
 });
 
+webapp.put('/Users/:userId', async (req, res) => {
+  console.log('UPDATE a user');
+  try {
+    if (req.params.userId === undefined) {
+      res.status(404).json({ error: 'user ID is missing' });
+      return;
+    }
+    if (!req.body.username || !req.body.password || !req.body.following || !req.body.followers) {
+      res.status(404).json({ error: 'missing user info' });
+      return;
+    }
+
+    const result = await lib.updateUser(req.params.userId, req.body.username, req.body.password, req.body.following, req.body.followers);
+    if (result === undefined) {
+      res.status(404).json({ error: 'bad user ID' });
+      return;
+    }
+    res.status(200).json({ data: result });
+  } catch (err) {
+    res.status(404).json({ error: err.message });
+  }
+});
+
 webapp.get('/Posts', async (_req, res) => {
   console.log('READ all posts');
   try {

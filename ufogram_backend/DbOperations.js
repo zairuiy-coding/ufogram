@@ -18,6 +18,7 @@ const connect = async () => {
   } catch (err) {
     console.log(err.message);
   }
+  return MongoConnection;
 };
 
 const getDB = async () => {
@@ -151,20 +152,35 @@ const getUser = async (userId) => {
   }
 };
 
-// const updateUser = async (userId, newCommentId) => {
-//   try {
-//     // get the db
-//     const db = await getDB();
-//     const result = await db.collection('Users').updateOne(
-//       { _id: ObjectId(userId) },
-//       // add a new comment id
-//       // { $set: { major: newMajor } },
-//     );
-//     return result;
-//   } catch (err) {
-//     console.log(`error: ${err.message}`);
-//   }
-// };
+const updateUser = async (userId, newUsername, newPassword, newFollowing, newFollowers) => {
+  try {
+    // get the db
+    const db = await getDB();
+    const result = await db.collection('Users').updateOne(
+      { _id: ObjectId(userId) },
+      { $set: { username: newUsername } },
+      { $set: { password: newPassword } },
+      { $set: { following: newFollowing } },
+      { $set: { followers: newFollowers } },
+    );
+    return result;
+  } catch (err) {
+    console.log(`error: ${err.message}`);
+  }
+};
+
+const deleteUser = async (userId) => {
+  try {
+    const db = await getDB();
+    const result = await db.collection('Users').deleteOne(
+      { _id: ObjectId(userId) },
+    );
+    console.log(`Deleted user: ${JSON.stringify(result)}`);
+    return result;
+  } catch (err) {
+    console.log(`error: ${err.message}`);
+  }
+};
 
 const getPosts = async () => {
   try {
@@ -355,6 +371,7 @@ module.exports = {
   addUser,
   getUsers,
   getUser,
+  deleteUser,
   getPosts,
   getPost,
   updatePost,
@@ -368,4 +385,5 @@ module.exports = {
   commentPost,
   deletePost,
   createPost,
+  updateUser,
 };

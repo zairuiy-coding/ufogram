@@ -51,7 +51,8 @@ export default function Main() {
         username: location.state.username,
         self: location.state.username === usernameToSearch,
         sName: usernameToSearch,
-        sId: userToSearch.id,
+        // eslint-disable-next-line no-underscore-dangle
+        sId: userToSearch._id,
         users: location.state.users,
         followed: isFollowed,
       };
