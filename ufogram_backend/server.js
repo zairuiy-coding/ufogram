@@ -252,7 +252,7 @@ webapp.get('/Comments/:id', async (req, res) => {
 });
 
 webapp.get('/Comments/post/:id', async (req, res) => {
-  console.log('Get all commebts of a post');
+  console.log('Get all comments of a post');
   try {
     if (req.params.id === undefined) {
       res.status(404).json({ error: 'id is missing' });

@@ -100,7 +100,12 @@ function PostRender({
       }
       fetchComments();
     }, []);
-    return comments;
+    // return comments;
+    return (
+      comments.map((comment) => (
+        <Comment key={comment.id} text={comment.text} author={comment.author} />
+      ))
+    );
   };
 
   return (
@@ -127,9 +132,12 @@ function PostRender({
       <div>
         <h3>Comments:</h3>
         <div>
-          {GetComments().map((comment) => (
+          {/* {GetComments().map((comment) => (
             <Comment key={comment.id} text={comment.text} author={comment.author} />
-          ))}
+          ))} */}
+          {
+            GetComments()
+          }
 
           <div>
             <input type="text" name="comment" data-testid="captionBox" onChange={handleComment} />

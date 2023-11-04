@@ -322,7 +322,7 @@ const getComment = async (commentId) => {
     const db = await getDB();
     const result = await db.collection('Comments').findOne({ _id: new ObjectId(commentId) });
     // print the result
-    console.log(`User: ${JSON.stringify(result)}`);
+    console.log(`Comment: ${JSON.stringify(result)}`);
     return result;
   } catch (err) {
     console.log(`error: ${err.message}`);

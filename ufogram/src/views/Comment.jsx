@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 export default function Comment({ text, author }) {
   return (
     <div style={{ }}>
-      { author }
+      { author.username }
       :
       {' '}
       { text }
