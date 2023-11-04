@@ -155,14 +155,26 @@ const getUser = async (userId) => {
 const updateUser = async (userId, newUsername, newPassword, newFollowing, newFollowers) => {
   try {
     // get the db
+    console.log('DbOp updateUser userId', userId);
+    console.log('DbOp updateUser following', newFollowing);
+    console.log('DbOp updateUser folllowers', newFollowers);
     const db = await getDB();
     const result = await db.collection('Users').updateOne(
-      { _id: ObjectId(userId) },
-      { $set: { username: newUsername } },
-      { $set: { password: newPassword } },
-      { $set: { following: newFollowing } },
-      { $set: { followers: newFollowers } },
+      { _id: new ObjectId(userId) },
+      {
+        $set: {
+          username: newUsername,
+          password: newPassword,
+          following: newFollowing,
+          followers: newFollowers,
+        },
+      },
+      // { $set: { username: newUsername } },
+      // { $set: { password: newPassword } },
+      // { $set: { following: newFollowing } },
+      // { $set: { followers: newFollowers } },
     );
+    console.log('DbOp updateUser result', result);
     return result;
   } catch (err) {
     console.log(`error: ${err.message}`);
@@ -286,10 +298,14 @@ const updatePost = async (postId, caption, fileURL, author) => {
   try {
     const db = await getDB();
     const result = await db.collection('Posts').updateOne(
-      { _id: ObjectId(postId) },
-      { $set: { caption } },
-      { $set: { fileURL } },
-      { $set: { author } },
+      { _id: new ObjectId(postId) },
+      {
+        $set: {
+          caption,
+          fileURL,
+          author,
+        },
+      },
     );
     console.log(`Post: ${JSON.stringify(result)}`);
     return result;

@@ -12,7 +12,6 @@ export default async function createNewPost(caption, fileURL, author) {
     const response = await axios.post('http://localhost:8080/Posts', {
       caption,
       fileURL,
-      likes: [],
       author,
     });
     return response.status;

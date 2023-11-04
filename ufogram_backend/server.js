@@ -124,6 +124,31 @@ webapp.get('/Posts', async (_req, res) => {
   }
 });
 
+webapp.post('/Posts', async (req, res) => {
+  console.log('Create a post');
+  if (!req.body.caption || !req.body.fileURL || !req.body.author) {
+    res.status(404).json({ error: 'missing post info' });
+    return;
+  }
+  // create new user object
+  const newPost = {
+    caption: req.body.caption,
+    fileURL: req.body.fileURL,
+    likes: [],
+    author: req.body.author,
+  };
+  try {
+    const result = await lib.createPost(newPost);
+    console.log(`id: ${JSON.stringify(result)}`);
+    // add id to new post and return it
+    res.status(201).json({
+      post: { id: result, ...newPost },
+    });
+  } catch (err) {
+    res.status(404).json({ error: err.message });
+  }
+});
+
 webapp.put('/Posts/like/:postId/:userId', async (req, res) => {
   console.log('Like a post');
   try {

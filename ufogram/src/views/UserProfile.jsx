@@ -41,18 +41,20 @@ export default function UserProfile() {
       const newFollowers = currFollowers.filter((user) => user.id !== location.state.userId);
       console.log('newFollowing: \n', newFollowing);
       console.log('newFollowers: \n', newFollowers);
-      await updateUser(location.state.userId, {
+      const response1 = await updateUser(location.state.userId, {
         username: selfResponse.data.user.username,
         password: selfResponse.data.user.password,
         following: newFollowing,
         followers: selfResponse.data.user.followers,
       });
-      await updateUser(location.state.sId, {
+      const response2 = await updateUser(location.state.sId, {
         username: searchResponse.data.user.username,
         password: searchResponse.data.user.password,
         following: searchResponse.data.user.following,
         followers: newFollowers,
       });
+      console.log('Response1: ', response1);
+      console.log('Response2: ', response2);
       copy.target.innerHTML = 'Follow';
       // setFollowed(false);
       followed = false;
@@ -70,19 +72,20 @@ export default function UserProfile() {
       });
       // console.log('newFollowing: \n', newFollowing);
       // console.log('newFollowers: \n', newFollowers);
-      await updateUser(location.state.userId, {
+      const response1 = await updateUser(location.state.userId, {
         username: selfResponse.data.user.username,
         password: selfResponse.data.user.password,
         following: newFollowing,
         followers: selfResponse.data.user.followers,
       });
-      await updateUser(location.state.sId, {
+      const response2 = await updateUser(location.state.sId, {
         username: searchResponse.data.user.username,
         password: searchResponse.data.user.password,
         following: searchResponse.data.user.following,
         followers: newFollowers,
       });
-
+      console.log('Response1: ', response1);
+      console.log('Response2: ', response2);
       copy.target.innerHTML = 'Unfollow';
       // console.log('Inner HTML: ', followEvent.target.innerHTML);
       // setFollowed(true);
