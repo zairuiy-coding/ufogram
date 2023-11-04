@@ -10,7 +10,7 @@ export default function Activity({ userId, selfKind, state }) {
   // const [f, setF] = useState([]);
   const [allPosts, setAllPosts] = useState([]);
   const [following, setFollowing] = useState([]);
-  const [fetched, setFetched] = useState(false);
+  // const [fetched, setFetched] = useState(false);
   // let allPosts;
   // let following;
   // const [id, setId] = useState('');
@@ -95,15 +95,15 @@ export default function Activity({ userId, selfKind, state }) {
           console.log('getAllPosts error');
         }
 
-        setFetched(true);
+        // setFetched(true);
       } catch (error) {
         console.error('getFollowing error', error);
       }
     }
-    if (!fetched) {
-      fetchData();
-    }
-  }, [userId, fetched]);
+    // if (!fetched) {
+    fetchData();
+    // }
+  }, [userId]);
 
   // const fetchData = useCallback(async () => {
   //   try {

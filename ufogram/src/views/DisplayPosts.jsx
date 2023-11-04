@@ -23,7 +23,7 @@ export default function DisplayPosts({
                   state={state}
                   postObj={post}
                   // eslint-disable-next-line no-underscore-dangle
-                  key={post._id}
+                //   key={post._id}
                 />
               ),
             )}

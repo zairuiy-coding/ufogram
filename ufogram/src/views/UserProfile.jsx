@@ -30,8 +30,8 @@ export default function UserProfile() {
     // console.log(`Followed at the start: ${followed}`);
     const selfResponse = await getUser(location.state.userId);
     const searchResponse = await getUser(location.state.sId);
-    const currFollowing = selfResponse.data.following.slice();
-    const currFollowers = searchResponse.data.followers.slice();
+    const currFollowing = selfResponse.data.user.following.slice();
+    const currFollowers = searchResponse.data.user.followers.slice();
     const copy = followEvent;
     if (followed) {
       const newFollowing = currFollowing.filter((user) => user.id !== location.state.sId);
@@ -39,15 +39,15 @@ export default function UserProfile() {
       // console.log('newFollowing: \n', newFollowing);
       // console.log('newFollowers: \n', newFollowers);
       await updateUser(location.state.userId, {
-        username: selfResponse.data.username,
-        password: selfResponse.data.password,
+        username: selfResponse.data.user.username,
+        password: selfResponse.data.user.password,
         following: newFollowing,
-        followers: selfResponse.data.followers,
+        followers: selfResponse.data.user.followers,
       });
       await updateUser(location.state.sId, {
-        username: searchResponse.data.username,
-        password: searchResponse.data.password,
-        following: searchResponse.data.following,
+        username: searchResponse.data.user.username,
+        password: searchResponse.data.user.password,
+        following: searchResponse.data.user.following,
         followers: newFollowers,
       });
       copy.target.innerHTML = 'Follow';
@@ -59,24 +59,24 @@ export default function UserProfile() {
       const newFollowers = currFollowers.slice();
       newFollowing.push({
         id: location.state.sId,
-        username: searchResponse.data.username,
+        username: searchResponse.data.user.username,
       });
       newFollowers.push({
         id: location.state.userId,
-        username: selfResponse.data.username,
+        username: selfResponse.data.user.username,
       });
       // console.log('newFollowing: \n', newFollowing);
       // console.log('newFollowers: \n', newFollowers);
       await updateUser(location.state.userId, {
-        username: selfResponse.data.username,
-        password: selfResponse.data.password,
+        username: selfResponse.data.user.username,
+        password: selfResponse.data.user.password,
         following: newFollowing,
-        followers: selfResponse.data.followers,
+        followers: selfResponse.data.user.followers,
       });
       await updateUser(location.state.sId, {
-        username: searchResponse.data.username,
-        password: searchResponse.data.password,
-        following: searchResponse.data.following,
+        username: searchResponse.data.user.username,
+        password: searchResponse.data.user.password,
+        following: searchResponse.data.user.following,
         followers: newFollowers,
       });
 
@@ -98,7 +98,7 @@ export default function UserProfile() {
           const response = await getUser(location.state.sId);
           if (response.status === 200) {
             // console.log(response.data.following);
-            setFollowing(response.data.following);
+            setFollowing(response.data.user.following);
           } else {
             // Authentication failed, set error message
             // console.log('Invaliduser ID. Please try again.');
@@ -122,7 +122,7 @@ export default function UserProfile() {
           const response = await getUser(location.state.sId);
           if (response.status === 200) {
             // console.log(response.data.followers);
-            setFollowers(response.data.followers);
+            setFollowers(response.data.user.followers);
           } else {
             // Authentication failed, set error message
             // console.log('Invaliduser ID. Please try again.');

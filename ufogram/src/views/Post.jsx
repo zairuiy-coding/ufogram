@@ -39,14 +39,14 @@ function PostRender({
       setLikes(likes - 1);
       setLiked(false);
       console.log('5', liked);
-      eventCopy.target.innerHTML = 'Like';
+      likeText = 'Like';
     } else {
       // eslint-disable-next-line no-underscore-dangle
       likePost(postObj._id, state.userId);
       setLikes(likes + 1);
       setLiked(true);
       console.log('6', liked);
-      eventCopy.target.innerHTML = 'Unlike';
+      likeText = 'Unlike';
     }
     // const button = clickEvent.target;
     // console.log('2', button.innerHTML);
