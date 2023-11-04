@@ -103,9 +103,14 @@ describe('GET user(s) endpoint integration test', () => {
     console.log('resp.text in update user test: ', resp.text);
     expect(resp.status).toEqual(200);
     expect(resp.type).toBe('application/json');
-    const userArr = JSON.parse(resp.text).data;
-    // testUser is in the response
-    expect(userArr).toMatchObject({
+
+    // Retrieve the updated user data
+    const updatedUserResp = await request(webapp).get(`/Users/${testUserID}`);
+    expect(updatedUserResp.status).toEqual(200);
+
+    // Assert the expected values on the retrieved user data
+    const updatedUser = JSON.parse(updatedUserResp.text).user;
+    expect(updatedUser).toMatchObject({
       _id: testUserID,
       username: 'testuser_updated',
       password: '1234567',
