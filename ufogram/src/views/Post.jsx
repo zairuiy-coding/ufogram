@@ -8,10 +8,11 @@ import createNewComment from '../api/createNewComment';
 import getPostComments from '../api/getPostComments';
 
 function PostRender({
-  username, imageUrl, caption, self, state, postObj,
+  username, imageUrl, caption, self, state, postObj, initialLikes,
 }) {
   console.log(postObj);
-  const [likes, setLikes] = useState(0);
+
+  const [likes, setLikes] = useState(initialLikes);
   const [liked, setLiked] = useState(false);
   const [newComment, setNewComment] = useState('');
 
@@ -24,11 +25,13 @@ function PostRender({
   useEffect(() => {
     console.log('UseEffect called');
 
-    setLikes(postObj.likes.length);
+    // const initalLikes = postObj.likes.length;
+    // setLikes(initalLikes);
+
     if (postObj.likes.includes(state.userId)) {
       setLiked(true);
     }
-  }, []);
+  }, [state.userId]);
 
   const handleLike = ((clickEvent) => {
     const eventCopy = clickEvent;
@@ -99,7 +102,8 @@ function PostRender({
         }
       }
       fetchComments();
-    }, []);
+    // eslint-disable-next-line no-underscore-dangle
+    }, [postObj._id]);
     // return comments;
     return (
       comments.map((comment) => (
@@ -157,6 +161,7 @@ PostRender.propTypes = {
   self: PropTypes.number.isRequired,
   state: PropTypes.string.isRequired,
   postObj: PropTypes.string.isRequired,
+  initialLikes: PropTypes.number.isRequired,
 };
 
 export default PostRender;
