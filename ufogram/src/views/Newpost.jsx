@@ -76,7 +76,7 @@ export default function Newpost() {
           },
         });
       } else {
-        // return 'Error!';
+        console.log('Create post error');
       }
     } catch (error) {
     //   throw error;
