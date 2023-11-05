@@ -119,6 +119,28 @@ webapp.put('/Users/:userId', async (req, res) => {
   }
 });
 
+webapp.delete('/Users/:userId', async (req, res) => {
+  console.log('Delete a user');
+  try {
+    if (req.params.userId === undefined) {
+      res.status(404).json({ error: 'user ID is missing' });
+      return;
+    }
+
+    const result = await lib.deleteUser(req.params.userId);
+    if (result === undefined) {
+      res.status(404).json({ error: 'bad post ID' });
+      console.log('result === undefined');
+      return;
+    }
+    res.status(200).json({ data: result });
+    console.log('result: ', result);
+  } catch (err) {
+    res.status(404).json({ error: err.message });
+    console.log('err: ', err);
+  }
+});
+
 webapp.get('/Posts', async (_req, res) => {
   console.log('READ all posts');
   try {
