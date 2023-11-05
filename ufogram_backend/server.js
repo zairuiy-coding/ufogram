@@ -102,7 +102,13 @@ webapp.put('/Users/:userId', async (req, res) => {
       return;
     }
 
-    const result = await lib.updateUser(req.params.userId, req.body.username, req.body.password, req.body.following, req.body.followers);
+    const result = await lib.updateUser(
+      req.params.userId,
+      req.body.username,
+      req.body.password,
+      req.body.following,
+      req.body.followers,
+    );
     if (result === undefined) {
       res.status(404).json({ error: 'bad user ID' });
       return;

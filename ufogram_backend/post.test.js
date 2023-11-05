@@ -1,6 +1,8 @@
 /* eslint-disable no-underscore-dangle */
 // import supertest
 const request = require('supertest');
+// Import MongoDB module
+const { ObjectId } = require('mongodb');
 // import the function to close the mongodb connection
 const { closeMongoDBConnection, connect } = require('./DbOperations');
 
@@ -38,7 +40,7 @@ describe('POST /user enpoint tests', () => {
  */
   const clearDatabase = async () => {
     try {
-      const result = await db.collection('Users').deleteOne({ _id: testUserID });
+      const result = await db.collection('Users').deleteOne({ username: 'testuser' });
       console.log('result: ', result);
       const { deletedCount } = result;
       console.log('deletedCount: ', deletedCount);
@@ -85,9 +87,7 @@ describe('POST /user enpoint tests', () => {
   });
 
   test('The new User is in the database', async () => {
-    const insertedUser = await db.collection('Users').findOne({ username: 'testuser' });
-    console.log("insertedUser: ", insertedUser);
-    console.log("testUserID: ", testUserID);
+    const insertedUser = await db.collection('Users').findOne({ _id: new ObjectId(testUserID) });
     expect(insertedUser.username).toEqual('testuser');
   });
 
