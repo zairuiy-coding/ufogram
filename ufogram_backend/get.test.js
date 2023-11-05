@@ -5,7 +5,7 @@ const webapp = require('./server');
 
 let mongo;
 
-// 1. TEST USERS ENDPOINT
+// 1. TEST POST ENDPOINT
 describe('GET user(s) endpoint integration test', () => {
   /**
  * If you get an error with afterEach
@@ -16,7 +16,6 @@ describe('GET user(s) endpoint integration test', () => {
   let testUserID;
   // test resource to create / expected response
   const testUser = { username: 'testuser', password: '1234567' };
-  const testUserUpdated = { username: 'testuser_updated', password: '1234567' };
   /**
      * Make sure that the data is in the DB before running
      * any test
