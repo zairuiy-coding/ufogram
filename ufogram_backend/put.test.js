@@ -71,9 +71,6 @@ describe('Update a student endpoint integration test', () => {
     // the database was updated
     const updatedUserResp = await db.collection('Users').findOne({ _id: new ObjectId(testUserID) });
     // print the result
-    console.log(`User: ${JSON.stringify(updatedUserResp)}`);
-
-    console.log('updatedUser: ', updatedUserResp);
     expect(updatedUserResp.username).toEqual('testuser_updated');
   });
 

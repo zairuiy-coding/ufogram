@@ -31,20 +31,15 @@ describe('GET user(s) endpoint integration test', () => {
       .set('Content-Type', 'application/json')
       .send({ username: 'testuser', password: '1234567' });
 
-    console.log('testuser add successfully');
-    console.log('res.text: ', res.text);
     // eslint-disable-next-line no-underscore-dangle
     testUserID = JSON.parse(res.text).user._id;
-    console.log('testUserID: ', testUserID);
-    console.log('beforeAll completed');
   });
 
   const clearDatabase = async () => {
     try {
       const result = await db.collection('Users').deleteOne({ username: 'testuser' });
-      console.log('result: ', result);
+
       const { deletedCount } = result;
-      console.log('deletedCount: ', deletedCount);
 
       if (deletedCount === 1) {
         console.log('info', 'Successfully deleted test user');
@@ -97,33 +92,6 @@ describe('GET user(s) endpoint integration test', () => {
       followers: [],
     });
   });
-
-  //   test('Update a user endpoint status code and data', async () => {
-  //     const resp = await request(webapp)
-  //       .put(`/Users/${testUserID}`)
-  //       .set('Content-Type', 'application/json')
-  //       .send({
-  //         username: 'testuser_updated', password: '1234567', following: [], followers: [],
-  //       });
-
-  //     console.log('resp.text in update user test: ', resp.text);
-  //     expect(resp.status).toEqual(200);
-  //     expect(resp.type).toBe('application/json');
-
-  //   // Retrieve the updated user data
-  //   const updatedUserResp = await request(webapp).get(`/Users/${testUserID}`);
-  //   expect(updatedUserResp.status).toEqual(200);
-
-  //   // Assert the expected values on the retrieved user data
-  //   const updatedUser = JSON.parse(updatedUserResp.text).user;
-  //   expect(updatedUser).toMatchObject({
-  //     _id: testUserID,
-  //     username: 'testuser_updated',
-  //     password: '1234567',
-  //     following: [],
-  //     followers: [],
-  //   });
-  //   });
 
   test('user not in db status code 404', async () => {
     const resp = await request(webapp).get('/Users/1');
