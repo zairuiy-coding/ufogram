@@ -98,4 +98,5 @@ describe('GET user(s) endpoint integration test', () => {
     expect(resp.status).toEqual(404);
     expect(resp.type).toBe('application/json');
   });
+
 });

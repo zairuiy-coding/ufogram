@@ -8,7 +8,7 @@ const webapp = require('./server');
 let mongo;
 
 // TEST PUT ENDPOINT
-describe('Update a student endpoint integration test', () => {
+describe('Update a user endpoint integration test', () => {
   /**
  * If you get an error with afterEach
  * inside .eslintrc.json in the

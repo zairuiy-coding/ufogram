@@ -162,7 +162,7 @@ webapp.post('/Posts', async (req, res) => {
     res.status(404).json({ error: 'missing post info' });
     return;
   }
-  // create new user object
+  // create new post object
   const newPost = {
     caption: req.body.caption,
     fileURL: req.body.fileURL,
@@ -196,17 +196,21 @@ webapp.put('/Posts/like/:postId/:userId', async (req, res) => {
     const result = await lib.addPostLike(req.params.postId, req.params.userId);
     if (result === undefined) {
       res.status(404).json({ error: 'bad post ID' });
+      console.log('result: ', result);
       return;
     }
     if (result === -2) {
       res.status(404).json({ error: 'bad user ID' });
+      console.log('result: ', result);
       return;
     }
     if (result === -1) {
       res.status(400).json({ error: 'user already liked' });
+      console.log('result: ', result);
       return;
     }
     res.status(200).json({ data: result });
+    console.log('result: ', result);
   } catch (err) {
     res.status(404).json({ error: err.message });
   }
