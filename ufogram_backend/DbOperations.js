@@ -33,23 +33,32 @@ const checkUserExists = async (userId) => {
   try {
     // get the db
     const db = await getDB();
+    console.log('checkUserExists called');
 
-    db.collection('Users').findOne(
+    const result = await db.collection('Users').findOne(
       {
         _id: new ObjectId(userId),
       },
-      (err, result) => {
-        if (err) {
-          console.log(`error: ${err.message}`);
-          return -1;
-        }
-        if (result) {
-          return 0;
-        }
-        console.log('Can\'t find user');
-        return -1;
-      },
     );
+
+    if (result) {
+      console.log('user exists');
+      return 0;
+    }
+    return -1;
+
+    //   (err, result) => {
+    //     if (err) {
+    //       console.log(`error: ${err.message}`);
+    //       return -1;
+    //     }
+    //     if (result) {
+    //       console.log('result: ', result);
+    //       return 0;
+    //     }
+    //     console.log('Can\'t find user');
+    //     return -1;
+    //   },
   } catch (err) {
     console.log(`error: ${err.message}`);
   }
@@ -59,23 +68,19 @@ const checkPostExists = async (postId) => {
   try {
     // get the db
     const db = await getDB();
+    console.log('checkPostExists called');
 
-    db.collection('Posts').findOne(
+    const result = await db.collection('Posts').findOne(
       {
         _id: new ObjectId(postId),
       },
-      (err, result) => {
-        if (err) {
-          console.log(`error: ${err.message}`);
-          return -1;
-        }
-        if (result) {
-          return 0;
-        }
-        console.log('Can\'t find post');
-        return -1;
-      },
     );
+
+    if (result) {
+      console.log('post exists');
+      return 0;
+    }
+    return -1;
   } catch (err) {
     console.log(`error: ${err.message}`);
   }
@@ -86,22 +91,17 @@ const checkCommentExists = async (commentId) => {
     // get the db
     const db = await getDB();
 
-    db.collection('Comments').findOne(
+    const result = await db.collection('Comments').findOne(
       {
         _id: new ObjectId(commentId),
       },
-      (err, result) => {
-        if (err) {
-          console.log(`error: ${err.message}`);
-          return -1;
-        }
-        if (result) {
-          return 0;
-        }
-        console.log('Can\'t find comment');
-        return -1;
-      },
     );
+
+    if (result) {
+      console.log('post exists');
+      return 0;
+    }
+    return -1;
   } catch (err) {
     console.log(`error: ${err.message}`);
   }
@@ -231,23 +231,37 @@ const addPostLike = async (postId, userId) => {
     }
 
     // check the user has not liked the post yet
-    db.collection('Posts').findOne(
+    const alreadyLiked = await db.collection('Posts').findOne(
       {
         _id: new ObjectId(postId),
-        likes: { $in: userId },
-      },
-      (err, result) => {
-        if (err) {
-          console.log(`error: ${err.message}`);
-        } else {
-          if (result) {
-            console.log('Error: Already liked post');
-            return -1;
-          }
-          console.log('Haven\'t liked post');
-        }
+        likes: { $in: [userId] },
       },
     );
+
+    if (alreadyLiked) {
+      console.log('Error: Already liked post');
+      return -1;
+    }
+
+    // // check the user has not liked the post yet
+    // db.collection('Posts').findOne(
+    //   {
+    //     _id: new ObjectId(postId),
+    //     likes: { $in: [userId] },
+    //   },
+    //   (err, result) => {
+    //     if (err) {
+    //       console.log(`error: ${err.message}`);
+    //     } else {
+    //       if (result) {
+    //         console.log('Error: Already liked post');
+    //         return -1;
+    //       }
+    //       console.log('Haven\'t liked post');
+    //     }
+    //   },
+    // );
+
     const result = await db.collection('Posts').updateOne(
       { _id: new ObjectId(postId) },
       { $push: { likes: userId } },
@@ -271,7 +285,7 @@ const removePostLike = async (postId, userId) => {
     db.collection('Posts').findOne(
       {
         _id: new ObjectId(postId),
-        likes: { $in: userId },
+        likes: { $in: [userId] },
       },
       (err, result) => {
         if (err) {
