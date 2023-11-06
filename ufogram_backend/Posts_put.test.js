@@ -104,6 +104,7 @@ describe('Update a post endpoint integration test', () => {
 
     // the database was updated
     const updatedPostResp = await db.collection('Posts').findOne({ _id: new ObjectId(testPostID) });
+    console.log('updatedPostResp: ', updatedPostResp);
     // print the result
     expect(updatedPostResp.caption).toEqual('testpost_updated');
   });

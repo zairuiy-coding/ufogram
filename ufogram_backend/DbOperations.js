@@ -80,6 +80,9 @@ const checkPostExists = async (postId) => {
       console.log('post exists');
       return 0;
     }
+    console.log('post does not exist');
+    console.log('find post result: ', result);
+
     return -1;
   } catch (err) {
     console.log(`error: ${err.message}`);
@@ -225,8 +228,13 @@ const addPostLike = async (postId, userId) => {
     // get the db
     const db = await getDB();
 
-    const exists = await checkUserExists(userId);
-    if (exists !== 0) {
+    const userExists = await checkUserExists(userId);
+    if (userExists !== 0) {
+      return -2;
+    }
+
+    const postExists = await checkPostExists(postId);
+    if (postExists !== 0) {
       return -2;
     }
 
@@ -243,29 +251,11 @@ const addPostLike = async (postId, userId) => {
       return -1;
     }
 
-    // // check the user has not liked the post yet
-    // db.collection('Posts').findOne(
-    //   {
-    //     _id: new ObjectId(postId),
-    //     likes: { $in: [userId] },
-    //   },
-    //   (err, result) => {
-    //     if (err) {
-    //       console.log(`error: ${err.message}`);
-    //     } else {
-    //       if (result) {
-    //         console.log('Error: Already liked post');
-    //         return -1;
-    //       }
-    //       console.log('Haven\'t liked post');
-    //     }
-    //   },
-    // );
-
     const result = await db.collection('Posts').updateOne(
       { _id: new ObjectId(postId) },
       { $push: { likes: userId } },
     );
+    console.log('addPostLike result: ', result);
     return result;
   } catch (err) {
     console.log(`error: ${err.message}`);
@@ -277,27 +267,31 @@ const removePostLike = async (postId, userId) => {
     // get the db
     const db = await getDB();
 
-    const exists = await checkUserExists(userId);
-    if (exists !== 0) {
+    const userExists = await checkUserExists(userId);
+    if (userExists !== 0) {
       return -2;
     }
 
-    db.collection('Posts').findOne(
+    const postExists = await checkPostExists(postId);
+    if (postExists !== 0) {
+      return -2;
+    }
+
+    // check the user has not liked the post yet
+    const alreadyLiked = await db.collection('Posts').findOne(
       {
         _id: new ObjectId(postId),
         likes: { $in: [userId] },
       },
-      (err, result) => {
-        if (err) {
-          console.log(`error: ${err.message}`);
-        } else if (result) {
-          console.log('Already liked post');
-        } else {
-          console.log('Error: Haven\'t liked post');
-          return -1;
-        }
-      },
     );
+
+    if (alreadyLiked) {
+      console.log('Legit: Already liked post');
+    } else {
+      console.log('Error: Haven\'t liked post');
+      return -1;
+    }
+
     const result = await db.collection('Posts').updateOne(
       { _id: new ObjectId(postId) },
       { $pull: { likes: userId } },

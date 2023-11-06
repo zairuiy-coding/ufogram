@@ -200,7 +200,7 @@ webapp.put('/Posts/like/:postId/:userId', async (req, res) => {
       return;
     }
     if (result === -2) {
-      res.status(404).json({ error: 'bad user ID' });
+      res.status(404).json({ error: 'user/post does not exist' });
       console.log('result: ', result);
       return;
     }
@@ -233,7 +233,7 @@ webapp.put('/Posts/unlike/:postId/:userId', async (req, res) => {
       return;
     }
     if (result === -2) {
-      res.status(404).json({ error: 'bad user ID' });
+      res.status(404).json({ error: 'user/post does not exist' });
       return;
     }
     if (result === -1) {
