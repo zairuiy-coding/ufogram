@@ -289,7 +289,12 @@ webapp.put('/Posts/:postId', async (req, res) => {
       return;
     }
 
-    const result = await lib.updatePost(req.params.postId, req.body.caption, req.body.fileURL, req.body.author);
+    const result = await lib.updatePost(
+      req.params.postId,
+      req.body.caption,
+      req.body.fileURL,
+      req.body.author,
+    );
     if (result === undefined) {
       res.status(404).json({ error: 'bad post ID' });
       return;
