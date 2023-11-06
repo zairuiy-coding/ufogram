@@ -18,12 +18,13 @@ function PostRender({
   const [newComment, setNewComment] = useState('');
   const [comments, setComments] = useState([]);
   const [comNum, setComNum] = useState(0);
+  const [likeText, setLikeText] = useState('Like');
 
   // console.log('self: ', self);
 
   const navigate = useNavigate();
 
-  let likeText = 'Like';
+  // let likeText = 'Like';
 
   useEffect(() => {
     console.log('UseEffect called');
@@ -33,6 +34,7 @@ function PostRender({
 
     if (postObj.likes.includes(state.userId)) {
       setLiked(true);
+      setLikeText('Unlike');
     }
   }, [state.userId]);
 
@@ -67,18 +69,20 @@ function PostRender({
       setLikes(likes - 1);
       setLiked(false);
       console.log('5', liked);
-      likeText = 'Like';
+      // likeText = 'Like';
+      setLikeText('Like');
     } else {
       // eslint-disable-next-line no-underscore-dangle
       likePost(postObj._id, state.userId);
       setLikes(likes + 1);
       setLiked(true);
       console.log('6', liked);
-      likeText = 'Unlike';
+      // likeText = 'Unlike';
+      setLikeText('Unlike');
     }
     // const button = clickEvent.target;
     // console.log('2', button.innerHTML);
-    likeText = liked ? 'Unlike' : 'Like';
+    // likeText = liked ? 'Unlike' : 'Like';
     // console.log('4', button.innerHTML);
   });
 
