@@ -6,7 +6,7 @@ import deletePost from '../api/deletePost';
 export default function PostRender() {
   const location = useLocation();
   const navigate = useNavigate();
-  const [file, setFile] = useState(location.state.initFile);
+  const [file, setFile] = useState(null);
   const [caption, setCaption] = useState(location.state.initCap);
   //   console.log(file);
   //   console.log(caption);
@@ -16,50 +16,55 @@ export default function PostRender() {
     // post authentication
 
     // 1. check if both filelink and caption is empty
-    if (!file && !caption) {
+    if (!caption) {
       return;
     }
 
-    // 2. link authentication (if there is a link)
-    async function isValidImageOrVideo(url) {
-      return new Promise((resolve) => {
-        const mediaElement = document.createElement('video');
-        mediaElement.src = url;
-
-        mediaElement.onloadeddata = () => {
-          resolve(true); // It's a valid video
-          mediaElement.remove(); // Remove the element from the DOM
-        };
-
-        mediaElement.onerror = () => {
-          // If it fails to load as a video, check if it's an image
-          const imgElement = new Image();
-          imgElement.src = url;
-
-          imgElement.onload = () => {
-            resolve(true); // It's a valid image
-            imgElement.remove(); // Remove the element from the DOM
-          };
-
-          imgElement.onerror = () => {
-            resolve(false); // It's neither an image nor a video
-            imgElement.remove(); // Remove the element from the DOM
-          };
-        };
-      });
+    // 2. file authentication (if there is a file)
+    if (file && (file.type.split('/')[0] !== 'image' && file.type.split('/')[0] !== 'video')) {
+      console.log('Wrong file type');
+      return;
     }
 
-    if (file) {
-      try {
-        const isValid = await isValidImageOrVideo(file);
-        if (!isValid && !file.includes('youtube')) {
-        //   console.log('Not a valid image or video URL');
-          return;
-        }
-      } catch (error) {
-        // console.error('Error:', error);
-      }
-    }
+    // async function isValidImageOrVideo(url) {
+    //   return new Promise((resolve) => {
+    //     const mediaElement = document.createElement('video');
+    //     mediaElement.src = url;
+
+    //     mediaElement.onloadeddata = () => {
+    //       resolve(true); // It's a valid video
+    //       mediaElement.remove(); // Remove the element from the DOM
+    //     };
+
+    //     mediaElement.onerror = () => {
+    //       // If it fails to load as a video, check if it's an image
+    //       const imgElement = new Image();
+    //       imgElement.src = url;
+
+    //       imgElement.onload = () => {
+    //         resolve(true); // It's a valid image
+    //         imgElement.remove(); // Remove the element from the DOM
+    //       };
+
+    //       imgElement.onerror = () => {
+    //         resolve(false); // It's neither an image nor a video
+    //         imgElement.remove(); // Remove the element from the DOM
+    //       };
+    //     };
+    //   });
+    // }
+
+    // if (file) {
+    //   try {
+    //     const isValid = await isValidImageOrVideo(file);
+    //     if (!isValid && !file.includes('youtube')) {
+    //     //   console.log('Not a valid image or video URL');
+    //       return;
+    //     }
+    //   } catch (error) {
+    //     // console.error('Error:', error);
+    //   }
+    // }
 
     // after both authentication, create a new post
     const author = {
@@ -67,9 +72,16 @@ export default function PostRender() {
       username: location.state.username,
     };
 
+    const urlCopy = location.state.initFile;
+    const fileName = urlCopy.split('/').pop();
+
     try {
-      // change to editPost!!!
-      const response = await editPost(caption, file, author, location.state.postId);
+      let response;
+      if (file === null) {
+        response = await editPost(caption, null, author, location.state.postId, location.state.initFile);
+      } else {
+        response = await editPost(caption, file, author, location.state.postId, fileName);
+      }
       //   console.log('Status', status);
 
       if (response.status === 200) {
@@ -108,7 +120,9 @@ export default function PostRender() {
   };
 
   const handleDelete = async () => {
-    const response = await deletePost(location.state.postId);
+    const urlCopy = location.state.initFile;
+    const fileName = urlCopy.split('/').pop();
+    const response = await deletePost(location.state.postId, fileName);
     if (response.status !== 200) {
       console.log('Post deletion error');
       console.log(response);
@@ -141,7 +155,7 @@ export default function PostRender() {
         display: 'flex', justifyContent: 'center', position: 'fixed', width: '100%', background: '#8769b6',
       }}
       >
-        <h1>New Post</h1>
+        <h1>Edit Post</h1>
         <div>
           <button type="button" title="Create New Post" onClick={handleDiscard}>My Profile</button>
         </div>
@@ -152,7 +166,7 @@ export default function PostRender() {
       >
         <label htmlFor="image/file">
           Image/Video:
-          <input type="fileLink" value={file} name="fileLink" data-testid="linkBox" onChange={handleFile} />
+          <input type="file" value={file} name="fileLink" data-testid="linkBox" onChange={handleFile} />
         </label>
         <label htmlFor="caption">
           Caption:
