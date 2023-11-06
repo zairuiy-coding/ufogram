@@ -215,6 +215,11 @@ const getPost = async (postId) => {
     // get the db
     const db = await getDB();
     const result = await db.collection('Posts').findOne({ _id: new ObjectId(postId) });
+
+    const postExists = await checkPostExists(postId);
+    if (postExists !== 0) {
+      console.log('post not exists!');
+    }
     // print the result
     console.log(`Post: ${JSON.stringify(result)}`);
     return result;
