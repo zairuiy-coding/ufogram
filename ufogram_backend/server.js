@@ -370,7 +370,7 @@ webapp.post('/Comments/:postId', async (req, res) => {
     res.status(404).json({ error: 'post ID is missing' });
     return;
   }
-  if (!req.body.text || !req.body.author) {
+  if (!req.body.text || !req.body.author || !req.body.author.id || !req.body.author.username) {
     res.status(404).json({ error: 'missing user info' });
     return;
   }
@@ -382,6 +382,9 @@ webapp.post('/Comments/:postId', async (req, res) => {
   try {
     const result = await lib.addComment(newComment);
     console.log(`id: ${JSON.stringify(result)}`);
+    if (result === undefined) {
+      res.status(404).json({ error: 'comment not created' });
+    }
     const result2 = await lib.commentPost(req.params.postId, result);
     if (result2 === -2) {
       res.status(404).json({ error: 'comment not found' });

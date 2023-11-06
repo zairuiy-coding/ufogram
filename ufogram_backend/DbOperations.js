@@ -369,7 +369,7 @@ const commentPost = async (postId, commentId) => {
       return -2;
     }
     const result = await db.collection('Posts').updateOne(
-      { _id: ObjectId(postId) },
+      { _id: new ObjectId(postId) },
       { $push: { comments: commentId } },
     );
     console.log(`Post: ${JSON.stringify(result)}`);

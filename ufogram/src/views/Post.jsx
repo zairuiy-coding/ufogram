@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
@@ -15,6 +16,8 @@ function PostRender({
   const [likes, setLikes] = useState(0);
   const [liked, setLiked] = useState(false);
   const [newComment, setNewComment] = useState('');
+  const [comments, setComments] = useState([]);
+  const [comNum, setComNum] = useState(0);
 
   // console.log('self: ', self);
 
@@ -32,6 +35,28 @@ function PostRender({
       setLiked(true);
     }
   }, [state.userId]);
+
+  useEffect(() => {
+    console.log('UseEffect 2 called');
+
+    async function fetchComments() {
+      try {
+        // console.log(location.state.sId);
+        // eslint-disable-next-line no-underscore-dangle
+        const result = await getPostComments(postObj._id);
+        if (result !== -1) {
+          // console.log(response.data.following);
+          setComments(result.data.data);
+        } else {
+          // Authentication failed, set error message
+          console.log('Error in getting commehts of a post.');
+        }
+      } catch (error) {
+        console.error('ERROR');
+      }
+    }
+    fetchComments();
+  }, [comNum]);
 
   const handleLike = (() => {
     // const eventCopy = clickEvent;
@@ -76,42 +101,44 @@ function PostRender({
     // Automatic update of new comment in post???
   });
 
+  // const GetComments = () => {
+  //   useEffect(() => {
+  //     async function fetchComments() {
+  //       try {
+  //         // console.log(location.state.sId);
+  //         // eslint-disable-next-line no-underscore-dangle
+  //         const result = await getPostComments(postObj._id);
+  //         if (result !== -1) {
+  //           // console.log(response.data.following);
+  //           setComments(result.data.data);
+  //         } else {
+  //           // Authentication failed, set error message
+  //           console.log('Error in getting commehts of a post.');
+  //         }
+  //       } catch (error) {
+  //         console.error('ERROR');
+  //       }
+  //     }
+  //     fetchComments();
+  //   // eslint-disable-next-line no-underscore-dangle
+  //   }, [postObj._id]);
+  //   // return comments;
+  //   return (
+  //     comments.map((comment) => (
+  //       // eslint-disable-next-line no-underscore-dangle
+  //       <Comment key={comment._id} text={comment.text} author={comment.author} />
+  //     ))
+  //   );
+  // };
+
   const addComment = (async () => {
-    // eslint-disable-next-line no-underscore-dangle
-    await createNewComment(newComment, state.userId, postObj._id);
+    await createNewComment(newComment, {
+      id: state.userId,
+      username: state.username,
+    }, postObj._id);
+    setComNum(comNum + 1);
+    setNewComment('');
   });
-
-  const GetComments = () => {
-    const [comments, setComments] = useState([]);
-
-    useEffect(() => {
-      async function fetchComments() {
-        try {
-          // console.log(location.state.sId);
-          // eslint-disable-next-line no-underscore-dangle
-          const result = await getPostComments(postObj._id);
-          if (result !== -1) {
-            // console.log(response.data.following);
-            setComments(result.data.data);
-          } else {
-            // Authentication failed, set error message
-            console.log('Error in getting commehts of a post.');
-          }
-        } catch (error) {
-          console.error('ERROR');
-        }
-      }
-      fetchComments();
-    // eslint-disable-next-line no-underscore-dangle
-    }, [postObj._id]);
-    // return comments;
-    return (
-      comments.map((comment) => (
-        // eslint-disable-next-line no-underscore-dangle
-        <Comment key={comment._id} text={comment.text} author={comment.author} />
-      ))
-    );
-  };
 
   return (
     <div style={{ margin: '10px' }}>
@@ -140,12 +167,16 @@ function PostRender({
           {/* {GetComments().map((comment) => (
             <Comment key={comment.id} text={comment.text} author={comment.author} />
           ))} */}
+          {/* { GetComments() } */}
           {
-            GetComments()
+            comments.map((comment) => (
+              // eslint-disable-next-line no-underscore-dangle
+              <Comment key={comment._id} text={comment.text} author={comment.author} />
+            ))
           }
 
           <div>
-            <input type="text" name="comment" data-testid="captionBox" onChange={handleComment} />
+            <input type="text" name="comment" data-testid="captionBox" value={newComment} onChange={handleComment} />
             <button type="button" id="commentButton" onClick={addComment}>comment</button>
           </div>
         </div>
