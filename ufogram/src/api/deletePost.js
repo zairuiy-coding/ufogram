@@ -5,9 +5,11 @@ import axios from 'axios';
  * A function to create new post
  * @param {*} postId the ID of the post
  */
-export default async function deletePost(postId) {
+export default async function deletePost(postId, fileName) {
   try {
-    const response = await axios.delete(`http://localhost:8080/Posts/${postId}`);
+    const response = await axios.delete(`http://localhost:8080/Posts/${postId}`, {
+      filename: fileName,
+    });
     return response;
   } catch (e) {
     // error

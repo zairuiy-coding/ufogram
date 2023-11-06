@@ -5,6 +5,15 @@ const bodyParser = require('body-parser');
 // enable cross-origin resource sharing (cors)
 const cors = require('cors');
 
+// import fs
+const fs = require('fs');
+
+// import formidable
+const formidable = require('formidable');
+
+// import S3 operations
+const s3 = require('./s3Operations');
+
 // Create express app
 const webapp = express();
 
@@ -158,28 +167,58 @@ webapp.get('/Posts', async (_req, res) => {
 
 webapp.post('/Posts', async (req, res) => {
   console.log('Create a post');
-  if (!req.body.caption || !req.body.fileURL || !req.body.author) {
+  if (!req.body.caption || !req.body.file || !req.body.author) {
     res.status(404).json({ error: 'missing post info' });
     return;
   }
-  // create new post object
-  const newPost = {
-    caption: req.body.caption,
-    fileURL: req.body.fileURL,
-    likes: [],
-    author: req.body.author,
-    comments: [],
-  };
-  try {
-    const result = await lib.createPost(newPost);
-    console.log(`id: ${JSON.stringify(result)}`);
-    // add id to new post and return it
-    res.status(201).json({
-      post: { id: result, ...newPost },
+
+  // s3
+  const form = formidable({});
+  form.parse(req, (err, fields, file) => {
+    if (err) {
+      console.log('error', err.message);
+      res.status(404).json({ error: err.message });
+    }
+    // create a buffer to cache uploaded file
+    let cacheBuffer = Buffer.alloc(0);
+
+    // create a stream from the virtual path of the uploaded file
+    const fStream = fs.createReadStream(file.File_0.path);
+
+    fStream.on('data', (chunk) => {
+      // fill the buffer with data from the uploaded file
+      cacheBuffer = Buffer.concat([cacheBuffer, chunk]);
     });
-  } catch (err) {
-    res.status(404).json({ error: err.message });
-  }
+
+    fStream.on('end', async () => {
+      // send buffer to AWS - The url of the object is returned
+      const s3URL = await s3.uploadFile(cacheBuffer, file.File_0.name);
+      console.log('end', cacheBuffer.length);
+
+      // You can store the URL in mongoDB along with the rest of the data
+      // create new post object
+      const newPost = {
+        caption: req.body.caption,
+        fileURL: s3URL,
+        likes: [],
+        author: req.body.author,
+        comments: [],
+      };
+
+      try {
+        const result = await lib.createPost(newPost);
+        console.log(`id: ${JSON.stringify(result)}`);
+        // add id to new post and return it
+        res.status(201).json({
+          post: { id: result, ...newPost },
+        });
+      } catch (dbErr) {
+        res.status(404).json({ error: dbErr.message });
+      }
+      // send a response to the client
+    //   res.status(201).json({ message: `files uploaded at ${s3URL}` });
+    });
+  });
 });
 
 webapp.put('/Posts/like/:postId/:userId', async (req, res) => {
@@ -277,24 +316,79 @@ webapp.put('/Posts/unlike/:postId/:userId', async (req, res) => {
 //   }
 // });
 
-webapp.put('/Posts/:postId', async (req, res) => {
-  console.log('Edit a post');
+webapp.put('/Posts/same/:postId', async (req, res) => {
+  console.log('Edit a post without changing the file');
   try {
     if (req.params.postId === undefined) {
       res.status(404).json({ error: 'post ID is missing' });
       return;
     }
-    if (!req.body.caption || !req.body.fileURL || !req.body.author) {
+    if (!req.body.caption || !req.body.file || !req.body.author) {
       res.status(404).json({ error: 'missing post info' });
       return;
     }
 
-    const result = await lib.updatePost(req.params.postId, req.body.caption, req.body.fileURL, req.body.author);
+    const result = await lib.updatePost(req.params.postId, req.body.caption, req.body.file, req.body.author);
     if (result === undefined) {
       res.status(404).json({ error: 'bad post ID' });
       return;
     }
     res.status(200).json({ data: result });
+  } catch (err) {
+    res.status(404).json({ error: err.message });
+  }
+});
+
+webapp.put('/Posts/new/:postId', async (req, res) => {
+  console.log('Edit a post with a new file');
+  try {
+    if (req.params.postId === undefined) {
+      res.status(404).json({ error: 'post ID is missing' });
+      return;
+    }
+    if (!req.body.caption || !req.body.file || !req.body.author || !req.body.fileName) {
+      res.status(404).json({ error: 'missing post info' });
+      return;
+    }
+
+    // delete old file on s3
+    const deleteRes = s3.deleteFile(req.body.fileName);
+    if (deleteRes === false) {
+      res.status(404).json({ error: 'Delete s3 failure' });
+    }
+
+    const form = formidable({});
+    form.parse(req, (err, fields, file) => {
+      if (err) {
+        console.log('error', err.message);
+        res.status(404).json({ error: err.message });
+      }
+      // create a buffer to cache uploaded file
+      let cacheBuffer = Buffer.alloc(0);
+
+      // create a stream from the virtual path of the uploaded file
+      const fStream = fs.createReadStream(file.File_0.path);
+
+      fStream.on('data', (chunk) => {
+        // fill the buffer with data from the uploaded file
+        cacheBuffer = Buffer.concat([cacheBuffer, chunk]);
+      });
+
+      fStream.on('end', async () => {
+        // send buffer to AWS - The url of the object is returned
+        const s3URL = await s3.uploadFile(cacheBuffer, file.File_0.name);
+        console.log('end', cacheBuffer.length);
+
+        // You can store the URL in mongoDB along with the rest of the data
+        // send a response to the client
+        const result = await lib.updatePost(req.params.postId, req.body.caption, s3URL, req.body.author);
+        if (result === undefined) {
+          res.status(404).json({ error: 'bad post ID' });
+          return;
+        }
+        res.status(200).json({ data: result });
+      });
+    });
   } catch (err) {
     res.status(404).json({ error: err.message });
   }
@@ -306,6 +400,17 @@ webapp.delete('/Posts/:postId', async (req, res) => {
     if (req.params.postId === undefined) {
       res.status(404).json({ error: 'post ID is missing' });
       return;
+    }
+
+    if (!req.body.fileName) {
+      res.status(404).json({ error: 'missing file name' });
+      return;
+    }
+
+    // delete old file on s3
+    const deleteRes = s3.deleteFile(req.body.fileName);
+    if (deleteRes === false) {
+      res.status(404).json({ error: 'Delete s3 failure' });
     }
 
     const result = await lib.deletePost(req.params.postId);

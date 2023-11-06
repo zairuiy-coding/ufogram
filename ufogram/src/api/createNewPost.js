@@ -7,12 +7,14 @@ import axios from 'axios';
  * @param {*} fileURL the URL of the file
  * @param {*} author the author of the post
  */
-export default async function createNewPost(caption, fileURL, author) {
+export default async function createNewPost(caption, file, author) {
   try {
     const response = await axios.post('http://localhost:8080/Posts', {
       caption,
-      fileURL,
+      file,
       author,
+    }, {
+      'Content-Type': 'multipart/form-data',
     });
     return response.status;
   } catch (e) {

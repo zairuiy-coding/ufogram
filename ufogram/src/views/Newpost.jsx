@@ -4,58 +4,63 @@ import createNewPost from '../api/createNewPost';
 
 export default function Newpost() {
   const navigate = useNavigate();
-  const [file, setFile] = useState('');
+  const [file, setFile] = useState(null);
   const [caption, setCaption] = useState('');
   const location = useLocation();
 
   const handlePost = async () => {
     // post authentication
 
-    // 1. check if both filelink and caption is empty
+    // 1. check if both file and caption is empty
     if (!file && !caption) {
       return;
     }
 
-    // 2. link authentication (if there is a link)
-    async function isValidImageOrVideo(url) {
-      return new Promise((resolve) => {
-        const mediaElement = document.createElement('video');
-        mediaElement.src = url;
+    // 2. file authentication (if there is a file)
+    // async function isValidImageOrVideo(file) {
+    // return new Promise((resolve) => {
+    //   const mediaElement = document.createElement('video');
+    //   mediaElement.src = url;
 
-        mediaElement.onloadeddata = () => {
-          resolve(true); // It's a valid video
-          mediaElement.remove(); // Remove the element from the DOM
-        };
+    //   mediaElement.onloadeddata = () => {
+    //     resolve(true); // It's a valid video
+    //     mediaElement.remove(); // Remove the element from the DOM
+    //   };
 
-        mediaElement.onerror = () => {
-          // If it fails to load as a video, check if it's an image
-          const imgElement = new Image();
-          imgElement.src = url;
+    //   mediaElement.onerror = () => {
+    //     // If it fails to load as a video, check if it's an image
+    //     const imgElement = new Image();
+    //     imgElement.src = url;
 
-          imgElement.onload = () => {
-            resolve(true); // It's a valid image
-            imgElement.remove(); // Remove the element from the DOM
-          };
+    //     imgElement.onload = () => {
+    //       resolve(true); // It's a valid image
+    //       imgElement.remove(); // Remove the element from the DOM
+    //     };
 
-          imgElement.onerror = () => {
-            resolve(false); // It's neither an image nor a video
-            imgElement.remove(); // Remove the element from the DOM
-          };
-        };
-      });
+    //     imgElement.onerror = () => {
+    //       resolve(false); // It's neither an image nor a video
+    //       imgElement.remove(); // Remove the element from the DOM
+    //     };
+    //   };
+    // });
+
+    if (file.type.split('/')[0] !== 'image' && file.type.split('/')[0] !== 'video') {
+      console.log('Wrong file type');
+      return;
     }
+    // }
 
-    if (file) {
-      try {
-        const isValid = await isValidImageOrVideo(file);
-        if (!isValid && !file.includes('youtube')) {
-        //   console.log('Not a valid image or video URL');
-          return;
-        }
-      } catch (error) {
-        // console.error('Error:', error);
-      }
-    }
+    // if (file) {
+    //   try {
+    //     const isValid = await isValidImageOrVideo(file);
+    //     if (!isValid && !file.includes('youtube')) {
+    //     //   console.log('Not a valid image or video URL');
+    //       return;
+    //     }
+    //   } catch (error) {
+    //     // console.error('Error:', error);
+    //   }
+    // }
 
     // after both authentication, create a new post
     const author = {
@@ -112,7 +117,7 @@ export default function Newpost() {
       >
         <label htmlFor="image/file">
           Image/Video:
-          <input type="fileLink" name="fileLink" data-testid="linkBox" onChange={handleFile} />
+          <input type="file" name="file" data-testid="linkBox" onChange={handleFile} />
         </label>
         <label htmlFor="caption">
           Caption:
