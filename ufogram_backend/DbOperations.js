@@ -233,10 +233,10 @@ const addPostLike = async (postId, userId) => {
       return -2;
     }
 
-    const postExists = await checkPostExists(postId);
-    if (postExists !== 0) {
-      return -2;
-    }
+    // const postExists = await checkPostExists(postId);
+    // if (postExists !== 0) {
+    //   return -2;
+    // }
 
     // check the user has not liked the post yet
     const alreadyLiked = await db.collection('Posts').findOne(
@@ -272,10 +272,10 @@ const removePostLike = async (postId, userId) => {
       return -2;
     }
 
-    const postExists = await checkPostExists(postId);
-    if (postExists !== 0) {
-      return -2;
-    }
+    // const postExists = await checkPostExists(postId);
+    // if (postExists !== 0) {
+    //   return -2;
+    // }
 
     // check the user has not liked the post yet
     const alreadyLiked = await db.collection('Posts').findOne(
@@ -296,6 +296,7 @@ const removePostLike = async (postId, userId) => {
       { _id: new ObjectId(postId) },
       { $pull: { likes: userId } },
     );
+    console.log('removePostLike result: ', result);
     return result;
   } catch (err) {
     console.log(`error: ${err.message}`);

@@ -102,16 +102,29 @@ describe('Update a post endpoint integration test', () => {
     expect(res.status).toEqual(200);
     expect(res.type).toBe('application/json');
 
-    // the database was updated
-    const updatedPostResp = await db.collection('Posts').findOne({ _id: new ObjectId(testPostID) });
-    console.log('updatedPostResp: ', updatedPostResp);
+    // userID has been added to the post's likes array
+    const likePostResp = await db.collection('Posts').findOne({ _id: new ObjectId(testPostID) });
+    console.log('likePostResp: ', likePostResp);
     // print the result
-    expect(updatedPostResp.caption).toEqual('testpost_updated');
+    expect(likePostResp.likes).toContain(userID);
   });
 
-  //   test('Like a post with missing postid', async () => {
-  //     res = await request(webapp).put(`/Posts/like/${userID}`);
+  // test('Like a post with missing userID', async () => {
+  //   res = await request(webapp).put(`/Posts/like/${testPostID}`);
 
-  //     expect(res.status).toEqual(404);
-  //   });
+  //   expect(res.status).toEqual(404);
+  // });
+
+  test('Unlike a post Endpoint status code and response async/await', async () => {
+    res = await request(webapp).put(`/Posts/unlike/${testPostID}/${userID}`);
+
+    expect(res.status).toEqual(200);
+    expect(res.type).toBe('application/json');
+
+    // userID has been removed from the post's likes array
+    const unlikePostResp = await db.collection('Posts').findOne({ _id: new ObjectId(testPostID) });
+    console.log('unlikePostResp: ', unlikePostResp);
+    // print the result
+    expect(unlikePostResp.likes).not.toContain(userID);
+  });
 });

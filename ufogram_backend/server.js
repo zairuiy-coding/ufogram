@@ -227,7 +227,7 @@ webapp.put('/Posts/unlike/:postId/:userId', async (req, res) => {
       res.status(404).json({ error: 'user ID is missing' });
       return;
     }
-    const result = await lib.addPostLike(req.params.postId, req.params.userId);
+    const result = await lib.removePostLike(req.params.postId, req.params.userId);
     if (result === undefined) {
       res.status(404).json({ error: 'bad post ID' });
       return;
@@ -242,6 +242,7 @@ webapp.put('/Posts/unlike/:postId/:userId', async (req, res) => {
     }
     res.status(200).json({ data: result });
   } catch (err) {
+    console.log('err: ', err);
     res.status(404).json({ error: err.message });
   }
 });
