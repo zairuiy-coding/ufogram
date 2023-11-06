@@ -38,7 +38,7 @@ describe('Update a student endpoint integration test', () => {
 
   const clearDatabase = async () => {
     try {
-      await db.collection('students').deleteOne({ username: 'testuser' });
+      await db.collection('Users').deleteOne({ username: 'testuser_updated' });
     } catch (err) {
       console.log('error', err.message);
     }
