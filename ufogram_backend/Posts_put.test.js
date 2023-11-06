@@ -101,8 +101,10 @@ describe('Update a post endpoint integration test', () => {
 
     expect(res.status).toEqual(200);
     expect(res.type).toBe('application/json');
+    // console.log('res: ', res);
 
     // userID has been added to the post's likes array
+    console.log('testPostID: ', testPostID);
     const likePostResp = await db.collection('Posts').findOne({ _id: new ObjectId(testPostID) });
     console.log('likePostResp: ', likePostResp);
     // print the result
@@ -120,6 +122,8 @@ describe('Update a post endpoint integration test', () => {
 
     expect(res.status).toEqual(200);
     expect(res.type).toBe('application/json');
+
+    console.log('testPostID: ', testPostID);
 
     // userID has been removed from the post's likes array
     const unlikePostResp = await db.collection('Posts').findOne({ _id: new ObjectId(testPostID) });
