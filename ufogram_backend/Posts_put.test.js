@@ -7,6 +7,31 @@ const webapp = require('./server');
 
 let mongo;
 
+// // create formdata
+// let formData;
+// try {
+//   formData = new FormData();
+//   console.log('formData before', formData);
+//   const date = new Date();
+//   const name = `${date.getTime()}_${file}`;
+//   console.log('File type: ', typeof file);
+//   formData.append('File_0', file, name);
+//   console.log('formData appended', formData);
+// } catch (e) {
+//   console.log(e);
+// }
+
+// // load the test .png file
+// // `event` is an HTML change event from an <input type="file"> element.
+// const documentFileObjectUrl = URL.createObjectURL(event.target.files[0]);
+// PSPDFKit.load({
+// 	document: documentFileObjectUrl
+// })
+// 	.then(instance => {
+// 		// Make sure to revoke the object URL so the browser doesn't hold on to the file object that's not needed any more.
+// 		URL.revokeObjectURL(documentFileObjectUrl);
+// 	});
+
 // TEST PUT ENDPOINT
 describe('Update a post endpoint integration test', () => {
   /**
@@ -18,6 +43,7 @@ describe('Update a post endpoint integration test', () => {
   let res;
   let db;
   let testPostID; // will store the id of the test user
+  //   let s3URL;
   const userID = '65404186357e2d1e38f7cbeb'; // the id of user that like/unlike a post
 
   /**
@@ -28,6 +54,14 @@ describe('Update a post endpoint integration test', () => {
   beforeAll(async () => {
     mongo = await connect();
     db = mongo.db();
+    // res_s3 = (await request(webapp)
+    //   .post('/File'))
+    //   .set('Content-Type', 'application/json');
+    //   .send();
+
+    // s3URL = JSON.parse(res.text).URL;
+    // console.log('s3URL: ', s3URL);
+
     res = await request(webapp)
       .post('/Posts/')
       .set('Content-Type', 'application/json')
@@ -57,26 +91,44 @@ describe('Update a post endpoint integration test', () => {
     }
   });
 
-  test('Edit a post Endpoint status code and response async/await', async () => {
+  test('Edit a post without changing file Endpoint status code and response async/await', async () => {
     res = await request(webapp)
-      .put(`/Posts/${testPostID}`)
+      .put(`/Posts/same/${testPostID}`)
       .set('Content-Type', 'application/json')
       .send({
-        caption: 'testpost_updated', fileURL: 'https://picsum.photos/200/301', author: 'testuser',
+        caption: 'testpost_updated1', file: 'https://picsum.photos/200/301', author: 'testuser',
       });
 
+    console.log('edit a post same res: ', JSON.parse(res.text));
     expect(res.status).toEqual(200);
     expect(res.type).toBe('application/json');
 
     // the database was updated
-    const updatedPostResp = await db.collection('Posts').findOne({ _id: new ObjectId(testPostID) });
+    const updatedPostResp1 = await db.collection('Posts').findOne({ _id: new ObjectId(testPostID) });
     // print the result
-    expect(updatedPostResp.caption).toEqual('testpost_updated');
+    expect(updatedPostResp1.caption).toEqual('testpost_updated1');
   });
+
+  //   test('Edit a post with a new file Endpoint status code and response async/await', async () => {
+  //     res = await request(webapp)
+  //       .put(`/Posts/new/${testPostID}`)
+  //       .set('Content-Type', 'application/json')
+  //       .send({
+  //         caption: 'testpost_updated2', fileURL: 'https://picsum.photos/200/302', author: 'testuser',
+  //       });
+
+  //     expect(res.status).toEqual(200);
+  //     expect(res.type).toBe('application/json');
+
+  //     // the database was updated
+  //     const updatedPostResp2 = await db.collection('Posts').findOne({ _id: new ObjectId(testPostID) });
+  //     // print the result
+  //     expect(updatedPostResp2.caption).toEqual('testpost_updated2');
+  //   });
 
   test('missing fielURL 404', async () => {
     res = await request(webapp)
-      .put(`/Posts/${testPostID}`)
+      .put(`/Posts/same/${testPostID}`)
       .set('Content-Type', 'application/json')
       .send({
         caption: 'testpost_updated', author: 'testuser',
@@ -87,7 +139,7 @@ describe('Update a post endpoint integration test', () => {
 
   test('missing caption 404', async () => {
     res = await request(webapp)
-      .put(`/Posts/${testPostID}`)
+      .put(`/Posts/same/${testPostID}`)
       .set('Content-Type', 'application/json')
       .send({
         fileURL: 'https://picsum.photos/200/302', author: 'testuser',

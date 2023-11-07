@@ -1,5 +1,8 @@
 {
   "name": "pwd",
+  "jest": {
+    "testPathIgnorePatterns": ["s3Operations.js"]
+},
   "version": "1.0.0",
   "description": "the backend of UFOgram. Implemented with mongodb and express",
   "main": "index.js",

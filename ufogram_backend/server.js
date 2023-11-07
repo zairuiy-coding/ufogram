@@ -225,7 +225,7 @@ webapp.post('/Posts', async (req, res) => {
     };
 
     const result = await lib.createPost(newPost);
-    console.log(`id: ${JSON.stringify(result)}`);
+    console.log(`post id: ${JSON.stringify(result)}`);
     // add id to new post and return it
     res.status(201).json({
       post: { id: result, ...newPost },
@@ -487,7 +487,7 @@ webapp.post('/Comments/:postId', async (req, res) => {
   };
   try {
     const result = await lib.addComment(newComment);
-    console.log(`id: ${JSON.stringify(result)}`);
+    console.log(`comment id: ${JSON.stringify(result)}`);
     if (result === undefined) {
       res.status(404).json({ error: 'comment not created' });
     }
