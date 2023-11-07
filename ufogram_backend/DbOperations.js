@@ -69,6 +69,7 @@ const checkPostExists = async (postId) => {
     // get the db
     const db = await getDB();
     console.log('checkPostExists called');
+    console.log('postId: ', postId);
 
     const result = await db.collection('Posts').findOne(
       {
@@ -101,7 +102,7 @@ const checkCommentExists = async (commentId) => {
     );
 
     if (result) {
-      console.log('post exists');
+      console.log('comment exists');
       return 0;
     }
     return -1;
@@ -379,6 +380,14 @@ const commentPost = async (postId, commentId) => {
   try {
     const db = await getDB();
     const commentExists = await checkCommentExists(commentId);
+
+    console.log();
+    const postExists = await checkPostExists(postId);
+    if (postExists !== 0) {
+      console.log('post not Exists');
+      return -2;
+    }
+
     if (commentExists) {
       return -2;
     }

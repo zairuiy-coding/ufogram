@@ -15,14 +15,6 @@ describe('GET comment(s) endpoint integration test', () => {
   let db;
   let testPostID;
   let testCommentID;
-  // test resource to create / expected response
-  const testComment = {
-    text: 'testcomment',
-    author: {
-      id: '65404186357e2d1e38f7cbec',
-      username: 'lionelhu',
-    },
-  };
 
   /**
      * Make sure that the data is in the DB before running
@@ -55,6 +47,8 @@ describe('GET comment(s) endpoint integration test', () => {
       });
 
     testCommentID = JSON.parse(res.text).comment._id;
+    testCommentID = JSON.parse(res.text).comment._id;
+    console.log('res JSON: ', JSON.parse(res.text));
   });
 
   const clearDatabase = async () => {
