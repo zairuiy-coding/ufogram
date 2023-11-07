@@ -78,7 +78,13 @@ export default function PostRender() {
     try {
       let response;
       if (file === null) {
-        response = await editPost(caption, null, author, location.state.postId, location.state.initFile);
+        response = await editPost(
+          caption,
+          null,
+          author,
+          location.state.postId,
+          location.state.initFile,
+        );
       } else {
         const date = new Date();
         const name = `${date.getTime()}_${file}`;
