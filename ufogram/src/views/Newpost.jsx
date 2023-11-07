@@ -52,22 +52,22 @@ export default function Newpost() {
     // }
 
     console.log(file);
-    if (!file.endsWith('.jpg')
-    && !file.endsWith('.jpeg')
-    && !file.endsWith('.png')
-    && !file.endsWith('.apng')
-    && !file.endsWith('.gif')
-    && !file.endsWith('.ico')
-    && !file.endsWith('.cur')
-    && !file.endsWith('.jfif')
-    && !file.endsWith('.pjpeg')
-    && !file.endsWith('.pjp')
-    && !file.endsWith('.svg')
-    && !file.endsWith('.mp4')
-    && !file.endsWith('.mov')
-    && !file.endsWith('.avi')
-    && !file.endsWith('.wmv')
-    && !file.endsWith('.avchd')
+    if (!file.name.endsWith('.jpg')
+    && !file.name.endsWith('.jpeg')
+    && !file.name.endsWith('.png')
+    && !file.name.endsWith('.apng')
+    && !file.name.endsWith('.gif')
+    && !file.name.endsWith('.ico')
+    && !file.name.endsWith('.cur')
+    && !file.name.endsWith('.jfif')
+    && !file.name.endsWith('.pjpeg')
+    && !file.name.endsWith('.pjp')
+    && !file.name.endsWith('.svg')
+    && !file.name.endsWith('.mp4')
+    && !file.name.endsWith('.mov')
+    && !file.name.endsWith('.avi')
+    && !file.name.endsWith('.wmv')
+    && !file.name.endsWith('.avchd')
     ) {
       console.log('Wrong file type');
       return;
@@ -86,13 +86,29 @@ export default function Newpost() {
     // }
 
     // after both authentication, create a new post
+    console.log('Newpost 89');
     const author = {
       id: location.state.userId,
       username: location.state.username,
     };
 
     try {
-      const status = await createNewPost(caption, file, author);
+      console.log('Create formData in Newpost');
+      let formData;
+      try {
+        formData = new FormData();
+        console.log('formData before', formData);
+        const date = new Date();
+        const name = `${date.getTime()}_${file}`;
+        console.log('File type: ', typeof file);
+        formData.append('File_0', file, name);
+        console.log('formData appended', formData);
+      } catch (e) {
+        console.log(e);
+      }
+      console.log('formData created in Newpost');
+      console.log('formData after', formData);
+      const status = await createNewPost(caption, formData, author);
       console.log('Status', status);
 
       if (status === 201) {
@@ -116,7 +132,7 @@ export default function Newpost() {
   };
 
   const handleFile = (fileEvent) => {
-    setFile(fileEvent.target.value);
+    setFile(fileEvent.target.files[0]);
   };
 
   const handleCaption = (captionEvent) => {
@@ -138,7 +154,7 @@ export default function Newpost() {
         display: 'flex', width: '100%', justifyContent: 'center', marginTop: '100px', background: '#b6f486',
       }}
       >
-        <label htmlFor="image/file">
+        <label htmlFor="file">
           Image/Video:
           <input type="file" name="file" data-testid="linkBox" onChange={handleFile} />
         </label>

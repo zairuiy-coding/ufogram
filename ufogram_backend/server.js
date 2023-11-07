@@ -165,18 +165,13 @@ webapp.get('/Posts', async (_req, res) => {
   }
 });
 
-webapp.post('/Posts', async (req, res) => {
-  console.log('Create a post');
-  if (!req.body.caption || !req.body.file || !req.body.author) {
-    res.status(404).json({ error: 'missing post info' });
-    return;
-  }
+webapp.post('/File', async (req, res) => {
+  console.log('Upload file');
 
-  // s3
   try {
     const form = formidable({});
     console.log('Create a post 177');
-    form.parse(req, (err, _fields, file) => {
+    await form.parse(req, (err, fields, files) => {
       console.log('Create a post 179');
       if (err) {
         console.log('error', err.message);
@@ -186,8 +181,9 @@ webapp.post('/Posts', async (req, res) => {
       let cacheBuffer = Buffer.alloc(0);
       console.log('Create a post 186');
 
+      console.log('Files, ', files);
       // create a stream from the virtual path of the uploaded file
-      const fStream = fs.createReadStream(file.File_0.path);
+      const fStream = fs.createReadStream(files.File_0.path);
 
       fStream.on('data', (chunk) => {
       // fill the buffer with data from the uploaded file
@@ -196,35 +192,46 @@ webapp.post('/Posts', async (req, res) => {
 
       fStream.on('end', async () => {
       // send buffer to AWS - The url of the object is returned
-        const s3URL = await s3.uploadFile(cacheBuffer, file.File_0.name);
+        const s3URL = await s3.uploadFile(cacheBuffer, files.File_0.name);
         console.log('end', cacheBuffer.length);
 
-        // You can store the URL in mongoDB along with the rest of the data
-        // create new post object
-        const newPost = {
-          caption: req.body.caption,
-          fileURL: s3URL,
-          likes: [],
-          author: req.body.author,
-          comments: [],
-        };
-
-        try {
-          const result = await lib.createPost(newPost);
-          console.log(`id: ${JSON.stringify(result)}`);
-          // add id to new post and return it
-          res.status(201).json({
-            post: { id: result, ...newPost },
-          });
-        } catch (dbErr) {
-          res.status(404).json({ error: dbErr.message });
-        }
-      // send a response to the client
-        //   res.status(201).json({ message: `files uploaded at ${s3URL}` });
+        // send a response to the client
+        res.status(201).json({ URL: s3URL });
       });
     });
   } catch (e) {
-    console.log(e);
+    console.log('Errrrr');
+    res.status(404).json({ error: e.message });
+  }
+});
+
+webapp.post('/Posts', async (req, res) => {
+  console.log('Create a post');
+  console.log('Req.body: ', req.body);
+  if (!req.body.caption || !req.body.author || !req.body.fileURL) {
+    res.status(404).json({ error: 'missing post info' });
+    return;
+  }
+
+  try {
+    // You can store the URL in mongoDB along with the rest of the data
+    // create new post object
+    const newPost = {
+      caption: req.body.caption,
+      fileURL: req.body.fileURL,
+      likes: [],
+      author: req.body.author,
+      comments: [],
+    };
+
+    const result = await lib.createPost(newPost);
+    console.log(`id: ${JSON.stringify(result)}`);
+    // add id to new post and return it
+    res.status(201).json({
+      post: { id: result, ...newPost },
+    });
+  } catch (dbErr) {
+    res.status(404).json({ error: dbErr.message });
   }
 });
 
@@ -353,7 +360,7 @@ webapp.put('/Posts/new/:postId', async (req, res) => {
       res.status(404).json({ error: 'post ID is missing' });
       return;
     }
-    if (!req.body.caption || !req.body.file || !req.body.author || !req.body.fileName) {
+    if (!req.body.caption || !req.body.fileURL || !req.body.author || !req.body.fileName) {
       res.status(404).json({ error: 'missing post info' });
       return;
     }
@@ -364,58 +371,34 @@ webapp.put('/Posts/new/:postId', async (req, res) => {
       res.status(404).json({ error: 'Delete s3 failure' });
     }
 
-    const form = formidable({});
-    form.parse(req, (err, fields, file) => {
-      if (err) {
-        console.log('error', err.message);
-        res.status(404).json({ error: err.message });
-      }
-      // create a buffer to cache uploaded file
-      let cacheBuffer = Buffer.alloc(0);
-
-      // create a stream from the virtual path of the uploaded file
-      const fStream = fs.createReadStream(file.File_0.path);
-
-      fStream.on('data', (chunk) => {
-        // fill the buffer with data from the uploaded file
-        cacheBuffer = Buffer.concat([cacheBuffer, chunk]);
-      });
-
-      fStream.on('end', async () => {
-        // send buffer to AWS - The url of the object is returned
-        const s3URL = await s3.uploadFile(cacheBuffer, file.File_0.name);
-        console.log('end', cacheBuffer.length);
-
-        // You can store the URL in mongoDB along with the rest of the data
-        // send a response to the client
-        const result = await lib.updatePost(req.params.postId, req.body.caption, s3URL, req.body.author);
-        if (result === undefined) {
-          res.status(404).json({ error: 'bad post ID' });
-          return;
-        }
-        res.status(200).json({ data: result });
-      });
-    });
+    const result = await lib.updatePost(req.params.postId, req.body.caption, req.body.fileURL, req.body.author);
+    if (result === undefined) {
+      res.status(404).json({ error: 'bad post ID' });
+      return;
+    }
+    res.status(200).json({ data: result });
   } catch (err) {
     res.status(404).json({ error: err.message });
   }
 });
 
-webapp.delete('/Posts/:postId', async (req, res) => {
+webapp.delete('/Posts/:postId/:name', async (req, res) => {
   console.log('Delete a post');
   try {
     if (req.params.postId === undefined) {
+      console.log('postID undefined');
       res.status(404).json({ error: 'post ID is missing' });
       return;
     }
 
-    if (!req.body.fileName) {
+    if (!req.params.name) {
+      console.log('filename not found');
       res.status(404).json({ error: 'missing file name' });
       return;
     }
 
     // delete old file on s3
-    const deleteRes = s3.deleteFile(req.body.fileName);
+    const deleteRes = s3.deleteFile(req.params.name);
     if (deleteRes === false) {
       res.status(404).json({ error: 'Delete s3 failure' });
     }

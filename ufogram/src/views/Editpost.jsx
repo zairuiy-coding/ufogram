@@ -80,7 +80,11 @@ export default function PostRender() {
       if (file === null) {
         response = await editPost(caption, null, author, location.state.postId, location.state.initFile);
       } else {
-        response = await editPost(caption, file, author, location.state.postId, fileName);
+        const date = new Date();
+        const name = `${date.getTime()}_${file}`;
+        const formData = new FormData();
+        formData.append('File_0', file, name);
+        response = await editPost(caption, formData, author, location.state.postId, fileName);
       }
       //   console.log('Status', status);
 
@@ -142,7 +146,7 @@ export default function PostRender() {
   };
 
   const handleFile = (fileEvent) => {
-    setFile(fileEvent.target.value);
+    setFile(fileEvent.target.files[0]);
   };
 
   const handleCaption = (captionEvent) => {
@@ -166,7 +170,7 @@ export default function PostRender() {
       >
         <label htmlFor="image/file">
           Image/Video:
-          <input type="file" value={file} name="fileLink" data-testid="linkBox" onChange={handleFile} />
+          <input type="file" name="fileLink" data-testid="linkBox" onChange={handleFile} />
         </label>
         <label htmlFor="caption">
           Caption:

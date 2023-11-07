@@ -1,4 +1,5 @@
 import axios from 'axios';
+import uploadFile from './uploadFile';
 
 // create new post
 /**
@@ -10,18 +11,26 @@ import axios from 'axios';
 export default async function createNewPost(caption, file, author) {
   try {
     console.log('Create New Post');
-    const response = await axios.post('http://localhost:8080/Posts', {
-      caption,
-      file,
-      author,
-    }, {
-      'Content-Type': 'multipart/form-data',
-    });
+    const fileResponse = await uploadFile(file);
+    console.log(fileResponse);
+    if (fileResponse === -1 || fileResponse.status !== 201) {
+      console.log('UploadFile error');
+      return -1;
+    }
+
+    const fileURL = fileResponse.data.URL;
+    const response = await axios.post(
+      'http://localhost:8080/Posts',
+      {
+        caption,
+        fileURL,
+        author,
+      },
+    );
     console.log('CreateNewPost response status', response.status);
     return response.status;
   } catch (e) {
-    // error
-    // console.log('create post error: ', e);
+    console.log('create post error: ', e);
     return -1;
   }
 }

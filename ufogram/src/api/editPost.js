@@ -1,4 +1,5 @@
 import axios from 'axios';
+import uploadFile from './uploadFile';
 
 // edit a post
 /**
@@ -18,9 +19,17 @@ export default async function editPost(caption, file, author, postId, fileName) 
         author,
       });
     } else {
+      const fileResponse = await uploadFile(file);
+      console.log(fileResponse);
+      if (fileResponse === -1 || fileResponse.status !== 201) {
+        console.log('UploadFile error');
+        return -1;
+      }
+
+      const fileURL = fileResponse.data.URL;
       response = await axios.put(`http://localhost:8080/Posts/new/${postId}`, {
         caption,
-        file,
+        fileURL,
         author,
         fileName,
       }, {

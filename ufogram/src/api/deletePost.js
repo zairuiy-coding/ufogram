@@ -7,9 +7,9 @@ import axios from 'axios';
  */
 export default async function deletePost(postId, fileName) {
   try {
-    const response = await axios.delete(`http://localhost:8080/Posts/${postId}`, {
-      filename: fileName,
-    });
+    console.log('filename: ', fileName);
+    const response = await axios.delete(`http://localhost:8080/Posts/${postId}/${fileName}`);
+    console.log('response: ', response);
     return response;
   } catch (e) {
     // error
