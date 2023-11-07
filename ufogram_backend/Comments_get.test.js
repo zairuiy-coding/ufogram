@@ -126,7 +126,7 @@ describe('GET comment(s) endpoint integration test', () => {
     const commentArr = JSON.parse(resp.text).data;
     console.log('commentArr: ', commentArr);
 
-    // testcomment is in the response
+    // testUser is in the response
     expect(commentArr).toEqual([{
       _id: testCommentID,
       text: 'testcomment',

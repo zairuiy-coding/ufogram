@@ -88,6 +88,7 @@ describe('POST /user enpoint tests', () => {
 
   test('The new User is in the database', async () => {
     const insertedUser = await db.collection('Users').findOne({ _id: new ObjectId(testUserID) });
+    console.log('insertedUser: ', insertedUser);
     expect(insertedUser.username).toEqual('testuser');
   });
 
