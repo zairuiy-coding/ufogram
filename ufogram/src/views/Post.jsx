@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/media-has-caption */
 /* eslint-disable no-underscore-dangle */
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
@@ -19,12 +20,48 @@ function PostRender({
   const [comments, setComments] = useState([]);
   const [comNum, setComNum] = useState(0);
   const [likeText, setLikeText] = useState('Like');
+  const [type, setType] = useState(null);
 
   // console.log('self: ', self);
 
   const navigate = useNavigate();
 
   // let likeText = 'Like';
+
+  async function isImageOrVideo(url) {
+    // return new Promise((resolve) => {
+    //   const mediaElement = document.createElement('video');
+    //   mediaElement.src = url;
+
+    //   mediaElement.onloadeddata = () => {
+    //     resolve('video'); // It's a valid video
+    //     mediaElement.remove(); // Remove the element from the DOM
+    //   };
+
+    //   mediaElement.onerror = () => {
+    //     // If it fails to load as a video, check if it's an image
+    //     const imgElement = new Image();
+    //     imgElement.src = url;
+
+    //     imgElement.onload = () => {
+    //       resolve('image'); // It's a valid image
+    //       imgElement.remove(); // Remove the element from the DOM
+    //     };
+
+    //     imgElement.onerror = () => {
+    //       resolve(null); // It's neither an image nor a video
+    //       imgElement.remove(); // Remove the element from the DOM
+    //     };
+    //   };
+    // });
+
+    const img = new Image();
+    img.src = url;
+    return new Promise((resolve) => {
+      img.onload = () => resolve('image');
+      img.onerror = () => resolve('video');
+    });
+  }
 
   useEffect(() => {
     console.log('UseEffect called');
@@ -36,6 +73,28 @@ function PostRender({
       setLiked(true);
       setLikeText('Unlike');
     }
+
+    async function checkImageOrVideo() {
+      try {
+        const result = await isImageOrVideo(imageUrl);
+        if (result === 'image') {
+          // Do something if it's an image
+          console.log('This is an image');
+          setType('image');
+        } else if (result === 'video') {
+          // Do something if it's a video
+          console.log('This is a video');
+          setType('video');
+        } else {
+          // Do something if it's neither an image nor a video
+          console.log('This is neither an image nor a video');
+        }
+      } catch (error) {
+        // Handle any errors that might occur during the check
+        console.error('Error checking image or video:', error);
+      }
+    }
+    checkImageOrVideo();
   }, [state.userId]);
 
   useEffect(() => {
@@ -148,10 +207,13 @@ function PostRender({
     <div style={{ margin: '10px' }}>
       <h2>{ username }</h2>
       {
-                imageUrl.includes('youtube') && <iframe title="YouTube Video" width="560" height="315" src={imageUrl} />
+                type === 'video' && <video controls width="70%" className="videoPlayer" src={imageUrl} />
             }
       {
-                !imageUrl.includes('youtube') && <img src={imageUrl} alt="image_unloaded" />
+                type === 'image'
+                && (
+                  <img alt="post" src={imageUrl} />
+                )
             }
       <div>{ caption }</div>
       <div>

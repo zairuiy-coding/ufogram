@@ -44,11 +44,34 @@ export default function Newpost() {
     //   };
     // });
 
-    if (file.type.split('/')[0] !== 'image' && file.type.split('/')[0] !== 'video') {
+    // console.log('file type', file.type);
+    // if (file.type.split('/')[0] !== 'image' && file.type.split('/')[0] !== 'video') {
+    //   console.log('Wrong file type');
+    //   return;
+    // }
+    // }
+
+    console.log(file);
+    if (!file.endsWith('.jpg')
+    && !file.endsWith('.jpeg')
+    && !file.endsWith('.png')
+    && !file.endsWith('.apng')
+    && !file.endsWith('.gif')
+    && !file.endsWith('.ico')
+    && !file.endsWith('.cur')
+    && !file.endsWith('.jfif')
+    && !file.endsWith('.pjpeg')
+    && !file.endsWith('.pjp')
+    && !file.endsWith('.svg')
+    && !file.endsWith('.mp4')
+    && !file.endsWith('.mov')
+    && !file.endsWith('.avi')
+    && !file.endsWith('.wmv')
+    && !file.endsWith('.avchd')
+    ) {
       console.log('Wrong file type');
       return;
     }
-    // }
 
     // if (file) {
     //   try {
@@ -70,7 +93,7 @@ export default function Newpost() {
 
     try {
       const status = await createNewPost(caption, file, author);
-      //   console.log('Status', status);
+      console.log('Status', status);
 
       if (status === 201) {
         navigate('/main', {

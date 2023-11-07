@@ -9,6 +9,7 @@ import axios from 'axios';
  */
 export default async function createNewPost(caption, file, author) {
   try {
+    console.log('Create New Post');
     const response = await axios.post('http://localhost:8080/Posts', {
       caption,
       file,
@@ -16,6 +17,7 @@ export default async function createNewPost(caption, file, author) {
     }, {
       'Content-Type': 'multipart/form-data',
     });
+    console.log('CreateNewPost response status', response.status);
     return response.status;
   } catch (e) {
     // error

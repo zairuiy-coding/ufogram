@@ -173,52 +173,59 @@ webapp.post('/Posts', async (req, res) => {
   }
 
   // s3
-  const form = formidable({});
-  form.parse(req, (err, fields, file) => {
-    if (err) {
-      console.log('error', err.message);
-      res.status(404).json({ error: err.message });
-    }
-    // create a buffer to cache uploaded file
-    let cacheBuffer = Buffer.alloc(0);
-
-    // create a stream from the virtual path of the uploaded file
-    const fStream = fs.createReadStream(file.File_0.path);
-
-    fStream.on('data', (chunk) => {
-      // fill the buffer with data from the uploaded file
-      cacheBuffer = Buffer.concat([cacheBuffer, chunk]);
-    });
-
-    fStream.on('end', async () => {
-      // send buffer to AWS - The url of the object is returned
-      const s3URL = await s3.uploadFile(cacheBuffer, file.File_0.name);
-      console.log('end', cacheBuffer.length);
-
-      // You can store the URL in mongoDB along with the rest of the data
-      // create new post object
-      const newPost = {
-        caption: req.body.caption,
-        fileURL: s3URL,
-        likes: [],
-        author: req.body.author,
-        comments: [],
-      };
-
-      try {
-        const result = await lib.createPost(newPost);
-        console.log(`id: ${JSON.stringify(result)}`);
-        // add id to new post and return it
-        res.status(201).json({
-          post: { id: result, ...newPost },
-        });
-      } catch (dbErr) {
-        res.status(404).json({ error: dbErr.message });
+  try {
+    const form = formidable({});
+    console.log('Create a post 177');
+    form.parse(req, (err, _fields, file) => {
+      console.log('Create a post 179');
+      if (err) {
+        console.log('error', err.message);
+        res.status(404).json({ error: err.message });
       }
+      // create a buffer to cache uploaded file
+      let cacheBuffer = Buffer.alloc(0);
+      console.log('Create a post 186');
+
+      // create a stream from the virtual path of the uploaded file
+      const fStream = fs.createReadStream(file.File_0.path);
+
+      fStream.on('data', (chunk) => {
+      // fill the buffer with data from the uploaded file
+        cacheBuffer = Buffer.concat([cacheBuffer, chunk]);
+      });
+
+      fStream.on('end', async () => {
+      // send buffer to AWS - The url of the object is returned
+        const s3URL = await s3.uploadFile(cacheBuffer, file.File_0.name);
+        console.log('end', cacheBuffer.length);
+
+        // You can store the URL in mongoDB along with the rest of the data
+        // create new post object
+        const newPost = {
+          caption: req.body.caption,
+          fileURL: s3URL,
+          likes: [],
+          author: req.body.author,
+          comments: [],
+        };
+
+        try {
+          const result = await lib.createPost(newPost);
+          console.log(`id: ${JSON.stringify(result)}`);
+          // add id to new post and return it
+          res.status(201).json({
+            post: { id: result, ...newPost },
+          });
+        } catch (dbErr) {
+          res.status(404).json({ error: dbErr.message });
+        }
       // send a response to the client
-    //   res.status(201).json({ message: `files uploaded at ${s3URL}` });
+        //   res.status(201).json({ message: `files uploaded at ${s3URL}` });
+      });
     });
-  });
+  } catch (e) {
+    console.log(e);
+  }
 });
 
 webapp.put('/Posts/like/:postId/:userId', async (req, res) => {
