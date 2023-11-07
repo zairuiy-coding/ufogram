@@ -342,7 +342,12 @@ webapp.put('/Posts/same/:postId', async (req, res) => {
       return;
     }
 
-    const result = await lib.updatePost(req.params.postId, req.body.caption, req.body.file, req.body.author);
+    const result = await lib.updatePost(
+      req.params.postId,
+      req.body.caption,
+      req.body.file,
+      req.body.author,
+    );
     if (result === undefined) {
       res.status(404).json({ error: 'bad post ID' });
       return;
@@ -371,7 +376,12 @@ webapp.put('/Posts/new/:postId', async (req, res) => {
       res.status(404).json({ error: 'Delete s3 failure' });
     }
 
-    const result = await lib.updatePost(req.params.postId, req.body.caption, req.body.fileURL, req.body.author);
+    const result = await lib.updatePost(
+      req.params.postId,
+      req.body.caption,
+      req.body.fileURL,
+      req.body.author,
+    );
     if (result === undefined) {
       res.status(404).json({ error: 'bad post ID' });
       return;
@@ -495,25 +505,6 @@ webapp.post('/Comments/:postId', async (req, res) => {
     res.status(404).json({ error: err.message });
   }
 });
-
-// webapp.delete('/player/:player', async (req, res) => {
-//   if (req.params.player === undefined) {
-//     res.status(404).json({ error: 'name is missing' });
-//     return;
-//   }
-//   console.log('DELETE a player');
-//   try {
-//     const result = await lib.deletePlayer(db, req.params.player);
-//     console.log(`result-->${result}`);
-//     if (Number(result) === 0) {
-//       res.status(404).json({ error: 'player not in the system' });
-//       return;
-//     }
-//     res.status(200).json({ message: `Deleted ${result} player(s) with name ${req.params.player}` });
-//   } catch (err) {
-//     res.status(404).json({ error: err.message });
-//   }
-// });
 
 // Default response for any other request
 webapp.use((_req, res) => {
