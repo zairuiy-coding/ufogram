@@ -129,4 +129,34 @@ describe('POST /user enpoint tests', () => {
 
     expect(res2.status).toEqual(404);
   });
+
+  test('create a comment with invalid postID', async () => {
+    const res2 = await request(webapp)
+      .post('/Comments/1')
+      .set('Content-Type', 'application/json')
+      .send({
+        text: 'testcomment',
+        author: {
+          id: '65404186357e2d1e38f7cbec',
+          username: 'lionelhu',
+        },
+      });
+    expect(res2.status).toEqual(404);
+    expect(res2.type).toBe('application/json');
+  });
+
+  test('create a comment with empty postID', async () => {
+    const res2 = await request(webapp)
+      .post('/Comments/ /')
+      .set('Content-Type', 'application/json')
+      .send({
+        text: 'testcomment',
+        author: {
+          id: '65404186357e2d1e38f7cbec',
+          username: 'lionelhu',
+        },
+      });
+    expect(res2.status).toEqual(404);
+    expect(res2.type).toBe('application/json');
+  });
 });

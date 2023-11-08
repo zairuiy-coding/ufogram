@@ -113,6 +113,18 @@ describe('GET comment(s) endpoint integration test', () => {
     });
   });
 
+  test('Get a comment with invalid comment id', async () => {
+    const resp = await request(webapp).get('/Comments/1');
+    expect(resp.status).toEqual(404);
+    expect(resp.type).toBe('application/json');
+  });
+
+  test('Get a comment with empty comment id', async () => {
+    const resp = await request(webapp).get('/Comments/ /');
+    expect(resp.status).toEqual(404);
+    expect(resp.type).toBe('application/json');
+  });
+
   test('Get all comments of a post endpoint status code and data', async () => {
     const resp = await request(webapp).get(`/Comments/post/${testPostID}`);
     expect(resp.status).toEqual(200);
@@ -131,8 +143,14 @@ describe('GET comment(s) endpoint integration test', () => {
     }]);
   });
 
-  test('comment not in db status code 404', async () => {
-    const resp = await request(webapp).get('/Comments/1');
+  test('Get all comments of a post with invalid postID', async () => {
+    const resp = await request(webapp).get('/Comments/post/1');
+    expect(resp.status).toEqual(404);
+    expect(resp.type).toBe('application/json');
+  });
+
+  test('Get all comments of a post with empty postID', async () => {
+    const resp = await request(webapp).get('/Comments/post/ /');
     expect(resp.status).toEqual(404);
     expect(resp.type).toBe('application/json');
   });

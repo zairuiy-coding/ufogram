@@ -76,25 +76,25 @@ describe('GET post(s) endpoint integration test', () => {
     expect(containsTestPost).toBe(true);
   });
 
-  //   test('Get a post endpoint status code and data', async () => {
-  //     const resp = await request(webapp).get(`/Posts/${testPostID}`);
-  //     expect(resp.status).toEqual(200);
-  //     expect(resp.type).toBe('application/json');
-  //     const userArr = JSON.parse(resp.text).post;
+  test('Get a post endpoint status code and data', async () => {
+    const resp = await request(webapp).get(`/Posts/${testPostID}`);
+    expect(resp.status).toEqual(200);
+    expect(resp.type).toBe('application/json');
+    const postArr = JSON.parse(resp.text).post;
 
-  //     // testPost is in the response
-  //     expect(userArr).toMatchObject({
-  //       _id: testPostID,
-  //       username: 'testpost',
-  //       password: '1234567',
-  //       following: [],
-  //       followers: [],
-  //     });
-  //   });
+    // testPost is in the response
+    expect(postArr).toMatchObject(testPost);
+  });
 
-//   test('post not in db status code 404', async () => {
-//     const resp = await request(webapp).get('/Posts/1');
-//     expect(resp.status).toEqual(404);
-//     expect(resp.type).toBe('application/json');
-//   });
+  test('post not in db status code 404', async () => {
+    const resp = await request(webapp).get('/Posts/1');
+    expect(resp.status).toEqual(404);
+    expect(resp.type).toBe('application/json');
+  });
+
+  test('get a post with undefined postID', async () => {
+    const resp = await request(webapp).get('/Posts/ /');
+    expect(resp.status).toEqual(404);
+    expect(resp.type).toBe('application/json');
+  });
 });

@@ -46,19 +46,6 @@ const checkUserExists = async (userId) => {
       return 0;
     }
     return -1;
-
-    //   (err, result) => {
-    //     if (err) {
-    //       console.log(`error: ${err.message}`);
-    //       return -1;
-    //     }
-    //     if (result) {
-    //       console.log('result: ', result);
-    //       return 0;
-    //     }
-    //     console.log('Can\'t find user');
-    //     return -1;
-    //   },
   } catch (err) {
     console.log(`error: ${err.message}`);
   }

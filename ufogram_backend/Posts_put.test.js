@@ -7,31 +7,6 @@ const webapp = require('./server');
 
 let mongo;
 
-// // create formdata
-// let formData;
-// try {
-//   formData = new FormData();
-//   console.log('formData before', formData);
-//   const date = new Date();
-//   const name = `${date.getTime()}_${file}`;
-//   console.log('File type: ', typeof file);
-//   formData.append('File_0', file, name);
-//   console.log('formData appended', formData);
-// } catch (e) {
-//   console.log(e);
-// }
-
-// // load the test .png file
-// // `event` is an HTML change event from an <input type="file"> element.
-// const documentFileObjectUrl = URL.createObjectURL(event.target.files[0]);
-// PSPDFKit.load({
-// 	document: documentFileObjectUrl
-// })
-// 	.then(instance => {
-// 		// Make sure to revoke the object URL so the browser doesn't hold on to the file object that's not needed any more.
-// 		URL.revokeObjectURL(documentFileObjectUrl);
-// 	});
-
 // TEST PUT ENDPOINT
 describe('Update a post endpoint integration test', () => {
   /**
@@ -109,22 +84,29 @@ describe('Update a post endpoint integration test', () => {
     expect(updatedPostResp1.caption).toEqual('testpost_updated1');
   });
 
-  //   test('Edit a post with a new file Endpoint status code and response async/await', async () => {
-  //     res = await request(webapp)
-  //       .put(`/Posts/new/${testPostID}`)
-  //       .set('Content-Type', 'application/json')
-  //       .send({
-  //         caption: 'testpost_updated2', fileURL: 'https://picsum.photos/200/302', author: 'testuser',
-  //       });
+  test('Edit a post without changing file with invalid postID', async () => {
+    res = await request(webapp)
+      .put('/Posts/same/1')
+      .set('Content-Type', 'application/json')
+      .send({
+        caption: 'testpost_updated1', file: 'https://picsum.photos/200/301', author: 'testuser',
+      });
 
-  //     expect(res.status).toEqual(200);
-  //     expect(res.type).toBe('application/json');
+    console.log('edit a post same res: ', JSON.parse(res.text));
+    expect(res.status).toEqual(404);
+    expect(res.type).toBe('application/json');
+  });
 
-  //     // the database was updated
-  //     const updatedPostResp2 = await db.collection('Posts').findOne({ _id: new ObjectId(testPostID) });
-  //     // print the result
-  //     expect(updatedPostResp2.caption).toEqual('testpost_updated2');
-  //   });
+  test('Edit a post without changing file with empty postID', async () => {
+    res = await request(webapp)
+      .put('/Posts/same/ /')
+      .set('Content-Type', 'application/json')
+      .send({
+        caption: 'testpost_updated1', file: 'https://picsum.photos/200/301', author: 'testuser',
+      });
+    expect(res.status).toEqual(404);
+    expect(res.type).toBe('application/json');
+  });
 
   test('missing fielURL 404', async () => {
     res = await request(webapp)
@@ -148,6 +130,27 @@ describe('Update a post endpoint integration test', () => {
     expect(res.status).toEqual(404);
   });
 
+  test('Unlike a post that has not been liked yet', async () => {
+    res = await request(webapp).put(`/Posts/unlike/${testPostID}/${userID}`);
+
+    expect(res.status).toEqual(400);
+    expect(res.type).toBe('application/json');
+  });
+
+  test('Like a post with empty postID', async () => {
+    res = await request(webapp).put(`/Posts/like/ /${userID}`);
+
+    expect(res.status).toEqual(404);
+    expect(res.type).toBe('application/json');
+  });
+
+  test('Like a post with empty userID', async () => {
+    res = await request(webapp).put(`/Posts/like/${testPostID}/ /`);
+
+    expect(res.status).toEqual(404);
+    expect(res.type).toBe('application/json');
+  });
+
   test('Like a post Endpoint status code and response async/await', async () => {
     res = await request(webapp).put(`/Posts/like/${testPostID}/${userID}`);
 
@@ -163,11 +166,40 @@ describe('Update a post endpoint integration test', () => {
     expect(likePostResp.likes).toContain(userID);
   });
 
-  // test('Like a post with missing userID', async () => {
-  //   res = await request(webapp).put(`/Posts/like/${testPostID}`);
+  test('Like a post that has already been liked', async () => {
+    res = await request(webapp).put(`/Posts/like/${testPostID}/${userID}`);
 
-  //   expect(res.status).toEqual(404);
-  // });
+    expect(res.status).toEqual(400);
+    expect(res.type).toBe('application/json');
+  });
+
+  test('Unlike a post Endpoint with invalid user id', async () => {
+    res = await request(webapp).put(`/Posts/unlike/${testPostID}/1`);
+
+    expect(res.status).toEqual(404);
+    expect(res.type).toBe('application/json');
+  });
+
+  test('Unlike a post Endpoint with empty user id', async () => {
+    res = await request(webapp).put(`/Posts/unlike/${testPostID}/ /`);
+
+    expect(res.status).toEqual(404);
+    expect(res.type).toBe('application/json');
+  });
+
+  test('Unlike a post Endpoint with invalid post id', async () => {
+    res = await request(webapp).put(`/Posts/unlike/1/${userID}`);
+
+    expect(res.status).toEqual(404);
+    expect(res.type).toBe('application/json');
+  });
+
+  test('Unlike a post Endpoint with empty post id', async () => {
+    res = await request(webapp).put(`/Posts/unlike/ /${userID}`);
+
+    expect(res.status).toEqual(404);
+    expect(res.type).toBe('application/json');
+  });
 
   test('Unlike a post Endpoint status code and response async/await', async () => {
     res = await request(webapp).put(`/Posts/unlike/${testPostID}/${userID}`);
@@ -175,12 +207,12 @@ describe('Update a post endpoint integration test', () => {
     expect(res.status).toEqual(200);
     expect(res.type).toBe('application/json');
 
-    console.log('testPostID: ', testPostID);
-
     // userID has been removed from the post's likes array
     const unlikePostResp = await db.collection('Posts').findOne({ _id: new ObjectId(testPostID) });
     console.log('unlikePostResp: ', unlikePostResp);
     // print the result
     expect(unlikePostResp.likes).not.toContain(userID);
   });
+
+
 });

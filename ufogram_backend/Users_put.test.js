@@ -85,4 +85,15 @@ describe('Update a user endpoint integration test', () => {
 
     expect(res.status).toEqual(404);
   });
+
+  test('update a user with empty userID 404', async () => {
+    res = await request(webapp)
+      .put('/Users/ /')
+      .set('Content-Type', 'application/json')
+      .send({
+        username: 'testuser_updated', following: [], followers: [],
+      });
+
+    expect(res.status).toEqual(404);
+  });
 });

@@ -99,4 +99,10 @@ describe('GET user(s) endpoint integration test', () => {
     expect(resp.type).toBe('application/json');
   });
 
+  test('userID empty status code 404', async () => {
+    const resp = await request(webapp).get('/Users/ /');
+    expect(resp.status).toEqual(404);
+    expect(resp.type).toBe('application/json');
+  });
+
 });

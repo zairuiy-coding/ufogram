@@ -8,7 +8,7 @@ const webapp = require('./server');
 let mongo;
 
 // TEST PUT ENDPOINT
-describe('Delete a student endpoint integration test', () => {
+describe('Delete a user endpoint integration test', () => {
   /**
  * If you get an error with afterEach
  * inside .eslintrc.json in the
@@ -74,6 +74,11 @@ describe('Delete a student endpoint integration test', () => {
 
   test('user id not in system (correct id format) - response 404', async () => {
     const resp = await request(webapp).delete('/Users/63738b602fe72e59d4a72ccc');
+    expect(resp.status).toEqual(404);
+  });
+
+  test('user id empty - response 404', async () => {
+    const resp = await request(webapp).delete('/Users/ /');
     expect(resp.status).toEqual(404);
   });
 });
