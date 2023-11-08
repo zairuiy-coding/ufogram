@@ -17,7 +17,7 @@ export default function Login() {
 
   async function handleLogin() {
     try {
-      console.log('start log in');
+      // console.log('start log in');
       // Make an API call to your backend for authentication
       // const response = await axios.get('http://localhost:3000/Users', {
       //     method: 'GET',
@@ -35,13 +35,13 @@ export default function Login() {
 
       if (response !== -1 && response.status === 200) {
         let userFound = false;
-        console.log(response);
+        // console.log(response);
         for (let i = 0; i < response.data.users.length; i += 1) {
-          console.log(i);
+          // console.log(i);
           if (response.data.users[i].username === username
             && response.data.users[i].password === password) {
             // eslint-disable-next-line no-underscore-dangle
-            console.log(response.data.users[i]._id);
+            // console.log(response.data.users[i]._id);
             userFound = true;
             // eslint-disable-next-line no-underscore-dangle
             userId = response.data.users[i]._id;
@@ -51,9 +51,9 @@ export default function Login() {
         }
         if (userFound) {
           // setLoggedIn(true);
-          console.log(userId);
-          console.log(username);
-          console.log(response.data.users);
+          // console.log(userId);
+          // console.log(username);
+          // console.log(response.data.users);
           navigate('/main', { state: { userId, username, users: response.data.users } });
         //   console.log('naviate successfully');
         }

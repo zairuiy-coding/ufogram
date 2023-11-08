@@ -22,7 +22,7 @@ export default function PostRender() {
 
     // 2. file authentication (if there is a file)
     if (file && (file.type.split('/')[0] !== 'image' && file.type.split('/')[0] !== 'video')) {
-      console.log('Wrong file type');
+      // console.log('Wrong file type');
       return;
     }
 
@@ -95,7 +95,7 @@ export default function PostRender() {
       //   console.log('Status', status);
 
       if (response.status === 200) {
-        console.log('editPost 200');
+        // console.log('editPost 200');
         navigate('/userprofile', {
           state: {
             userId: location.state.userId,
@@ -134,8 +134,8 @@ export default function PostRender() {
     const fileName = urlCopy.split('/').pop();
     const response = await deletePost(location.state.postId, fileName);
     if (response.status !== 200) {
-      console.log('Post deletion error');
-      console.log(response);
+      // console.log('Post deletion error');
+      // console.log(response);
     } else {
       navigate('/userprofile', {
         state: {

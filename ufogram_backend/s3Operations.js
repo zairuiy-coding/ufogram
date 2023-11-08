@@ -23,7 +23,7 @@ const s3 = new S3({
 
 // upload a file
 const uploadFile = async (fileContent, fileName) => {
-  console.log('fileName', fileName);
+  // console.log('fileName', fileName);
   // Setting up S3 upload parameters
   const params = {
     Bucket: BUCKET_NAME,
@@ -37,7 +37,7 @@ const uploadFile = async (fileContent, fileName) => {
     client: s3,
     params,
   }).done();
-  console.log(`File uploaded successfully. ${data.Location}`);
+  // console.log(`File uploaded successfully. ${data.Location}`);
   // return the URL of the object on S3
   return data.Location;
 };
@@ -51,12 +51,13 @@ const deleteFile = (fileName) => {
   };
 
   // download file from the bucket
+  // eslint-disable-next-line no-unused-vars
   s3.deleteObject(params, (err, data) => {
     if (err) {
       // throw err;
       return false;
     }
-    console.log(`File deleted successfully. ${data}`);
+    // sconsole.log(`File deleted successfully. ${data}`);
     return true;
   });
 };

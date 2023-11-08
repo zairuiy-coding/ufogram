@@ -5,7 +5,7 @@ import Post from './Post';
 export default function DisplayPosts({
   following, allPosts, selfKind, state, userId,
 }) {
-  console.log('DisplayPosts');
+  // console.log('DisplayPosts');
   return (
     <div style={{
       display: 'flex', justifyContent: 'center', flexDirection: 'column', background: '#b6f486', width: '100%',

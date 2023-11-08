@@ -7,7 +7,7 @@ import axios from 'axios';
  */
 export default async function uploadFile(file) {
   try {
-    console.log('Upload file');
+    // console.log('Upload file');
     const response = await axios.post(
       'http://localhost:8080/File',
       file,
@@ -15,10 +15,10 @@ export default async function uploadFile(file) {
         'Content-Type': 'multipart/form-data',
       },
     );
-    console.log('uploadFile response', response);
+    // console.log('uploadFile response', response);
     return response;
   } catch (e) {
-    console.log('uploadFile error: ', e);
+    // console.log('uploadFile error: ', e);
     return -1;
   }
 }

@@ -9,8 +9,8 @@ export default function UserProfile() {
 
   const location = useLocation();
 
-  console.log('UserId: ', location.state.userId);
-  console.log('sId: ', location.state.sId);
+  // console.log('UserId: ', location.state.userId);
+  // console.log('sId: ', location.state.sId);
 
   // const [followed, setFollowed] = useState(location.state.followed);
   let { followed } = location.state;
@@ -30,7 +30,7 @@ export default function UserProfile() {
   };
 
   const handleFollow = async (followEvent) => {
-    console.log(`Followed at the start: ${followed}`);
+    // console.log(`Followed at the start: ${followed}`);
     const selfResponse = await getUser(location.state.userId);
     const searchResponse = await getUser(location.state.sId);
     const currFollowing = selfResponse.data.user.following.slice();
@@ -39,22 +39,22 @@ export default function UserProfile() {
     if (followed) {
       const newFollowing = currFollowing.filter((user) => user.id !== location.state.sId);
       const newFollowers = currFollowers.filter((user) => user.id !== location.state.userId);
-      console.log('newFollowing: \n', newFollowing);
-      console.log('newFollowers: \n', newFollowers);
-      const response1 = await updateUser(location.state.userId, {
+      // console.log('newFollowing: \n', newFollowing);
+      // console.log('newFollowers: \n', newFollowers);
+      await updateUser(location.state.userId, {
         username: selfResponse.data.user.username,
         password: selfResponse.data.user.password,
         following: newFollowing,
         followers: selfResponse.data.user.followers,
       });
-      const response2 = await updateUser(location.state.sId, {
+      await updateUser(location.state.sId, {
         username: searchResponse.data.user.username,
         password: searchResponse.data.user.password,
         following: searchResponse.data.user.following,
         followers: newFollowers,
       });
-      console.log('Response1: ', response1);
-      console.log('Response2: ', response2);
+      // console.log('Response1: ', response1);
+      // console.log('Response2: ', response2);
       copy.target.innerHTML = 'Follow';
       // setFollowed(false);
       followed = false;
@@ -72,20 +72,20 @@ export default function UserProfile() {
       });
       // console.log('newFollowing: \n', newFollowing);
       // console.log('newFollowers: \n', newFollowers);
-      const response1 = await updateUser(location.state.userId, {
+      await updateUser(location.state.userId, {
         username: selfResponse.data.user.username,
         password: selfResponse.data.user.password,
         following: newFollowing,
         followers: selfResponse.data.user.followers,
       });
-      const response2 = await updateUser(location.state.sId, {
+      await updateUser(location.state.sId, {
         username: searchResponse.data.user.username,
         password: searchResponse.data.user.password,
         following: searchResponse.data.user.following,
         followers: newFollowers,
       });
-      console.log('Response1: ', response1);
-      console.log('Response2: ', response2);
+      // console.log('Response1: ', response1);
+      // console.log('Response2: ', response2);
       copy.target.innerHTML = 'Unfollow';
       // console.log('Inner HTML: ', followEvent.target.innerHTML);
       // setFollowed(true);

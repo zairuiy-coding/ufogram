@@ -45,7 +45,7 @@ webapp.get('/', (_req, res) => {
 
 // Other API endpoints
 webapp.get('/Users', async (_req, res) => {
-  console.log('READ all users');
+  // console.log('READ all users');
   try {
     const results = await lib.getUsers();
     res.status(200).json({ users: results });
@@ -55,14 +55,14 @@ webapp.get('/Users', async (_req, res) => {
 });
 
 webapp.get('/Users/:id', async (req, res) => {
-  console.log('READ a user by id');
-  console.log('User id: ', req.params.id);
+  // console.log('READ a user by id');
+  // console.log('User id: ', req.params.id);
   try {
     if (req.params.id === undefined || req.params.id === ' ') {
       res.status(404).json({ error: 'id is missing' });
       return;
     }
-    console.log('User id: ', req.params.id);
+    // console.log('User id: ', req.params.id);
     const result = await lib.getUser(req.params.id);
     if (result === undefined) {
       res.status(404).json({ error: 'bad user id' });
@@ -75,8 +75,8 @@ webapp.get('/Users/:id', async (req, res) => {
 });
 
 webapp.post('/Users/', async (req, res) => {
-  console.log('CREATE a user');
-  console.log(req.body);
+  // console.log('CREATE a user');
+  // console.log(req.body);
   if (!req.body.username || !req.body.password) {
     res.status(404).json({ error: 'missing user info' });
     return;
@@ -90,7 +90,7 @@ webapp.post('/Users/', async (req, res) => {
   };
   try {
     const result = await lib.addUser(newUser);
-    console.log(`id: ${JSON.stringify(result)}`);
+    // console.log(`id: ${JSON.stringify(result)}`);
     // add id to new user and return it
     res.status(201).json({
       user: { id: result, ...newUser },
@@ -101,7 +101,7 @@ webapp.post('/Users/', async (req, res) => {
 });
 
 webapp.put('/Users/:userId', async (req, res) => {
-  console.log('UPDATE a user');
+  // console.log('UPDATE a user');
   try {
     if (req.params.userId === undefined || req.params.userId === ' ') {
       res.status(404).json({ error: 'user ID is missing' });
@@ -130,7 +130,7 @@ webapp.put('/Users/:userId', async (req, res) => {
 });
 
 webapp.delete('/Users/:userId', async (req, res) => {
-  console.log('Delete a user');
+  // console.log('Delete a user');
   try {
     if (req.params.userId === undefined || req.params.userId === ' ') {
       res.status(404).json({ error: 'user ID is missing' });
@@ -140,26 +140,26 @@ webapp.delete('/Users/:userId', async (req, res) => {
     const result = await lib.deleteUser(req.params.userId);
     if (result === undefined) {
       res.status(404).json({ error: 'bad post ID' });
-      console.log('result === undefined');
+      // console.log('result === undefined');
       return;
     }
     if (result.deletedCount === 0) {
       res.status(404).json({ error: 'no user deleted' });
     } else {
       res.status(200).json({ data: result });
-      console.log('result: ', result);
+      // console.log('result: ', result);
     }
   } catch (err) {
     res.status(404).json({ error: err.message });
-    console.log('err: ', err);
+    // console.log('err: ', err);
   }
 });
 
 webapp.get('/Posts', async (_req, res) => {
-  console.log('READ all posts');
+  // console.log('READ all posts');
   try {
     const results = await lib.getPosts();
-    console.log(results);
+    // console.log(results);
     res.status(200).json({ posts: results });
   } catch (err) {
     res.status(404).json({ error: err.message });
@@ -167,14 +167,14 @@ webapp.get('/Posts', async (_req, res) => {
 });
 
 webapp.get('/Posts/:id', async (req, res) => {
-  console.log('READ a post by id');
-  console.log('Post id: ', req.params.id);
+  // console.log('READ a post by id');
+  // console.log('Post id: ', req.params.id);
   try {
     if (req.params.id === undefined || req.params.id === ' ') {
       res.status(404).json({ error: 'id is missing' });
       return;
     }
-    console.log('Post id: ', req.params.id);
+    // console.log('Post id: ', req.params.id);
     const result = await lib.getPost(req.params.id);
     if (result === undefined) {
       res.status(404).json({ error: 'bad post id' });
@@ -187,22 +187,22 @@ webapp.get('/Posts/:id', async (req, res) => {
 });
 
 webapp.post('/File', async (req, res) => {
-  console.log('Upload file');
+  // console.log('Upload file');
 
   try {
     const form = formidable({});
-    console.log('Create a post 177');
+    // console.log('Create a post 177');
     await form.parse(req, (err, fields, files) => {
-      console.log('Create a post 179');
+      // console.log('Create a post 179');
       if (err) {
-        console.log('error', err.message);
+        // console.log('error', err.message);
         res.status(404).json({ error: err.message });
       }
       // create a buffer to cache uploaded file
       let cacheBuffer = Buffer.alloc(0);
-      console.log('Create a post 186');
+      // console.log('Create a post 186');
 
-      console.log('Files, ', files);
+      // console.log('Files, ', files);
       // create a stream from the virtual path of the uploaded file
       const fStream = fs.createReadStream(files.File_0.path);
 
@@ -214,21 +214,21 @@ webapp.post('/File', async (req, res) => {
       fStream.on('end', async () => {
       // send buffer to AWS - The url of the object is returned
         const s3URL = await s3.uploadFile(cacheBuffer, files.File_0.name);
-        console.log('end', cacheBuffer.length);
+        // console.log('end', cacheBuffer.length);
 
         // send a response to the client
         res.status(201).json({ URL: s3URL });
       });
     });
   } catch (e) {
-    console.log('Errrrr');
+    // console.log('Errrrr');
     res.status(404).json({ error: e.message });
   }
 });
 
 webapp.post('/Posts', async (req, res) => {
-  console.log('Create a post');
-  console.log('Req.body: ', req.body);
+  // console.log('Create a post');
+  // console.log('Req.body: ', req.body);
   if (!req.body.caption || !req.body.author || !req.body.fileURL) {
     res.status(404).json({ error: 'missing post info' });
     return;
@@ -246,7 +246,7 @@ webapp.post('/Posts', async (req, res) => {
     };
 
     const result = await lib.createPost(newPost);
-    console.log(`post id: ${JSON.stringify(result)}`);
+    // console.log(`post id: ${JSON.stringify(result)}`);
     // add id to new post and return it
     res.status(201).json({
       post: { id: result, ...newPost },
@@ -257,7 +257,7 @@ webapp.post('/Posts', async (req, res) => {
 });
 
 webapp.put('/Posts/like/:postId/:userId', async (req, res) => {
-  console.log('Like a post');
+  // console.log('Like a post');
   try {
     if (req.params.postId === undefined || req.params.postId === ' ') {
       res.status(404).json({ error: 'post ID is missing' });
@@ -270,28 +270,28 @@ webapp.put('/Posts/like/:postId/:userId', async (req, res) => {
     const result = await lib.addPostLike(req.params.postId, req.params.userId);
     if (result === undefined) {
       res.status(404).json({ error: 'bad post ID' });
-      console.log('result: ', result);
+      // console.log('result: ', result);
       return;
     }
     if (result === -2) {
       res.status(404).json({ error: 'user/post does not exist' });
-      console.log('result: ', result);
+      // console.log('result: ', result);
       return;
     }
     if (result === -1) {
       res.status(400).json({ error: 'user already liked' });
-      console.log('result: ', result);
+      // console.log('result: ', result);
       return;
     }
     res.status(200).json({ data: result });
-    console.log('result: ', result);
+    // console.log('result: ', result);
   } catch (err) {
     res.status(404).json({ error: err.message });
   }
 });
 
 webapp.put('/Posts/unlike/:postId/:userId', async (req, res) => {
-  console.log('Unlike a post');
+  // console.log('Unlike a post');
   try {
     if (req.params.postId === undefined || req.params.postId === ' ') {
       res.status(404).json({ error: 'post ID is missing' });
@@ -316,13 +316,13 @@ webapp.put('/Posts/unlike/:postId/:userId', async (req, res) => {
     }
     res.status(200).json({ data: result });
   } catch (err) {
-    console.log('err: ', err);
+    // console.log('err: ', err);
     res.status(404).json({ error: err.message });
   }
 });
 
 webapp.put('/Posts/same/:postId', async (req, res) => {
-  console.log('Edit a post without changing the file');
+  // console.log('Edit a post without changing the file');
   try {
     if (req.params.postId === undefined || req.params.postId === ' ') {
       res.status(404).json({ error: 'post ID is missing' });
@@ -350,7 +350,7 @@ webapp.put('/Posts/same/:postId', async (req, res) => {
 });
 
 webapp.put('/Posts/new/:postId', async (req, res) => {
-  console.log('Edit a post with a new file');
+  // console.log('Edit a post with a new file');
   try {
     if (req.params.postId === undefined) {
       res.status(404).json({ error: 'post ID is missing' });
@@ -384,16 +384,16 @@ webapp.put('/Posts/new/:postId', async (req, res) => {
 });
 
 webapp.delete('/Posts/:postId/:name', async (req, res) => {
-  console.log('Delete a post');
+  // console.log('Delete a post');
   try {
     if (req.params.postId === undefined) {
-      console.log('postID undefined');
+      // console.log('postID undefined');
       res.status(404).json({ error: 'post ID is missing' });
       return;
     }
 
     if (!req.params.name) {
-      console.log('filename not found');
+      // console.log('filename not found');
       res.status(404).json({ error: 'missing file name' });
       return;
     }
@@ -420,7 +420,7 @@ webapp.delete('/Posts/:postId/:name', async (req, res) => {
 });
 
 webapp.get('/Comments/:id', async (req, res) => {
-  console.log('READ a comment by id');
+  // console.log('READ a comment by id');
   try {
     if (req.params.id === undefined || req.params.id === ' ') {
       res.status(404).json({ error: 'id is missing' });
@@ -438,7 +438,7 @@ webapp.get('/Comments/:id', async (req, res) => {
 });
 
 webapp.get('/Comments/post/:id', async (req, res) => {
-  console.log('Get all comments of a post');
+  // console.log('Get all comments of a post');
   try {
     if (req.params.id === undefined || req.params.id === ' ') {
       res.status(404).json({ error: 'id is missing' });
@@ -462,7 +462,7 @@ webapp.get('/Comments/post/:id', async (req, res) => {
 });
 
 webapp.post('/Comments/:postId', async (req, res) => {
-  console.log('CREATE a comment');
+  // console.log('CREATE a comment');
   if (req.params.postId === undefined || req.params.postId === ' ') {
     res.status(404).json({ error: 'post ID is missing' });
     return;
@@ -478,7 +478,7 @@ webapp.post('/Comments/:postId', async (req, res) => {
   };
   try {
     const result = await lib.addComment(newComment);
-    console.log(`comment id: ${JSON.stringify(result)}`);
+    // console.log(`comment id: ${JSON.stringify(result)}`);
     if (result === undefined) {
       res.status(404).json({ error: 'comment not created' });
       return;

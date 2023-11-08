@@ -7,7 +7,7 @@ export default function Main() {
   const navigate = useNavigate();
 
   const location = useLocation();
-  console.log('Main state: ', location.state);
+  // console.log('Main state: ', location.state);
 
   const [usernameToSearch, setUsernameToSearch] = useState('');
 
@@ -35,13 +35,13 @@ export default function Main() {
   };
 
   const handleSearchUser = async () => {
-    console.log(location.state.users);
+    // console.log(location.state.users);
     const userToSearch = location.state.users.find((user) => user.username === usernameToSearch);
-    console.log(userToSearch);
+    // console.log(userToSearch);
     if (userToSearch) {
       // eslint-disable-next-line no-underscore-dangle
       const searchResponse = await getUser(userToSearch._id);
-      console.log(searchResponse);
+      // console.log(searchResponse);
       const isFollowed = searchResponse.data.user.followers.some(
         (follower) => follower.id === location.state.userId,
       );

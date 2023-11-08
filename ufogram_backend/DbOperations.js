@@ -13,10 +13,10 @@ const connect = async () => {
       { useNewUrlParser: true, useUnifiedTopology: true },
     )); // we return the entire connection, not just the DB
     // check that we are connected to the db
-    console.log(`connected to db: ${MongoConnection.db().databaseName}`);
+    // console.log(`connected to db: ${MongoConnection.db().databaseName}`);
     // return MongoConnection;
   } catch (err) {
-    console.log(err.message);
+    // console.log(err.message);
   }
   return MongoConnection;
 };
@@ -33,7 +33,7 @@ const checkUserExists = async (userId) => {
   try {
     // get the db
     const db = await getDB();
-    console.log('checkUserExists called');
+    // console.log('checkUserExists called');
 
     const result = await db.collection('Users').findOne(
       {
@@ -42,21 +42,22 @@ const checkUserExists = async (userId) => {
     );
 
     if (result) {
-      console.log('user exists');
+      // console.log('user exists');
       return 0;
     }
     return -1;
   } catch (err) {
-    console.log(`error: ${err.message}`);
+    // console.log(`error: ${err.message}`);
   }
+  return -1;
 };
 
 const checkPostExists = async (postId) => {
   try {
     // get the db
     const db = await getDB();
-    console.log('checkPostExists called');
-    console.log('postId: ', postId);
+    // console.log('checkPostExists called');
+    // console.log('postId: ', postId);
 
     const result = await db.collection('Posts').findOne(
       {
@@ -65,16 +66,17 @@ const checkPostExists = async (postId) => {
     );
 
     if (result) {
-      console.log('post exists');
+      // console.log('post exists');
       return 0;
     }
-    console.log('post does not exist');
-    console.log('find post result: ', result);
+    // console.log('post does not exist');
+    // console.log('find post result: ', result);
 
     return -1;
   } catch (err) {
-    console.log(`error: ${err.message}`);
+    // console.log(`error: ${err.message}`);
   }
+  return -1;
 };
 
 const checkCommentExists = async (commentId) => {
@@ -89,13 +91,14 @@ const checkCommentExists = async (commentId) => {
     );
 
     if (result) {
-      console.log('comment exists');
+      // console.log('comment exists');
       return 0;
     }
     return -1;
   } catch (err) {
-    console.log(`error: ${err.message}`);
+    // console.log(`error: ${err.message}`);
   }
+  return -1;
 };
 
 /**
@@ -112,11 +115,12 @@ const getUsers = async () => {
     const db = await getDB();
     const result = await db.collection('Users').find().toArray();
     // print the results
-    console.log(`Users: ${JSON.stringify(result)}`);
+    // console.log(`Users: ${JSON.stringify(result)}`);
     return result;
   } catch (err) {
-    console.log(`error: ${err.message}`);
+    // console.log(`error: ${err.message}`);
   }
+  return -1;
 };
 
 const addUser = async (newUser) => {
@@ -126,8 +130,9 @@ const addUser = async (newUser) => {
     const result = await db.collection('Users').insertOne(newUser);
     return result.insertedId;
   } catch (err) {
-    console.log(`error: ${err.message}`);
+    // console.log(`error: ${err.message}`);
   }
+  return -1;
 };
 
 const getUser = async (userId) => {
@@ -136,19 +141,20 @@ const getUser = async (userId) => {
     const db = await getDB();
     const result = await db.collection('Users').findOne({ _id: new ObjectId(userId) });
     // print the result
-    console.log(`User: ${JSON.stringify(result)}`);
+    // console.log(`User: ${JSON.stringify(result)}`);
     return result;
   } catch (err) {
-    console.log(`error: ${err.message}`);
+    // console.log(`error: ${err.message}`);
   }
+  return -1;
 };
 
 const updateUser = async (userId, newUsername, newPassword, newFollowing, newFollowers) => {
   try {
     // get the db
-    console.log('DbOp updateUser userId', userId);
-    console.log('DbOp updateUser following', newFollowing);
-    console.log('DbOp updateUser folllowers', newFollowers);
+    // console.log('DbOp updateUser userId', userId);
+    // console.log('DbOp updateUser following', newFollowing);
+    // console.log('DbOp updateUser folllowers', newFollowers);
     const db = await getDB();
     const result = await db.collection('Users').updateOne(
       { _id: new ObjectId(userId) },
@@ -165,11 +171,12 @@ const updateUser = async (userId, newUsername, newPassword, newFollowing, newFol
       // { $set: { following: newFollowing } },
       // { $set: { followers: newFollowers } },
     );
-    console.log('DbOp updateUser result', result);
+    // console.log('DbOp updateUser result', result);
     return result;
   } catch (err) {
-    console.log(`error: ${err.message}`);
+    // console.log(`error: ${err.message}`);
   }
+  return -1;
 };
 
 const deleteUser = async (userId) => {
@@ -178,11 +185,12 @@ const deleteUser = async (userId) => {
     const result = await db.collection('Users').deleteOne(
       { _id: new ObjectId(userId) },
     );
-    console.log(`Deleted user: ${JSON.stringify(result)}`);
+    // console.log(`Deleted user: ${JSON.stringify(result)}`);
     return result;
   } catch (err) {
-    console.log(`error: ${err.message}`);
+    // console.log(`error: ${err.message}`);
   }
+  return -1;
 };
 
 const getPosts = async () => {
@@ -191,11 +199,12 @@ const getPosts = async () => {
     const db = await getDB();
     const result = await db.collection('Posts').find().toArray();
     // print the results
-    console.log(`Posts: ${JSON.stringify(result)}`);
+    // console.log(`Posts: ${JSON.stringify(result)}`);
     return result;
   } catch (err) {
-    console.log(`error: ${err.message}`);
+    // console.log(`error: ${err.message}`);
   }
+  return -1;
 };
 
 const getPost = async (postId) => {
@@ -206,14 +215,15 @@ const getPost = async (postId) => {
 
     const postExists = await checkPostExists(postId);
     if (postExists !== 0) {
-      console.log('post not exists!');
+      // console.log('post not exists!');
     }
     // print the result
-    console.log(`Post: ${JSON.stringify(result)}`);
+    // console.log(`Post: ${JSON.stringify(result)}`);
     return result;
   } catch (err) {
-    console.log(`error: ${err.message}`);
+    // console.log(`error: ${err.message}`);
   }
+  return -1;
 };
 
 const addPostLike = async (postId, userId) => {
@@ -240,7 +250,7 @@ const addPostLike = async (postId, userId) => {
     );
 
     if (alreadyLiked) {
-      console.log('Error: Already liked post');
+      // console.log('Error: Already liked post');
       return -1;
     }
 
@@ -248,11 +258,12 @@ const addPostLike = async (postId, userId) => {
       { _id: new ObjectId(postId) },
       { $push: { likes: userId } },
     );
-    console.log('addPostLike result: ', result);
+    // console.log('addPostLike result: ', result);
     return result;
   } catch (err) {
-    console.log(`error: ${err.message}`);
+    // console.log(`error: ${err.message}`);
   }
+  return -1;
 };
 
 const removePostLike = async (postId, userId) => {
@@ -279,9 +290,9 @@ const removePostLike = async (postId, userId) => {
     );
 
     if (alreadyLiked) {
-      console.log('Legit: Already liked post');
+      // console.log('Legit: Already liked post');
     } else {
-      console.log('Error: Haven\'t liked post');
+      // console.log('Error: Haven\'t liked post');
       return -1;
     }
 
@@ -289,11 +300,12 @@ const removePostLike = async (postId, userId) => {
       { _id: new ObjectId(postId) },
       { $pull: { likes: userId } },
     );
-    console.log('removePostLike result: ', result);
+    // console.log('removePostLike result: ', result);
     return result;
   } catch (err) {
-    console.log(`error: ${err.message}`);
+    // console.log(`error: ${err.message}`);
   }
+  return -1;
 };
 
 const updatePost = async (postId, caption, fileURL, author) => {
@@ -309,11 +321,12 @@ const updatePost = async (postId, caption, fileURL, author) => {
         },
       },
     );
-    console.log(`Post: ${JSON.stringify(result)}`);
+    // console.log(`Post: ${JSON.stringify(result)}`);
     return result;
   } catch (err) {
-    console.log(`error: ${err.message}`);
+    // console.log(`error: ${err.message}`);
   }
+  return -1;
 };
 
 const createPost = async (newPost) => {
@@ -322,8 +335,9 @@ const createPost = async (newPost) => {
     const result = await db.collection('Posts').insertOne(newPost);
     return result.insertedId;
   } catch (err) {
-    console.log(`error: ${err.message}`);
+    // console.log(`error: ${err.message}`);
   }
+  return -1;
 };
 
 const deletePost = async (postId) => {
@@ -332,11 +346,12 @@ const deletePost = async (postId) => {
     const result = await db.collection('Posts').deleteOne(
       { _id: new ObjectId(postId) },
     );
-    console.log(`Deleted post: ${JSON.stringify(result)}`);
+    // console.log(`Deleted post: ${JSON.stringify(result)}`);
     return result;
   } catch (err) {
-    console.log(`error: ${err.message}`);
+    // console.log(`error: ${err.message}`);
   }
+  return -1;
 };
 
 const addComment = async (newComment) => {
@@ -346,8 +361,9 @@ const addComment = async (newComment) => {
     const result = await db.collection('Comments').insertOne(newComment);
     return result.insertedId;
   } catch (err) {
-    console.log(`error: ${err.message}`);
+    // console.log(`error: ${err.message}`);
   }
+  return -1;
 };
 
 const getComment = async (commentId) => {
@@ -356,11 +372,12 @@ const getComment = async (commentId) => {
     const db = await getDB();
     const result = await db.collection('Comments').findOne({ _id: new ObjectId(commentId) });
     // print the result
-    console.log(`Comment: ${JSON.stringify(result)}`);
+    // console.log(`Comment: ${JSON.stringify(result)}`);
     return result;
   } catch (err) {
-    console.log(`error: ${err.message}`);
+    // console.log(`error: ${err.message}`);
   }
+  return -1;
 };
 
 const commentPost = async (postId, commentId) => {
@@ -368,10 +385,10 @@ const commentPost = async (postId, commentId) => {
     const db = await getDB();
     const commentExists = await checkCommentExists(commentId);
 
-    console.log();
+    // console.log();
     const postExists = await checkPostExists(postId);
     if (postExists !== 0) {
-      console.log('post not Exists');
+      // console.log('post not Exists');
       return -2;
     }
 
@@ -382,11 +399,12 @@ const commentPost = async (postId, commentId) => {
       { _id: new ObjectId(postId) },
       { $push: { comments: commentId } },
     );
-    console.log(`Post: ${JSON.stringify(result)}`);
+    // console.log(`Post: ${JSON.stringify(result)}`);
     return result;
   } catch (err) {
-    console.log(`error: ${err.message}`);
+    // console.log(`error: ${err.message}`);
   }
+  return -1;
 };
 
 // export the functions

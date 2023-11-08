@@ -51,7 +51,7 @@ export default function Newpost() {
     // }
     // }
 
-    console.log(file);
+    // console.log(file);
     if (!file.name.endsWith('.jpg')
     && !file.name.endsWith('.jpeg')
     && !file.name.endsWith('.png')
@@ -69,7 +69,7 @@ export default function Newpost() {
     && !file.name.endsWith('.wmv')
     && !file.name.endsWith('.avchd')
     ) {
-      console.log('Wrong file type');
+      // console.log('Wrong file type');
       return;
     }
 
@@ -86,30 +86,30 @@ export default function Newpost() {
     // }
 
     // after both authentication, create a new post
-    console.log('Newpost 89');
+    // console.log('Newpost 89');
     const author = {
       id: location.state.userId,
       username: location.state.username,
     };
 
     try {
-      console.log('Create formData in Newpost');
+      // console.log('Create formData in Newpost');
       let formData;
       try {
         formData = new FormData();
-        console.log('formData before', formData);
+        // console.log('formData before', formData);
         const date = new Date();
         const name = `${date.getTime()}_${file}`;
-        console.log('File type: ', typeof file);
+        // console.log('File type: ', typeof file);
         formData.append('File_0', file, name);
-        console.log('formData appended', formData);
+        // console.log('formData appended', formData);
       } catch (e) {
-        console.log(e);
+        // console.log(e);
       }
-      console.log('formData created in Newpost');
-      console.log('formData after', formData);
+      // console.log('formData created in Newpost');
+      // console.log('formData after', formData);
       const status = await createNewPost(caption, formData, author);
-      console.log('Status', status);
+      // console.log('Status', status);
 
       if (status === 201) {
         navigate('/main', {
@@ -120,7 +120,7 @@ export default function Newpost() {
           },
         });
       } else {
-        console.log('Create post error');
+        // console.log('Create post error');
       }
     } catch (error) {
     //   throw error;

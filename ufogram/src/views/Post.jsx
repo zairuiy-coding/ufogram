@@ -12,7 +12,7 @@ import getPostComments from '../api/getPostComments';
 function PostRender({
   username, imageUrl, caption, self, state, postObj,
 }) {
-  console.log(postObj);
+  // console.log(postObj);
 
   const [likes, setLikes] = useState(0);
   const [liked, setLiked] = useState(false);
@@ -64,7 +64,7 @@ function PostRender({
   }
 
   useEffect(() => {
-    console.log('UseEffect called');
+    // console.log('UseEffect called');
 
     // const initalLikes = postObj.likes.length;
     setLikes(postObj.likes.length);
@@ -79,26 +79,26 @@ function PostRender({
         const result = await isImageOrVideo(imageUrl);
         if (result === 'image') {
           // Do something if it's an image
-          console.log('This is an image');
+          // console.log('This is an image');
           setType('image');
         } else if (result === 'video') {
           // Do something if it's a video
-          console.log('This is a video');
+          // console.log('This is a video');
           setType('video');
         } else {
           // Do something if it's neither an image nor a video
-          console.log('This is neither an image nor a video');
+          // console.log('This is neither an image nor a video');
         }
       } catch (error) {
         // Handle any errors that might occur during the check
-        console.error('Error checking image or video:', error);
+        // console.error('Error checking image or video:', error);
       }
     }
     checkImageOrVideo();
   }, [state.userId]);
 
   useEffect(() => {
-    console.log('UseEffect 2 called');
+    // console.log('UseEffect 2 called');
 
     async function fetchComments() {
       try {
@@ -110,10 +110,10 @@ function PostRender({
           setComments(result.data.data);
         } else {
           // Authentication failed, set error message
-          console.log('Error in getting commehts of a post.');
+          // console.log('Error in getting commehts of a post.');
         }
       } catch (error) {
-        console.error('ERROR');
+        // console.error('ERROR');
       }
     }
     fetchComments();
@@ -121,13 +121,13 @@ function PostRender({
 
   const handleLike = (() => {
     // const eventCopy = clickEvent;
-    console.log('1', liked);
+    // console.log('1', liked);
     if (liked) {
       // eslint-disable-next-line no-underscore-dangle
       unlikePost(postObj._id, state.userId);
       setLikes(likes - 1);
       setLiked(false);
-      console.log('5', liked);
+      // console.log('5', liked);
       // likeText = 'Like';
       setLikeText('Like');
     } else {
@@ -135,7 +135,7 @@ function PostRender({
       likePost(postObj._id, state.userId);
       setLikes(likes + 1);
       setLiked(true);
-      console.log('6', liked);
+      // console.log('6', liked);
       // likeText = 'Unlike';
       setLikeText('Unlike');
     }

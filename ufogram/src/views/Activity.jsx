@@ -140,7 +140,7 @@ export default function Activity({ userId, selfKind, state }) {
   // console.log('AllPosts: ', posts);
   // console.log('Post length: ', posts.length);
   // console.log('F: ', f);
-  console.log('POSTS', allPosts);
+  // console.log('POSTS', allPosts);
   return (
     <DisplayPosts
       following={following}
