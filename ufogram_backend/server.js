@@ -48,7 +48,11 @@ webapp.get('/Users', async (_req, res) => {
   // console.log('READ all users');
   try {
     const results = await lib.getUsers();
-    res.status(200).json({ users: results });
+    if (results !== -2) {
+      res.status(200).json({ users: results });
+    } else {
+      res.status(404).json({ error: 'DB error' });
+    }
   } catch (err) {
     res.status(404).json({ error: err.message });
   }
@@ -64,7 +68,7 @@ webapp.get('/Users/:id', async (req, res) => {
     }
     // console.log('User id: ', req.params.id);
     const result = await lib.getUser(req.params.id);
-    if (result === undefined) {
+    if (result === undefined || result === -2) {
       res.status(404).json({ error: 'bad user id' });
       return;
     }
@@ -92,9 +96,13 @@ webapp.post('/Users/', async (req, res) => {
     const result = await lib.addUser(newUser);
     // console.log(`id: ${JSON.stringify(result)}`);
     // add id to new user and return it
-    res.status(201).json({
-      user: { id: result, ...newUser },
-    });
+    if (result !== -2) {
+      res.status(201).json({
+        user: { id: result, ...newUser },
+      });
+    } else {
+      res.status(404).json({ error: 'DB error' });
+    }
   } catch (err) {
     res.status(404).json({ error: err.message });
   }
@@ -119,7 +127,7 @@ webapp.put('/Users/:userId', async (req, res) => {
       req.body.following,
       req.body.followers,
     );
-    if (result === undefined) {
+    if (result === undefined || result === -2) {
       res.status(404).json({ error: 'bad user ID' });
       return;
     }
@@ -138,7 +146,7 @@ webapp.delete('/Users/:userId', async (req, res) => {
     }
 
     const result = await lib.deleteUser(req.params.userId);
-    if (result === undefined) {
+    if (result === undefined || result === -2) {
       res.status(404).json({ error: 'bad post ID' });
       // console.log('result === undefined');
       return;
@@ -160,7 +168,11 @@ webapp.get('/Posts', async (_req, res) => {
   try {
     const results = await lib.getPosts();
     // console.log(results);
-    res.status(200).json({ posts: results });
+    if (results !== -2) {
+      res.status(200).json({ posts: results });
+    } else {
+      res.status(404).json({ error: 'DB error' });
+    }
   } catch (err) {
     res.status(404).json({ error: err.message });
   }
@@ -176,7 +188,7 @@ webapp.get('/Posts/:id', async (req, res) => {
     }
     // console.log('Post id: ', req.params.id);
     const result = await lib.getPost(req.params.id);
-    if (result === undefined) {
+    if (result === undefined || result === -2) {
       res.status(404).json({ error: 'bad post id' });
       return;
     }
@@ -248,9 +260,13 @@ webapp.post('/Posts', async (req, res) => {
     const result = await lib.createPost(newPost);
     // console.log(`post id: ${JSON.stringify(result)}`);
     // add id to new post and return it
-    res.status(201).json({
-      post: { id: result, ...newPost },
-    });
+    if (result !== -2) {
+      res.status(201).json({
+        post: { id: result, ...newPost },
+      });
+    } else {
+      res.status(404).json({ error: 'DB error' });
+    }
   } catch (dbErr) {
     res.status(404).json({ error: dbErr.message });
   }
@@ -273,7 +289,7 @@ webapp.put('/Posts/like/:postId/:userId', async (req, res) => {
       // console.log('result: ', result);
       return;
     }
-    if (result === -2) {
+    if (result === -2 || result === -3) {
       res.status(404).json({ error: 'user/post does not exist' });
       // console.log('result: ', result);
       return;
@@ -306,7 +322,7 @@ webapp.put('/Posts/unlike/:postId/:userId', async (req, res) => {
       res.status(404).json({ error: 'bad post ID' });
       return;
     }
-    if (result === -2) {
+    if (result === -2 || result === -3) {
       res.status(404).json({ error: 'user does not exist' });
       return;
     }
@@ -339,7 +355,7 @@ webapp.put('/Posts/same/:postId', async (req, res) => {
       req.body.file,
       req.body.author,
     );
-    if (result === undefined) {
+    if (result === undefined || result === -2) {
       res.status(404).json({ error: 'bad post ID' });
       return;
     }
@@ -427,7 +443,7 @@ webapp.get('/Comments/:id', async (req, res) => {
       return;
     }
     const result = await lib.getComment(req.params.id);
-    if (result === undefined) {
+    if (result === undefined || result === -2) {
       res.status(404).json({ error: 'bad comment id' });
       return;
     }
@@ -445,7 +461,7 @@ webapp.get('/Comments/post/:id', async (req, res) => {
       return;
     }
     const post = await lib.getPost(req.params.id);
-    if (post === undefined) {
+    if (post === undefined || post === -2) {
       res.status(404).json({ error: 'bad post id' });
       return;
     }
@@ -479,7 +495,7 @@ webapp.post('/Comments/:postId', async (req, res) => {
   try {
     const result = await lib.addComment(newComment);
     // console.log(`comment id: ${JSON.stringify(result)}`);
-    if (result === undefined) {
+    if (result === undefined || result === -2) {
       res.status(404).json({ error: 'comment not created' });
       return;
     }

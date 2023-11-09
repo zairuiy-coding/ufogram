@@ -48,8 +48,8 @@ const checkUserExists = async (userId) => {
     return -1;
   } catch (err) {
     // console.log(`error: ${err.message}`);
+    return -2;
   }
-  return -1;
 };
 
 const checkPostExists = async (postId) => {
@@ -75,8 +75,8 @@ const checkPostExists = async (postId) => {
     return -1;
   } catch (err) {
     // console.log(`error: ${err.message}`);
+    return -2;
   }
-  return -1;
 };
 
 const checkCommentExists = async (commentId) => {
@@ -97,8 +97,8 @@ const checkCommentExists = async (commentId) => {
     return -1;
   } catch (err) {
     // console.log(`error: ${err.message}`);
+    return -2;
   }
-  return -1;
 };
 
 /**
@@ -119,8 +119,8 @@ const getUsers = async () => {
     return result;
   } catch (err) {
     // console.log(`error: ${err.message}`);
+    return -2;
   }
-  return -1;
 };
 
 const addUser = async (newUser) => {
@@ -131,8 +131,8 @@ const addUser = async (newUser) => {
     return result.insertedId;
   } catch (err) {
     // console.log(`error: ${err.message}`);
+    return -2;
   }
-  return -1;
 };
 
 const getUser = async (userId) => {
@@ -145,8 +145,8 @@ const getUser = async (userId) => {
     return result;
   } catch (err) {
     // console.log(`error: ${err.message}`);
+    return -2;
   }
-  return -1;
 };
 
 const updateUser = async (userId, newUsername, newPassword, newFollowing, newFollowers) => {
@@ -175,8 +175,8 @@ const updateUser = async (userId, newUsername, newPassword, newFollowing, newFol
     return result;
   } catch (err) {
     // console.log(`error: ${err.message}`);
+    return -2;
   }
-  return -1;
 };
 
 const deleteUser = async (userId) => {
@@ -189,8 +189,8 @@ const deleteUser = async (userId) => {
     return result;
   } catch (err) {
     // console.log(`error: ${err.message}`);
+    return -2;
   }
-  return -1;
 };
 
 const getPosts = async () => {
@@ -203,8 +203,8 @@ const getPosts = async () => {
     return result;
   } catch (err) {
     // console.log(`error: ${err.message}`);
+    return -2;
   }
-  return -1;
 };
 
 const getPost = async (postId) => {
@@ -222,8 +222,8 @@ const getPost = async (postId) => {
     return result;
   } catch (err) {
     // console.log(`error: ${err.message}`);
+    return -2;
   }
-  return -1;
 };
 
 const addPostLike = async (postId, userId) => {
@@ -262,8 +262,8 @@ const addPostLike = async (postId, userId) => {
     return result;
   } catch (err) {
     // console.log(`error: ${err.message}`);
+    return -3;
   }
-  return -1;
 };
 
 const removePostLike = async (postId, userId) => {
@@ -304,8 +304,8 @@ const removePostLike = async (postId, userId) => {
     return result;
   } catch (err) {
     // console.log(`error: ${err.message}`);
+    return -3;
   }
-  return -1;
 };
 
 const updatePost = async (postId, caption, fileURL, author) => {
@@ -325,8 +325,8 @@ const updatePost = async (postId, caption, fileURL, author) => {
     return result;
   } catch (err) {
     // console.log(`error: ${err.message}`);
+    return -2;
   }
-  return -1;
 };
 
 const createPost = async (newPost) => {
@@ -336,8 +336,8 @@ const createPost = async (newPost) => {
     return result.insertedId;
   } catch (err) {
     // console.log(`error: ${err.message}`);
+    return -2;
   }
-  return -1;
 };
 
 const deletePost = async (postId) => {
@@ -350,8 +350,8 @@ const deletePost = async (postId) => {
     return result;
   } catch (err) {
     // console.log(`error: ${err.message}`);
+    return err;
   }
-  return -1;
 };
 
 const addComment = async (newComment) => {
@@ -362,8 +362,8 @@ const addComment = async (newComment) => {
     return result.insertedId;
   } catch (err) {
     // console.log(`error: ${err.message}`);
+    return -2;
   }
-  return -1;
 };
 
 const getComment = async (commentId) => {
@@ -376,8 +376,8 @@ const getComment = async (commentId) => {
     return result;
   } catch (err) {
     // console.log(`error: ${err.message}`);
+    return -2;
   }
-  return -1;
 };
 
 const commentPost = async (postId, commentId) => {
@@ -403,8 +403,8 @@ const commentPost = async (postId, commentId) => {
     return result;
   } catch (err) {
     // console.log(`error: ${err.message}`);
+    return err;
   }
-  return -1;
 };
 
 // export the functions
