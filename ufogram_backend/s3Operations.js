@@ -10,15 +10,15 @@ const {
 require('dotenv').config();
 
 // The name of the bucket that you have created
-const BUCKET_NAME = 'cis5570project';
+const BUCKET_NAME = process.env.AWS_S3_BUCKET_NAME;
 
 // we load credentials from the .env file
 const s3 = new S3({
   credentials: {
-    accessKeyId: process.env.ID,
-    secretAccessKey: process.env.SECRET,
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
   },
-  region: 'us-east-2',
+  region: process.env.AWS_REGION,
 });
 
 // upload a file
@@ -26,9 +26,10 @@ const uploadFile = async (fileContent, fileName) => {
   // console.log('fileName', fileName);
   // Setting up S3 upload parameters
   const params = {
-    Bucket: BUCKET_NAME,
+    Bucket: process.env.AWS_S3_BUCKET_NAME,
     Key: fileName, // File name we want to upload
     Body: fileContent, // the buffer
+    ACL: 'public-read', // Make the file publicly readable
   };
 
   // Uploading files to the bucket
@@ -51,15 +52,9 @@ const deleteFile = (fileName) => {
   };
 
   // download file from the bucket
-  // eslint-disable-next-line no-unused-vars
-  s3.deleteObject(params, (err, data) => {
-    if (err) {
-      // throw err;
-      return false;
-    }
-    // sconsole.log(`File deleted successfully. ${data}`);
-    return true;
-  });
+  return s3.deleteObject(params).promise()
+    .then(() => true)
+    .catch(() => false);
 };
 
 module.exports = { uploadFile, deleteFile };
