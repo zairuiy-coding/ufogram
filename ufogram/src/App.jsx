@@ -1,6 +1,9 @@
 import './App.css';
 import React from 'react';
 import { Routes, Route, BrowserRouter } from 'react-router-dom';
+import Navbar from './components/Navbar';
+import MainNavbar from './components/MainNavbar'; // Ensure this is imported correctly
+import Home from './views/Home';
 import Login from './views/Login';
 import Signup from './views/Signup';
 import Main from './views/Main';
@@ -13,13 +16,61 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/main" element={<Main />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/userprofile" element={<UserProfile />} />
-          <Route path="/newpost" element={<NewPost />} />
-          <Route path="/editpost" element={<Editpost />} />
+          <Route path="/" element={<Home />} />
+          <Route
+            path="/login"
+            element={(
+              <>
+                <Navbar />
+                <Login />
+              </>
+            )}
+          />
+          <Route
+            path="/signup"
+            element={(
+              <>
+                <Navbar />
+                <Signup />
+              </>
+            )}
+          />
+          <Route
+            path="/main"
+            element={(
+              <>
+                <MainNavbar />
+                <Main />
+              </>
+            )}
+          />
+          <Route
+            path="/userprofile"
+            element={(
+              <>
+                <MainNavbar />
+                <UserProfile />
+              </>
+            )}
+          />
+          <Route
+            path="/newpost"
+            element={(
+              <>
+                <MainNavbar />
+                <NewPost />
+              </>
+            )}
+          />
+          <Route
+            path="/editpost"
+            element={(
+              <>
+                <MainNavbar />
+                <Editpost />
+              </>
+            )}
+          />
         </Routes>
       </BrowserRouter>
     </div>
