@@ -3,70 +3,21 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import editPost from '../api/editPost';
 import deletePost from '../api/deletePost';
 
-export default function PostRender() {
+export default function EditPost() {
   const location = useLocation();
   const navigate = useNavigate();
   const [file, setFile] = useState(null);
   const [caption, setCaption] = useState(location.state.initCap);
-  //   console.log(file);
-  //   console.log(caption);
-  //   console.log(location.state);
 
   const handlePost = async () => {
-    // post authentication
-
-    // 1. check if both filelink and caption is empty
     if (!caption) {
       return;
     }
 
-    // 2. file authentication (if there is a file)
     if (file && (file.type.split('/')[0] !== 'image' && file.type.split('/')[0] !== 'video')) {
-      // console.log('Wrong file type');
       return;
     }
 
-    // async function isValidImageOrVideo(url) {
-    //   return new Promise((resolve) => {
-    //     const mediaElement = document.createElement('video');
-    //     mediaElement.src = url;
-
-    //     mediaElement.onloadeddata = () => {
-    //       resolve(true); // It's a valid video
-    //       mediaElement.remove(); // Remove the element from the DOM
-    //     };
-
-    //     mediaElement.onerror = () => {
-    //       // If it fails to load as a video, check if it's an image
-    //       const imgElement = new Image();
-    //       imgElement.src = url;
-
-    //       imgElement.onload = () => {
-    //         resolve(true); // It's a valid image
-    //         imgElement.remove(); // Remove the element from the DOM
-    //       };
-
-    //       imgElement.onerror = () => {
-    //         resolve(false); // It's neither an image nor a video
-    //         imgElement.remove(); // Remove the element from the DOM
-    //       };
-    //     };
-    //   });
-    // }
-
-    // if (file) {
-    //   try {
-    //     const isValid = await isValidImageOrVideo(file);
-    //     if (!isValid && !file.includes('youtube')) {
-    //     //   console.log('Not a valid image or video URL');
-    //       return;
-    //     }
-    //   } catch (error) {
-    //     // console.error('Error:', error);
-    //   }
-    // }
-
-    // after both authentication, create a new post
     const author = {
       id: location.state.userId,
       username: location.state.username,
@@ -87,15 +38,13 @@ export default function PostRender() {
         );
       } else {
         const date = new Date();
-        const name = `${date.getTime()}_${file}`;
+        const name = `${date.getTime()}_${file.name}`;
         const formData = new FormData();
         formData.append('File_0', file, name);
         response = await editPost(caption, formData, author, location.state.postId, fileName);
       }
-      //   console.log('Status', status);
 
       if (response.status === 200) {
-        // console.log('editPost 200');
         navigate('/userprofile', {
           state: {
             userId: location.state.userId,
@@ -108,10 +57,10 @@ export default function PostRender() {
           },
         });
       } else {
-        // return 'Error!';
+        console.error('Edit post error');
       }
     } catch (error) {
-    //   throw error;
+      console.error(error);
     }
   };
 
@@ -134,8 +83,7 @@ export default function PostRender() {
     const fileName = urlCopy.split('/').pop();
     const response = await deletePost(location.state.postId, fileName);
     if (response.status !== 200) {
-      // console.log('Post deletion error');
-      // console.log(response);
+      console.error('Post deletion error');
     } else {
       navigate('/userprofile', {
         state: {
@@ -160,31 +108,70 @@ export default function PostRender() {
   };
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'space-evenly' }}>
-      <div style={{
-        display: 'flex', justifyContent: 'center', position: 'fixed', width: '100%', background: '#8769b6',
-      }}
-      >
-        <h1>Edit Post</h1>
-        <div>
-          <button type="button" title="Create New Post" onClick={handleDiscard}>My Profile</button>
+    <div className="min-h-screen bg-mountbatten-pink p-4">
+      <div className="container mx-auto bg-white p-6 rounded-lg shadow-lg mb-8">
+        <div className="flex items-center justify-between mb-4">
+          <h1 className="text-3xl font-semibold text-space-cadet">Edit Post</h1>
+          <button
+            type="button"
+            className="px-4 py-2 bg-space-cadet text-white rounded-md shadow-sm transform transition-transform duration-300 hover:scale-105"
+            onClick={handleDiscard}
+          >
+            My Profile
+          </button>
         </div>
-      </div>
-      <div style={{
-        display: 'flex', width: '100%', justifyContent: 'center', marginTop: '100px', background: '#b6f486',
-      }}
-      >
-        <label htmlFor="image/file">
-          Image/Video:
-          <input type="file" name="fileLink" data-testid="linkBox" onChange={handleFile} />
-        </label>
-        <label htmlFor="caption">
-          Caption:
-          <input type="text" name="caption" value={caption} data-testid="captionBox" onChange={handleCaption} />
-        </label>
-        <button type="button" title="discard" onClick={handleDiscard}>Discard</button>
-        <button type="button" title="post" onClick={handlePost}>Post</button>
-        <button type="button" title="delete" onClick={handleDelete}>Delete</button>
+        <form className="flex flex-col items-start mb-4 space-y-4 w-full">
+          <div className="flex items-center w-full">
+            <label htmlFor="fileInput" className="block text-lg font-medium text-space-cadet w-1/4 text-left">
+              Image/Video:
+              <input
+                id="fileInput"
+                type="file"
+                name="file"
+                data-testid="linkBox"
+                onChange={handleFile}
+                className="p-2 border border-gray-300 rounded-md shadow-sm w-full"
+              />
+            </label>
+          </div>
+          <div className="flex items-center w-full">
+            <label htmlFor="captionInput" className="block text-lg font-medium text-space-cadet w-1/4 text-left">
+              Caption:
+              <input
+                id="captionInput"
+                type="text"
+                name="caption"
+                value={caption}
+                data-testid="captionBox"
+                onChange={handleCaption}
+                className="p-2 border border-gray-300 rounded-md shadow-sm w-full"
+              />
+            </label>
+          </div>
+          <div className="flex justify-between w-full mt-4">
+            <button
+              type="button"
+              className="px-4 py-2 bg-mountbatten-pink text-white rounded-md shadow-sm transition-transform duration-300 hover:scale-105"
+              onClick={handleDiscard}
+            >
+              Discard
+            </button>
+            <button
+              type="button"
+              className="px-4 py-2 bg-space-cadet text-white rounded-md shadow-sm transition-transform duration-300 hover:scale-105"
+              onClick={handlePost}
+            >
+              Post
+            </button>
+            <button
+              type="button"
+              className="px-4 py-2 bg-red-600 text-white rounded-md shadow-sm transition-transform duration-300 hover:scale-105"
+              onClick={handleDelete}
+            >
+              Delete
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   );
