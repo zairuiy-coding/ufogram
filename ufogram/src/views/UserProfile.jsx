@@ -8,7 +8,13 @@ export default function UserProfile() {
   const navigate = useNavigate();
   const location = useLocation();
   const {
-    userId, username, users, sId, sName, self, followed: initialFollowed,
+    userId,
+    username,
+    users,
+    sId,
+    sName,
+    self,
+    followed: initialFollowed,
   } = location.state;
 
   const [followed, setFollowed] = useState(initialFollowed);
@@ -66,28 +72,47 @@ export default function UserProfile() {
       try {
         const response = await getUser(sId);
         if (response.status === 200) {
-          setFollowing(response.data.user.following);
+          setFollowing(response.data.user.following.map((user) => ({
+            id: user.id,
+            username:
+              user.username
+              || users.find((u) => u.id === user.id)?.username
+              || user.id,
+          })));
+          setFollowers(response.data.user.followers.map((user) => ({
+            id: user.id,
+            username:
+              user.username
+              || users.find((u) => u.id === user.id)?.username
+              || user.id,
+          })));
+
+          // Check if the user is followed
+          const isFollowed = response.data.user.followers.some(
+            (follower) => follower.id === userId,
+          );
+          setFollowed(isFollowed);
         }
       } catch (error) {
         console.error('Error fetching following:', error);
       }
     }
     fetchFollowing();
-  }, [sId]);
+  }, [sId, userId, users]);
 
-  useEffect(() => {
-    async function fetchFollowers() {
-      try {
-        const response = await getUser(sId);
-        if (response.status === 200) {
-          setFollowers(response.data.user.followers);
-        }
-      } catch (error) {
-        console.error('Error fetching followers:', error);
-      }
-    }
-    fetchFollowers();
-  }, [sId]);
+  const handleUserClick = (id, name) => {
+    navigate('/userprofile', {
+      state: {
+        userId,
+        username,
+        users,
+        sId: id,
+        sName: name,
+        self: id === userId,
+        followed: following.some((user) => user.id === id),
+      },
+    });
+  };
 
   return (
     <div className="min-h-screen bg-mountbatten-pink p-4">
@@ -99,7 +124,7 @@ export default function UserProfile() {
             className="px-4 py-2 bg-space-cadet text-white rounded-md shadow-sm transform transition-transform duration-300 hover:scale-105"
             onClick={handleMain}
           >
-            Main
+            Back To Main
           </button>
         </div>
         <div className="flex flex-col items-center mb-4">
@@ -114,7 +139,9 @@ export default function UserProfile() {
             <button
               type="button"
               className={`mt-2 px-4 py-2 rounded-md shadow-sm transition-transform duration-300 ${
-                followed ? 'bg-red-500 text-white hover:bg-red-600' : 'bg-green-500 text-white hover:bg-green-600'
+                followed
+                  ? 'bg-mountbatten-pink text-white hover:bg-rose-quartz'
+                  : 'bg-space-cadet text-white hover:bg-cadet-gray'
               }`}
               onClick={handleFollow}
             >
@@ -155,9 +182,19 @@ export default function UserProfile() {
         <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
           <div className="bg-white p-6 rounded-lg shadow-lg w-1/3">
             <h3 className="text-2xl font-semibold mb-4">Followers</h3>
-            <ul>
+            <ul className="list-disc pl-4">
               {followers.map((follower) => (
-                <li key={follower.id} className="mb-2">{follower.username}</li>
+                <li key={follower.id} className="mb-2">
+                  <span
+                    className="text-space-cadet cursor-pointer underline"
+                    onClick={() => handleUserClick(follower.id, follower.username)}
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={() => handleUserClick(follower.id, follower.username)}
+                  >
+                    {follower.username}
+                  </span>
+                </li>
               ))}
             </ul>
             <button
@@ -176,9 +213,19 @@ export default function UserProfile() {
         <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
           <div className="bg-white p-6 rounded-lg shadow-lg w-1/3">
             <h3 className="text-2xl font-semibold mb-4">Following</h3>
-            <ul>
+            <ul className="list-disc pl-4">
               {following.map((follow) => (
-                <li key={follow.id} className="mb-2">{follow.username}</li>
+                <li key={follow.id} className="mb-2">
+                  <span
+                    className="text-space-cadet cursor-pointer underline"
+                    onClick={() => handleUserClick(follow.id, follow.username)}
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={() => handleUserClick(follow.id, follow.username)}
+                  >
+                    {follow.username}
+                  </span>
+                </li>
               ))}
             </ul>
             <button
