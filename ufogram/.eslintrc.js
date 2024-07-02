@@ -1,5 +1,3 @@
-const plugin = require("tailwindcss");
-
 module.exports = {
     env: {
       browser: true,
@@ -24,7 +22,7 @@ module.exports = {
     parserOptions: {
       ecmaVersion: 'latest',
       sourceType: 'module',
-      ecmaFeatures: { // <-- Added ecmaFeatures to understand JSX
+      ecmaFeatures: { 
         jsx: true,
       },
     },
@@ -34,12 +32,13 @@ module.exports = {
         devDependencies: ['**/*.test.js', '**/*.spec.js'], optionalDependencies: false, peerDependencies: false, packageDir: './',
       }],
     },
-    settings: { // <-- Added settings to auto-detect React version
+    settings: { 
       react: {
         version: 'detect',
       },
     },
     globals: {
-      PropTypes: 'readonly', // Define PropTypes as a global variable
+      PropTypes: 'readonly',
     },
   };
+  
