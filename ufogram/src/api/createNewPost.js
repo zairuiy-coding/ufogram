@@ -14,7 +14,7 @@ export default async function createNewPost(caption, file, author) {
     const fileResponse = await uploadFile(file);
     // console.log(fileResponse);
     if (fileResponse === -1 || fileResponse.status !== 201) {
-      // console.log('UploadFile error');
+    //   console.log('UploadFile error');
       return -1;
     }
 

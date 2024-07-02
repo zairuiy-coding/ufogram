@@ -43,10 +43,10 @@ export default function Newpost() {
           },
         });
       } else {
-        console.error('Create post error');
+        // console.error('Create post error');
       }
     } catch (error) {
-      console.error(error);
+    //   console.error(error);
     }
   };
 
