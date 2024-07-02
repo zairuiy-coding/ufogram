@@ -1,18 +1,9 @@
-const {
-  Upload,
-} = require('@aws-sdk/lib-storage');
-
-const {
-  S3,
-} = require('@aws-sdk/client-s3');
-
-// dotenv helps manage environment variables
+const { Upload } = require('@aws-sdk/lib-storage');
+const { S3 } = require('@aws-sdk/client-s3');
 require('dotenv').config();
 
-// The name of the bucket that you have created
 const BUCKET_NAME = process.env.AWS_S3_BUCKET_NAME;
 
-// we load credentials from the .env file
 const s3 = new S3({
   credentials: {
     accessKeyId: process.env.AWS_ACCESS_KEY_ID,
@@ -21,40 +12,46 @@ const s3 = new S3({
   region: process.env.AWS_REGION,
 });
 
-// upload a file
+// Upload a file
 const uploadFile = async (fileContent, fileName) => {
-  // console.log('fileName', fileName);
-  // Setting up S3 upload parameters
-  const params = {
-    Bucket: process.env.AWS_S3_BUCKET_NAME,
-    Key: fileName, // File name we want to upload
-    Body: fileContent, // the buffer
-    ACL: 'public-read', // Make the file publicly readable
-  };
+  console.log('Attempting to upload file:', fileName);
 
-  // Uploading files to the bucket
-
-  const data = await new Upload({
-    client: s3,
-    params,
-  }).done();
-  // console.log(`File uploaded successfully. ${data.Location}`);
-  // return the URL of the object on S3
-  return data.Location;
-};
-
-// delete a file
-const deleteFile = (fileName) => {
-  // Setting up S3 delete parameters
   const params = {
     Bucket: BUCKET_NAME,
-    Key: fileName, // File name we want to delete
+    Key: fileName,
+    Body: fileContent,
+    ACL: 'public-read',
   };
 
-  // download file from the bucket
-  return s3.deleteObject(params).promise()
-    .then(() => true)
-    .catch(() => false);
+  try {
+    const data = await new Upload({
+      client: s3,
+      params,
+    }).done();
+    
+    console.log('File uploaded successfully:', data.Location);
+    return data.Location;
+  } catch (error) {
+    console.error('Error uploading file:', error);
+    throw error;  // Rethrow the error after logging it
+  }
+};
+
+// Delete a file
+const deleteFile = async (fileName) => {
+  const params = {
+    Bucket: BUCKET_NAME,
+    Key: fileName,
+  };
+
+  try {
+    await s3.deleteObject(params);
+    console.log('File deleted successfully:', fileName);
+    return true;
+  } catch (error) {
+    console.error('Error deleting file:', error);
+    return false;
+  }
 };
 
 module.exports = { uploadFile, deleteFile };
