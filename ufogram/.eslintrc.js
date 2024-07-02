@@ -1,3 +1,5 @@
+const plugin = require("tailwindcss");
+
 module.exports = {
     env: {
       browser: true,
@@ -5,7 +7,7 @@ module.exports = {
       node: true,
       jest: true,
     },
-    extends: ['airbnb', 'airbnb/hooks'],
+    extends: 'airbnb',
     overrides: [
       {
         env: {
@@ -22,26 +24,22 @@ module.exports = {
     parserOptions: {
       ecmaVersion: 'latest',
       sourceType: 'module',
-      ecmaFeatures: {
+      ecmaFeatures: { // <-- Added ecmaFeatures to understand JSX
         jsx: true,
       },
     },
     plugins: ['import'],
     rules: {
       'import/no-extraneous-dependencies': ['error', {
-        devDependencies: ['**/*.test.js', '**/*.spec.js'],
-        optionalDependencies: false,
-        peerDependencies: false,
-        packageDir: './',
+        devDependencies: ['**/*.test.js', '**/*.spec.js'], optionalDependencies: false, peerDependencies: false, packageDir: './',
       }],
     },
-    settings: {
+    settings: { // <-- Added settings to auto-detect React version
       react: {
         version: 'detect',
       },
     },
     globals: {
-      PropTypes: 'readonly',
+      PropTypes: 'readonly', // Define PropTypes as a global variable
     },
   };
-  
