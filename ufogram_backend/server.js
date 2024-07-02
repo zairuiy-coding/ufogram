@@ -197,27 +197,39 @@ webapp.get('/Posts/:id', async (req, res) => {
     res.status(404).json({ error: err.message });
   }
 });
-app.post('/File', async (req, res) => {
+
+webapp.post('/File', async (req, res) => {
   console.log('Received request to /File'); // Debug log
 
   try {
     const form = new formidable.IncomingForm(); // Use new formidable.IncomingForm()
-    // console.log('Formidable form created'); // Debug log
+    console.log('Formidable form created'); // Debug log
 
     form.parse(req, (err, fields, files) => {
       if (err) {
-        // console.error('Formidable parsing error:', err); // Debug log
+        console.error('Formidable parsing error:', err); // Debug log
         res.status(404).json({ error: err.message });
         return;
       }
 
-    //   console.log('Files received:', files); // Debug log
+      console.log('Files received:', files); // Debug log
+
+      // Handle the case where files.File_0 is an array
+      const file = Array.isArray(files.File_0) ? files.File_0[0] : files.File_0;
+
+      // Ensure the file path exists
+      if (!file || !file.filepath) {
+        console.error('File path is undefined');
+        res.status(400).json({ error: 'File path is undefined' });
+        return;
+      }
 
       // Create a buffer to cache the uploaded file
       let cacheBuffer = Buffer.alloc(0);
 
       // Create a stream from the virtual path of the uploaded file
-      const fStream = fs.createReadStream(files.File_0.path);
+      const filePath = file.filepath;
+      const fStream = fs.createReadStream(filePath);
 
       fStream.on('data', (chunk) => {
         // Fill the buffer with data from the uploaded file
@@ -225,26 +237,26 @@ app.post('/File', async (req, res) => {
       });
 
       fStream.on('end', async () => {
-        // console.log('File read complete, uploading to S3'); // Debug log
+        console.log('File read complete, uploading to S3'); // Debug log
         try {
           // Send buffer to AWS - The URL of the object is returned
-          const s3URL = await s3.uploadFile(cacheBuffer, files.File_0.name);
-        //   console.log('File uploaded to S3:', s3URL); // Debug log
+          const s3URL = await s3.uploadFile(cacheBuffer, file.originalFilename);
+          console.log('File uploaded to S3:', s3URL); // Debug log
           // Send a response to the client
           res.status(201).json({ URL: s3URL });
         } catch (uploadError) {
-        //   console.error('Error uploading file to S3:', uploadError); // Debug log
+          console.error('Error uploading file to S3:', uploadError); // Debug log
           res.status(500).json({ error: uploadError.message });
         }
       });
 
       fStream.on('error', (streamError) => {
-        // console.error('Error reading file stream:', streamError); // Debug log
+        console.error('Error reading file stream:', streamError); // Debug log
         res.status(500).json({ error: streamError.message });
       });
     });
   } catch (e) {
-    // console.error('Error in /File route:', e); // Debug log
+    console.error('Error in /File route:', e); // Debug log
     res.status(404).json({ error: e.message });
   }
 });
