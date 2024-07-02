@@ -9,108 +9,31 @@ export default function Newpost() {
   const location = useLocation();
 
   const handlePost = async () => {
-    // post authentication
-
-    // 1. check if both file and caption is empty
     if (!file && !caption) {
       return;
     }
 
-    // 2. file authentication (if there is a file)
-    // async function isValidImageOrVideo(file) {
-    // return new Promise((resolve) => {
-    //   const mediaElement = document.createElement('video');
-    //   mediaElement.src = url;
+    const validExtensions = [
+      '.jpg', '.jpeg', '.png', '.apng', '.gif', '.ico', '.cur', '.jfif',
+      '.pjpeg', '.pjp', '.svg', '.mp4', '.mov', '.avi', '.wmv', '.avchd',
+    ];
 
-    //   mediaElement.onloadeddata = () => {
-    //     resolve(true); // It's a valid video
-    //     mediaElement.remove(); // Remove the element from the DOM
-    //   };
-
-    //   mediaElement.onerror = () => {
-    //     // If it fails to load as a video, check if it's an image
-    //     const imgElement = new Image();
-    //     imgElement.src = url;
-
-    //     imgElement.onload = () => {
-    //       resolve(true); // It's a valid image
-    //       imgElement.remove(); // Remove the element from the DOM
-    //     };
-
-    //     imgElement.onerror = () => {
-    //       resolve(false); // It's neither an image nor a video
-    //       imgElement.remove(); // Remove the element from the DOM
-    //     };
-    //   };
-    // });
-
-    // console.log('file type', file.type);
-    // if (file.type.split('/')[0] !== 'image' && file.type.split('/')[0] !== 'video') {
-    //   console.log('Wrong file type');
-    //   return;
-    // }
-    // }
-
-    // console.log(file);
-    if (!file.name.endsWith('.jpg')
-    && !file.name.endsWith('.jpeg')
-    && !file.name.endsWith('.png')
-    && !file.name.endsWith('.apng')
-    && !file.name.endsWith('.gif')
-    && !file.name.endsWith('.ico')
-    && !file.name.endsWith('.cur')
-    && !file.name.endsWith('.jfif')
-    && !file.name.endsWith('.pjpeg')
-    && !file.name.endsWith('.pjp')
-    && !file.name.endsWith('.svg')
-    && !file.name.endsWith('.mp4')
-    && !file.name.endsWith('.mov')
-    && !file.name.endsWith('.avi')
-    && !file.name.endsWith('.wmv')
-    && !file.name.endsWith('.avchd')
-    ) {
-      // console.log('Wrong file type');
+    if (!validExtensions.some((ext) => file.name.endsWith(ext))) {
       return;
     }
 
-    // if (file) {
-    //   try {
-    //     const isValid = await isValidImageOrVideo(file);
-    //     if (!isValid && !file.includes('youtube')) {
-    //     //   console.log('Not a valid image or video URL');
-    //       return;
-    //     }
-    //   } catch (error) {
-    //     // console.error('Error:', error);
-    //   }
-    // }
-
-    // after both authentication, create a new post
-    // console.log('Newpost 89');
     const author = {
       id: location.state.userId,
       username: location.state.username,
     };
 
     try {
-      // console.log('Create formData in Newpost');
-      let formData;
-      try {
-        formData = new FormData();
-        // console.log('formData before', formData);
-        const date = new Date();
-        const name = `${date.getTime()}_${file}`;
-        // console.log('File type: ', typeof file);
-        formData.append('File_0', file, name);
-        // console.log('formData appended', formData);
-      } catch (e) {
-        // console.log(e);
-      }
-      // console.log('formData created in Newpost');
-      // console.log('formData after', formData);
-      const status = await createNewPost(caption, formData, author);
-      // console.log('Status', status);
+      const formData = new FormData();
+      const date = new Date();
+      const name = `${date.getTime()}_${file.name}`;
+      formData.append('File_0', file, name);
 
+      const status = await createNewPost(caption, formData, author);
       if (status === 201) {
         navigate('/main', {
           state: {
@@ -120,15 +43,21 @@ export default function Newpost() {
           },
         });
       } else {
-        // console.log('Create post error');
+        // console.error('Create post error');
       }
     } catch (error) {
-    //   throw error;
+    //   console.error(error);
     }
   };
 
   const handleMain = () => {
-    navigate('/main', { state: { userId: location.state.userId, username: location.state.username, users: location.state.users } });
+    navigate('/main', {
+      state: {
+        userId: location.state.userId,
+        username: location.state.username,
+        users: location.state.users,
+      },
+    });
   };
 
   const handleFile = (fileEvent) => {
@@ -140,30 +69,62 @@ export default function Newpost() {
   };
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'space-evenly' }}>
-      <div style={{
-        display: 'flex', justifyContent: 'center', position: 'fixed', width: '100%', background: '#8769b6',
-      }}
-      >
-        <h1>New Post</h1>
-        <div>
-          <button type="button" title="Create New Post" onClick={handleMain}>Main</button>
+    <div className="min-h-screen bg-mountbatten-pink p-4">
+      <div className="container mx-auto bg-white p-6 rounded-lg shadow-lg mb-8">
+        <div className="flex items-center justify-between mb-4">
+          <h1 className="text-3xl font-semibold text-space-cadet">New Post</h1>
+          <button
+            type="button"
+            className="px-4 py-2 bg-space-cadet text-white rounded-md shadow-sm transform transition-transform duration-300 hover:scale-105"
+            onClick={handleMain}
+          >
+            Back To Main
+          </button>
         </div>
-      </div>
-      <div style={{
-        display: 'flex', width: '100%', justifyContent: 'center', marginTop: '100px', background: '#b6f486',
-      }}
-      >
-        <label htmlFor="file">
-          Image/Video:
-          <input type="file" name="file" data-testid="linkBox" onChange={handleFile} />
-        </label>
-        <label htmlFor="caption">
-          Caption:
-          <input type="text" name="caption" data-testid="captionBox" onChange={handleCaption} />
-        </label>
-        <button type="button" title="discard" onClick={handleMain}>Discard</button>
-        <button type="button" title="post" onClick={handlePost}>Post</button>
+        <form className="flex flex-col items-start mb-4 space-y-4 w-full">
+          <div className="flex items-center w-full">
+            <label htmlFor="fileInput" className="block text-lg font-medium text-space-cadet w-1/4 text-left">
+              Image/Video:
+              <input
+                id="fileInput"
+                type="file"
+                name="file"
+                data-testid="linkBox"
+                onChange={handleFile}
+                className="p-2 border border-gray-300 rounded-md shadow-sm w-full"
+              />
+            </label>
+          </div>
+          <div className="flex items-center w-full">
+            <label htmlFor="captionInput" className="block text-lg font-medium text-space-cadet w-1/4 text-left">
+              Caption:
+              <input
+                id="captionInput"
+                type="text"
+                name="caption"
+                data-testid="captionBox"
+                onChange={handleCaption}
+                className="p-2 border border-gray-300 rounded-md shadow-sm w-full"
+              />
+            </label>
+          </div>
+          <div className="flex justify-between w-full mt-4">
+            <button
+              type="button"
+              className="px-4 py-2 bg-mountbatten-pink text-white rounded-md shadow-sm transition-transform duration-300 hover:scale-105"
+              onClick={handleMain}
+            >
+              Discard
+            </button>
+            <button
+              type="button"
+              className="px-4 py-2 bg-space-cadet text-white rounded-md shadow-sm transition-transform duration-300 hover:scale-105"
+              onClick={handlePost}
+            >
+              Post
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   );

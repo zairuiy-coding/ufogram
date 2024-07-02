@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Activity from './Activity';
@@ -5,55 +6,30 @@ import getUser from '../api/getUser';
 
 export default function Main() {
   const navigate = useNavigate();
-
   const location = useLocation();
-  // console.log('Main state: ', location.state);
+  const { userId, username, users } = location.state || { userId: 'defaultUserId', username: 'Guest', users: [] };
 
   const [usernameToSearch, setUsernameToSearch] = useState('');
-
-  const handleMyProfile = () => {
-    navigate('/userprofile', {
-      state: {
-        userId: location.state.userId,
-        username: location.state.username,
-        self: true,
-        sName: location.state.username,
-        sId: location.state.userId,
-        users: location.state.users,
-        followed: true,
-      },
-    });
-  };
-
-  const handleCreateNewPost = () => {
-    // console.log('Create New Post Handler Called');
-    navigate('/newpost', { state: { userId: location.state.userId, username: location.state.username, users: location.state.users } });
-  };
 
   const handleSearchUserName = (usernameEvent) => {
     setUsernameToSearch(usernameEvent.target.value);
   };
 
   const handleSearchUser = async () => {
-    // console.log(location.state.users);
-    const userToSearch = location.state.users.find((user) => user.username === usernameToSearch);
-    // console.log(userToSearch);
+    const userToSearch = users.find((user) => user.username === usernameToSearch);
     if (userToSearch) {
-      // eslint-disable-next-line no-underscore-dangle
       const searchResponse = await getUser(userToSearch._id);
-      // console.log(searchResponse);
       const isFollowed = searchResponse.data.user.followers.some(
-        (follower) => follower.id === location.state.userId,
+        (follower) => follower.id === userId,
       );
 
       const userProfileState = {
-        userId: location.state.userId,
-        username: location.state.username,
-        self: location.state.username === usernameToSearch,
+        userId,
+        username,
+        self: username === usernameToSearch,
         sName: usernameToSearch,
-        // eslint-disable-next-line no-underscore-dangle
         sId: userToSearch._id,
-        users: location.state.users,
+        users,
         followed: isFollowed,
       };
 
@@ -66,30 +42,30 @@ export default function Main() {
   };
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'space-evenly' }}>
-      <div style={{
-        display: 'flex', justifyContent: 'center', position: 'fixed', width: '100%', background: '#8769b6',
-      }}
-      >
-        <h1>
-          UFOgram
-          {' '}
-          { location.state.username }
-        </h1>
-        <div style={{ display: 'flex', flexDirection: 'row' }}>
-          <input type="text" name="SearchUser" onChange={handleSearchUserName} />
-          <button type="button" title="searchUser" onClick={handleSearchUser}>Search</button>
+    <div className="min-h-screen bg-mountbatten-pink flex flex-col justify-start">
+      <div className="container mx-auto mt-8 px-4">
+        <div className="bg-white p-6 rounded-lg shadow-lg mb-8 flex flex-col items-start w-full">
+          <h2 className="text-2xl font-semibold mb-4 text-space-cadet">Search User</h2>
+          <div className="flex w-full">
+            <input
+              type="text"
+              placeholder="Search User"
+              className="p-2 border border-gray-300 rounded-md shadow-sm w-full max-w-lg mr-2"
+              onChange={handleSearchUserName}
+            />
+            <button
+              type="button"
+              className="px-4 py-2 bg-space-cadet text-white rounded-md shadow-sm transform transition-transform duration-300 hover:scale-105"
+              onClick={handleSearchUser}
+            >
+              Search
+            </button>
+          </div>
         </div>
-        <div>
-          <button type="button" title="My Profile" onClick={handleMyProfile}>My Profile</button>
-          <button type="button" title="Create New Post" onClick={handleCreateNewPost}>Create New Post</button>
+        <div className="bg-white p-6 rounded-lg shadow-lg w-full">
+          <h2 className="text-2xl font-semibold mb-4 text-space-cadet">Posts from Your Followings</h2>
+          <Activity userId={userId} selfKind={0} state={location.state} />
         </div>
-      </div>
-      <div style={{
-        display: 'flex', width: '100%', justifyContent: 'center', marginTop: '80px',
-      }}
-      >
-        <Activity userId={location.state.userId} selfKind={0} state={location.state} />
       </div>
     </div>
   );
