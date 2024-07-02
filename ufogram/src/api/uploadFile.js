@@ -12,7 +12,9 @@ export default async function uploadFile(file) {
       'http://localhost:8080/File',
       file,
       {
-        'Content-Type': 'multipart/form-data',
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
       },
     );
     // console.log('uploadFile response', response);
