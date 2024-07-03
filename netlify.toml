@@ -1,6 +1,7 @@
 [build]
-  command = "npm install --legacy-peer-deps && npm run build"
-  publish = "ufogram/build"
+  base = "ufogram"
+  publish = "build"
+  command = "npm run build"
 
 [build.environment]
-  NODE_VERSION = "14"
+  NODE_ENV = "production"
