@@ -1,8 +1,9 @@
 [build]
   base = "ufogram"
   publish = "build"
-  command = "npm install --legacy-peer-deps && DISABLE_ESLINT_PLUGIN=true npm run build"
+  command = "npm install --legacy-peer-deps && npm run build"
 
 [build.environment]
   NODE_ENV = "production"
+  DISABLE_ESLINT_PLUGIN = "true"
   NODE_VERSION = "18.10.0"
