@@ -1,4 +1,4 @@
-# Ufogram - share Your Photos & Your Life 📸👭
+# UFOgram - Share Your Photos & Your Life 📸👭
 
 [![Live](https://img.shields.io/badge/Live-Demo-green)](https://ufogram-frontend.fly.dev)
 
@@ -59,7 +59,7 @@ Welcome to Ufogram, a comprehensive platform inspired by Instagram, designed to 
 
 - 👨‍💻 **Lionel Hu** [@lionelhupenn](https://github.com/lionelhupenn)
 - 👩‍💻 **Zairui Yang:** [@zairuiy-coding](https://github.com/zairuiy-coding)
-- 👨‍💻 **Yuan Zhang** [@Stone-face](https://github.com/ZY2514690181)
+- 👨‍💻 **Yuan Zhang** [@ZY2514690181](https://github.com/ZY2514690181)
 
 ---
 
