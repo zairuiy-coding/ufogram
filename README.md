@@ -4,7 +4,7 @@
 
 ![ufogram_cover](ufogram_cover.png)
 
-Welcome to Ufogram, a comprehensive platform inspired by Instagram, designed to replicate its core functionalities and provide a seamless user experience in social media interactions.
+Welcome to UFOgram, a comprehensive platform inspired by Instagram, designed to replicate its core functionalities and provide a seamless user experience in social media interactions.
 
 ---
 
