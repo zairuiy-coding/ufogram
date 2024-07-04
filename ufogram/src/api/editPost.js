@@ -1,6 +1,8 @@
 import axios from 'axios';
 import uploadFile from './uploadFile';
 
+const backendUrl = process.env.REACT_APP_BACKEND_URL;
+
 // edit a post
 /**
  * A function to create new post
@@ -13,7 +15,7 @@ export default async function editPost(caption, file, author, postId, fileName) 
   try {
     let response;
     if (file === null) {
-      response = await axios.put(`http://localhost:8080/Posts/same/${postId}`, {
+      response = await axios.put(`${backendUrl}/Posts/same/${postId}`, {
         caption,
         file: fileName,
         author,
@@ -27,7 +29,7 @@ export default async function editPost(caption, file, author, postId, fileName) 
       }
 
       const fileURL = fileResponse.data.URL;
-      response = await axios.put(`http://localhost:8080/Posts/new/${postId}`, {
+      response = await axios.put(`${backendUrl}/Posts/new/${postId}`, {
         caption,
         fileURL,
         author,

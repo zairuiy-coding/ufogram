@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+const backendUrl = process.env.REACT_APP_BACKEND_URL;
+
 // create new post
 /**
  * A function to upload a file
@@ -9,7 +11,7 @@ export default async function uploadFile(file) {
   try {
     // console.log('Upload file');
     const response = await axios.post(
-      'http://localhost:8080/File',
+      `${backendUrl}/File`,
       file,
       {
         headers: {

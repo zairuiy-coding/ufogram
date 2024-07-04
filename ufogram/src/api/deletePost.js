@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+const backendUrl = process.env.REACT_APP_BACKEND_URL;
+
 // delete a post
 /**
  * A function to create new post
@@ -8,7 +10,7 @@ import axios from 'axios';
 export default async function deletePost(postId, fileName) {
   try {
     // console.log('filename: ', fileName);
-    const response = await axios.delete(`http://localhost:8080/Posts/${postId}/${fileName}`);
+    const response = await axios.delete(`${backendUrl}/Posts/${postId}/${fileName}`);
     // console.log('response: ', response);
     return response;
   } catch (e) {

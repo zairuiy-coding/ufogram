@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+const backendUrl = process.env.REACT_APP_BACKEND_URL;
+
 // create new comment
 /**
  * A function to create new comment
@@ -8,7 +10,7 @@ import axios from 'axios';
  */
 export default async function createNewComment(text, author, postId) {
   try {
-    const response = await axios.post(`http://localhost:8080/Comments/${postId}`, {
+    const response = await axios.post(`${backendUrl}/Comments/${postId}`, {
       text,
       author,
     });

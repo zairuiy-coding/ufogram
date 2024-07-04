@@ -2,9 +2,11 @@
 
 import axios from 'axios';
 
+const backendUrl = process.env.REACT_APP_BACKEND_URL;
+
 export default async function unlikePost(postId, userId) {
   try {
-    const response = await axios.put(`http://localhost:8080/Posts/unlike/${postId}/${userId}`);
+    const response = await axios.put(`${backendUrl}/Posts/unlike/${postId}/${userId}`);
     return response;
   } catch (err) {
     // console.log('Unlike post error');

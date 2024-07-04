@@ -1,6 +1,8 @@
 import axios from 'axios';
 import uploadFile from './uploadFile';
 
+const backendUrl = process.env.REACT_APP_BACKEND_URL;
+
 // create new post
 /**
  * A function to create new post
@@ -20,7 +22,7 @@ export default async function createNewPost(caption, file, author) {
 
     const fileURL = fileResponse.data.URL;
     const response = await axios.post(
-      'http://localhost:8080/Posts',
+      `${backendUrl}/Posts`,
       {
         caption,
         fileURL,

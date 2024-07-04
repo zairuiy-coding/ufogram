@@ -2,12 +2,14 @@
 
 import axios from 'axios';
 
+const backendUrl = process.env.REACT_APP_BACKEND_URL;
+
 /**
  * A function to get users.
  */
 export default async function getUsers() {
   try {
-    const response = await axios.get('http://localhost:8080/Users', {
+    const response = await axios.get(`${backendUrl}/Users`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

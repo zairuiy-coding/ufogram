@@ -2,12 +2,14 @@
 
 import axios from 'axios';
 
+const backendUrl = process.env.REACT_APP_BACKEND_URL;
+
 /**
  * A function to get all posts.
  */
 export default async function getAllPosts() {
   try {
-    const response = await axios.get('http://localhost:8080/Posts', {
+    const response = await axios.get(`${backendUrl}/Posts`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
