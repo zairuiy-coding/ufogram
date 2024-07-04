@@ -1,6 +1,7 @@
 const { MongoClient, ObjectId } = require('mongodb');
+require('dotenv').config();
 
-const dbURL = 'mongodb+srv://UFOAdmin:9HTzfKuWB23W6RPW@UFOgram.b3wc2qn.mongodb.net/UFOgram?retryWrites=true&w=majority';
+const dbURL = process.env.MONGODB_URL;
 
 let MongoConnection;
 // connection to the db

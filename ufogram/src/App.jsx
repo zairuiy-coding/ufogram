@@ -2,7 +2,7 @@ import './App.css';
 import React from 'react';
 import { Routes, Route, BrowserRouter } from 'react-router-dom';
 import Navbar from './components/Navbar';
-import MainNavbar from './components/MainNavbar'; // Ensure this is imported correctly
+import MainNavbar from './components/MainNavbar';
 import Home from './views/Home';
 import Login from './views/Login';
 import Signup from './views/Signup';
@@ -10,6 +10,8 @@ import Main from './views/Main';
 import UserProfile from './views/UserProfile';
 import NewPost from './views/Newpost';
 import Editpost from './views/Editpost';
+// import dotenv from 'dotenv';
+// dotenv.config();
 
 function App() {
   return (

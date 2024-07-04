@@ -7,6 +7,6 @@ const webapp = require('./server');
 const port = 8080;
 
 // start the server and connect to the DB
-webapp.listen(port, async () => {
+webapp.listen(port, '0.0.0.0', async () => {
   console.log(`Server running on port: ${port}`);
 });
