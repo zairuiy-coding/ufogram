@@ -1,7 +1,7 @@
-# Use the official Node.js image
-FROM node:14
+# Use the official Node.js image with a version that supports modern JavaScript syntax
+FROM node:21
 
-# Create and change to the app directory
+# Set the working directory for the application
 WORKDIR /usr/src/app
 
 # Copy application dependency manifests to the container image.
@@ -14,8 +14,8 @@ RUN npm install --only=production
 # Copy local code to the container image.
 COPY . .
 
-# Run the web service on container startup.
-CMD [ "node", "server.js" ]
-
 # Inform Docker that the container listens on the specified port at runtime.
 EXPOSE 8080
+
+# Run the web service on container startup.
+CMD ["node", "index.js"]
