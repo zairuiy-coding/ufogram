@@ -57,7 +57,7 @@ Welcome to UFOgram, a comprehensive platform inspired by Instagram, designed to 
 
 ## ✨ Contributors
 
-- 👨‍💻 **Lionel Hu** [@lionelhupenn](https://github.com/lionelhupenn)
+- 👨‍💻 **Lionel Hu** [@33lenoil](https://github.com/33lenoil)
 - 👩‍💻 **Zairui Yang:** [@zairuiy-coding](https://github.com/zairuiy-coding)
 - 👨‍💻 **Yuan Zhang** [@ZY2514690181](https://github.com/ZY2514690181)
 
